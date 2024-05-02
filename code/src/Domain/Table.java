@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.Color;
 
 public class Table {
+    public static final String[] moves = new String[] {"n", "s", "e", "w", "ne", "nw", "se", "sw"};
     private int longitud;
     private Box[][] casillas;
     private String[][] typeCasillas;
@@ -16,5 +17,9 @@ public class Table {
                 typeCasillas[i][j] = "normal";
             }
         }
+    }
+
+    public Box[][] getCasillas(){
+        return casillas;
     }
 }

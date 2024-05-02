@@ -6,9 +6,13 @@ public class Player {
     private int cantWalls;
     private Color color;
 
-    public Player(int nWalls, Color newColor, String newName){
+    public Player(String newName, Color newColor, int nWalls) {
         name = newName;
-        cantWalls = nWalls;
+        cantWalls = nWalls + 1;
         color = newColor;
+    }
+
+    public int getCantWalls() {
+        return cantWalls;
     }
 }

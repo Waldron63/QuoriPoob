@@ -1,10 +1,14 @@
-package Presentation;
-
+//package Presentation;
+//import Domain.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JFrame;
+import javax.swing.event.*;
 import java.awt.Dimension;
+import java.awt.event.*;
 import java.awt.Toolkit;
+import java.util.*;
+import java.io.File;
 import javax.swing.border.LineBorder;
 import java.awt.geom.RoundRectangle2D;
 
@@ -13,19 +17,21 @@ public class QuorindorGUI extends JFrame{
     private static final int width = 700; //ancho de la vista
     private static final int height = 700; //largo de la vista
     private static final Dimension preferredDimention = new Dimension(width, height);
-    private Quorindor quorindorDom;
+    private QuoriPoob quorindiorDom;
     private JPanel mainPanel;
     private JPanel tableroPanel;
     private int filas; //filas de la matriz
     private int columnas;
     private JLabel[][] casillas;
+    private int turned;
+
 
     private QuorindorGUI(){
-        quorindorDom = new Quorindor(9);
+        quorindiorDom = new QuoriPoob(9, "normal");
         filas =9;
         columnas =9;
         prepareElements();
-        //prepareActions();
+        prepareActions();
     }
 
     /**
@@ -65,12 +71,10 @@ public class QuorindorGUI extends JFrame{
         setJMenuBar(menu);
         JMenu fileMenu = new JMenu("Menu");
         menu.add(fileMenu);
-        JMenuItem newMenuItem = new JMenuItem("Nuevo");
         JMenuItem openMenuItem = new JMenuItem("Abrir");
         JMenuItem saveMenuItem = new JMenuItem("Guardar");
         JMenuItem reiniciarMenuItem = new JMenuItem("Reiniciar");
         JMenuItem exitMenuItem = new JMenuItem("Salir");
-        fileMenu.add(newMenuItem);
         fileMenu.add(openMenuItem);
         fileMenu.add(saveMenuItem);
         fileMenu.add(reiniciarMenuItem);
@@ -127,6 +131,120 @@ public class QuorindorGUI extends JFrame{
         leftPanel.setPreferredSize(new Dimension(150,0));
     }
 
+    /**
+     * Prepara y configura las acciones para los elementos del menú de la interfaz gráfica.
+     */
+    private void prepareActionsMenu(){
+        //Abrir 
+        JMenuItem loadMenuItem = getJMenuBar().getMenu(0).getItem(0);
+        loadMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openFile();
+            }
+        });
+
+        // Guardar
+        JMenuItem saveMenuItem = getJMenuBar().getMenu(0).getItem(1);
+        saveMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveFile();
+            }
+        });
+
+        // Reiniciar
+        JMenuItem restartItem = getJMenuBar().getMenu(0).getItem(2);
+        restartItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetBoard();
+            }
+        });
+
+        //salir menu
+        JMenuItem exitMenuItem = getJMenuBar().getMenu(0).getItem(3);
+        exitMenuItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event){
+                exitOptions();
+            }
+
+        });
+    }
+
+    /**
+     * Muestra un cuadro de diálogo para confirmar la salida de la aplicación.
+     * Cierra la aplicación si el usuario confirma la salida.
+     */
+    private void exitOptions(){
+        int j = JOptionPane.showConfirmDialog(this,"Desea salir de la aplicacion", "Confirmar salida",JOptionPane.YES_NO_OPTION);
+        if(j==0){
+            System.exit(0);
+        }
+    }
+
+    /**
+     * Abre un cuadro de diálogo para seleccionar un archivo y muestra un mensaje
+     * indicando que la funcionalidad está en construcción.
+     */
+    private void openFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        int option = fileChooser.showOpenDialog(this);
+
+        if (option == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            JOptionPane.showMessageDialog(this, "En construcción. Archivo abierto: " + selectedFile.getName(), "Abrir", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    /**
+     * Abre un cuadro de diálogo para seleccionar la ubicación de guardado y muestra un mensaje
+     * indicando que la funcionalidad está en construcción.
+     */
+    private void saveFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        int option = fileChooser.showSaveDialog(this);
+        if (option == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            JOptionPane.showMessageDialog(this, "En construcción. Archivo guardado:" + selectedFile.getName(), "Guardar", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    /**
+     * Reinicia el tablero del juego y muestra un mensaje indicando que la operación fue exitosa.
+     */
+    private void resetBoard() {
+        getContentPane().remove(mainPanel);
+        turned = 0;
+        try{
+            quorindiorDom = new QuoriPoob(4, "normal");
+        } catch(Exception ignore){}
+        prepareElements();
+        prepareActions();
+        // Validar y repintar
+        validate();
+        repaint();
+        JOptionPane.showMessageDialog(this, "Tablero reiniciado exitosamente.");
+    }
+
+    /**
+     * Prepara y configura las acciones de los elementos de la interfaz gráfica.
+     * Esto incluye acciones para los elementos del menú y los botones del tablero.
+     */
+    private void prepareActions(){
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent event){
+                exitOptions();
+            }
+
+        });
+
+        prepareActionsMenu();
+    }
+
     private JPanel createTableroPanel(){
         JPanel tableroPanel = new JPanel(new GridLayout(filas,columnas));
         casillas = new JLabel[filas][columnas];
@@ -142,6 +260,7 @@ public class QuorindorGUI extends JFrame{
         tableroPanel.setBorder(BorderFactory.createLineBorder(new Color(0,0,0), 5));
         return tableroPanel;
     }
+
 
 
     // Clase RoundBorder para bordes redondos
