@@ -1,4 +1,5 @@
 package Presentation;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -18,7 +19,6 @@ public class QuorindorGUI extends JFrame{
     private int filas; //filas de la matriz
     private int columnas;
     private JLabel[][] casillas;
-
 
     private QuorindorGUI(){
         quorindorDom = new Quorindor(9);
