@@ -51,7 +51,6 @@ public class QuoriPoob {
     }
 
     public void move(String movement){
-
         changeTurn();
     }
 
