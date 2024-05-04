@@ -8,7 +8,7 @@ import java.awt.Color;
  * @version 1.0
  */
 public class QuoriPoob {
-    private final int players = 2; // cantidad total de jugadores en el tablero
+    public static final int players = 2; // cantidad total de jugadores en el tablero
     private Player playerOne; //primer jugador de la partida
     private Player playerTwo; //segundo jugador de la partida
     private Table tablero; //tablero de nxn para la partida
@@ -23,15 +23,19 @@ public class QuoriPoob {
         turn = 1;
     }
 
-    public void addPlayer(String name, Color color){
-        if (playerOne == null){
-            playerOne = new Player(name, color, sizeTable);
-        }else{
-            playerTwo = new Player(name, color, sizeTable);
+    public void addPlayer(String name, Color color, String type) {
+        if (playerOne == null) {
+            playerOne = new Human(name, color, sizeTable);
+        } else {
+            playerTwo = new Human(name, color, sizeTable);
         }
     }
 
-    public int changeTurn(){
+    public void addMachine(String difficult) {
+        playerTwo = new Machine(difficult, sizeTable);
+    }
+
+    private int changeTurn(){
         if (turn == 1){
             turn = 2;
             return turn;
@@ -51,6 +55,7 @@ public class QuoriPoob {
     }
 
     public void move(String movement){
+
         changeTurn();
     }
 

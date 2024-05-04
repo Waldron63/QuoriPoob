@@ -1,4 +1,4 @@
-public class Box {
+public abstract class Box {
 
     public Box(){
 

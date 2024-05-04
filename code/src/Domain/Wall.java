@@ -1,14 +1,14 @@
 import java.awt.*;
 import java.awt.Color;
 
-public class Wall {
+public abstract class Wall {
     private int size;
-    private String type;
     private Color color;
+    private int[] positions;
 
-    public Wall(Color newColor){
+    public Wall(Color newColor, int[] newPositions){
         size = 2;
-        type = "normal";
+        positions= newPositions;
         color = newColor;
     }
 }
