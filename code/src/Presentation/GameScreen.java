@@ -12,11 +12,16 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.geom.Ellipse2D;
 
 
-public class QuorindorGUI extends JFrame{
+/**
+ * Clase Game de la visualizacion del proyecto, la interfaz del tablero y el juego de QuoriPoob
+ * @author Sofia Gil - Santiago Gualdron
+ * @version 1.0
+ */
+public class GameScreen extends JFrame{
     private static final int width = 700; //ancho de la vista
     private static final int height = 700; //largo de la vista
     private static final Dimension preferredDimention = new Dimension(width, height);
-    private QuoriPoob quorindorDom; // Instancia de la clase Quorindior
+    private QuoriPoob quorindiorDom; // Instancia de la clase Quorindior
     private JPanel mainPanel; // Panel principal
     private JPanel tableroPanel; // Panel del tablero
     private int filas; //filas de la matriz tablero
@@ -24,9 +29,11 @@ public class QuorindorGUI extends JFrame{
     private JButton[][] casillas;// Matriz de botones para las casillas del tablero
     private int turned;
 
-
-    private QuorindorGUI(){
-        quorindorDom = new QuoriPoob(9, "normal");
+    /**
+     * Constructor for objects of class GameScreen
+     */
+    private GameScreen(){
+        quorindiorDom = new QuoriPoob(9, "normal");
         filas =9;
         columnas =9;
         prepareElements();
@@ -39,7 +46,7 @@ public class QuorindorGUI extends JFrame{
      * @param args Argumentos de la línea de comandos (no se utilizan en este caso)
      */
     public static void main(String[] args){
-        QuorindorGUI gui = new QuorindorGUI();
+        GameScreen gui = new GameScreen();
         gui.setVisible(true);
 
     }
@@ -95,7 +102,6 @@ public class QuorindorGUI extends JFrame{
     /**
      * Prepara los elementos relacionados con la información de los jugadores.
      */
-
     public void prepareElementsPlayers() {
         // Panel Jugador1
         JPanel rightPanel = new JPanel(new GridLayout(5, 1));
@@ -147,7 +153,6 @@ public class QuorindorGUI extends JFrame{
         leftPanel.add(jugador2Estado);
         leftPanel.setBackground(new Color(115, 10, 25));
         mainPanel.add(leftPanel, BorderLayout.EAST);
-
 
         rightPanel.setPreferredSize(new Dimension(150,0));
         leftPanel.setPreferredSize(new Dimension(150,0));
@@ -240,7 +245,7 @@ public class QuorindorGUI extends JFrame{
         getContentPane().remove(mainPanel);
         turned = 0;
         try{
-            quorindorDom = new QuoriPoob(4, "normal");
+            quorindiorDom = new QuoriPoob(4, "normal");
         } catch(Exception ignore){}
         prepareElements();
         prepareActions();
@@ -296,9 +301,9 @@ public class QuorindorGUI extends JFrame{
         //casillas[4][4].setBorder(new WallBorder());
         // Crea un círculo para representar al jugador 1-2 y lo agrega a una celda específica del tablero
         Circle player1 = new Circle(Color.RED);
-        addPlayer(player1,8,4,casillas);
+        addPlayer(player1,8,4);
         Circle player2 = new Circle(Color.ORANGE);
-        addPlayer(player2,0,4,casillas);
+        addPlayer(player2,0,4);
         // Retorna el panel del tablero configurado
         return tableroPanel;
     }
@@ -309,9 +314,9 @@ public class QuorindorGUI extends JFrame{
      * @param component El componente a agregar circulo
      * @param fila La fila de la celda en la matriz de botones del tablero
      * @param columna La columna de la celda en la matriz de botones del tablero
-     * @param casillas La matriz de botones del tablero
+     //* @param casillas La matriz de botones del tablero
      */
-    private void addPlayer(Component component, int fila, int columna, JButton[][] casillas) {
+    private void addPlayer(Component component, int fila, int columna) {
         JPanel celda = new JPanel(new GridBagLayout());
         celda.setBackground(new Color(210,180, 140));
         celda.add(component);
