@@ -1,5 +1,5 @@
-//package Presentation;
-//import Domain.*;
+package Presentation;
+import Domain.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -245,7 +245,7 @@ public class GameScreen extends JFrame{
         getContentPane().remove(mainPanel);
         turned = 0;
         try{
-            quorindiorDom = new QuoriPoob(4, "normal");
+            quorindiorDom = new QuoriPoob(9, "normal");
         } catch(Exception ignore){}
         prepareElements();
         prepareActions();
