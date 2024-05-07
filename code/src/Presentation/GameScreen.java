@@ -1,5 +1,4 @@
-//package Presentation;
-//import Domain.*;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -10,7 +9,6 @@ import java.io.File;
 import javax.swing.border.LineBorder;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
 
 
 /**
@@ -29,12 +27,11 @@ public class GameScreen extends JFrame{
     private int columnas; // Columnas de la matriz tablero
     private JButton[][] casillas;// Matriz de botones para las casillas del tablero
     private int turned;
-    private ArrayList<Wall> paredes;
 
     /**
      * Constructor for objects of class GameScreen
      */
-    private GameScreen(){
+    public GameScreen(){
         quorindiorDom = new QuoriPoob(9, "normal");
         filas =9;
         columnas =9;
@@ -99,7 +96,9 @@ public class GameScreen extends JFrame{
         mainPanel = new JPanel(new BorderLayout());
         tableroPanel = createTableroPanel();
         mainPanel.add(tableroPanel,BorderLayout.CENTER);
+
     }
+
 
     /**
      * Prepara los elementos relacionados con la información de los jugadores.
@@ -109,8 +108,6 @@ public class GameScreen extends JFrame{
         JPanel rightPanel = new JPanel(new GridLayout(5, 1));
         JLabel jugador1 = new JLabel("Jugador 1");
         jugador1.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel jugador1Color = new JLabel("Color: ... ");
-        jugador1Color.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel jugador1Estado = new JLabel("Estado: ...");
         jugador1Estado.setHorizontalAlignment(SwingConstants.CENTER);
         //jugador1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -118,14 +115,11 @@ public class GameScreen extends JFrame{
         // Establece fuentes y colores para los componentes
         jugador1.setFont(new Font("Times New Roman", Font.BOLD, 20));
         jugador1.setForeground(Color.WHITE);
-        jugador1Color.setFont(new Font("Times New Roman", Font.BOLD, 16));
-        jugador1Color.setForeground(Color.WHITE);
         jugador1Estado.setFont(new Font("Times New Roman", Font.BOLD, 16));
         jugador1Estado.setForeground(Color.WHITE);
 
         // Agrega los componentes al panel derecho
         rightPanel.add(jugador1);
-        rightPanel.add(jugador1Color);
         rightPanel.add(jugador1Estado);
         rightPanel.setBackground(new Color(115, 10, 25));
         mainPanel.add(rightPanel, BorderLayout.WEST);
@@ -135,8 +129,6 @@ public class GameScreen extends JFrame{
         JPanel leftPanel = new JPanel(new GridLayout(5, 1));
         JLabel jugador2 = new JLabel("Jugador 2");
         jugador2.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel jugador2Color = new JLabel("Color: ... ");
-        jugador2Color.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel jugador2Estado = new JLabel("Estado: ...");
         jugador2Estado.setHorizontalAlignment(SwingConstants.CENTER);
         //jugador1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -144,21 +136,95 @@ public class GameScreen extends JFrame{
         // Establece fuentes y colores para los componentes
         jugador2.setFont(new Font("Times New Roman", Font.BOLD, 20));
         jugador2.setForeground(Color.WHITE);
-        jugador2Color.setFont(new Font("Times New Roman", Font.BOLD, 16));
-        jugador2Color.setForeground(Color.WHITE);
+
         jugador2Estado.setFont(new Font("Times New Roman", Font.BOLD, 16));
         jugador2Estado.setForeground(Color.WHITE);
 
         // Agrega los componentes al panel izquierdo
         leftPanel.add(jugador2);
-        leftPanel.add(jugador2Color);
         leftPanel.add(jugador2Estado);
         leftPanel.setBackground(new Color(115, 10, 25));
+
+
+        JPanel panelJuego = new JPanel(new GridLayout(2, 3));
+
+        JButton izquierda = new JButton("←");
+        JButton derecha = new JButton("→");
+        JButton arriba= new JButton("↑");
+        JButton abajo = new JButton("↓");
+
+        JPanel relleno = new JPanel();
+        JPanel relleno2 = new JPanel();
+
+        izquierda.setBackground(Color.WHITE);
+        derecha.setBackground(Color.WHITE);
+        arriba.setBackground(Color.WHITE);
+        abajo.setBackground(Color.WHITE);
+        relleno.setBackground(new Color(115, 10, 25));
+        relleno2.setBackground(new Color(115, 10, 25));
+
+        panelJuego.add(relleno);
+        panelJuego.add(arriba);
+        panelJuego.add(relleno2);
+        panelJuego.add(izquierda);
+        panelJuego.add(abajo);
+        panelJuego.add(derecha);
+
+
+        leftPanel.add(panelJuego, BorderLayout.EAST);
         mainPanel.add(leftPanel, BorderLayout.EAST);
 
         rightPanel.setPreferredSize(new Dimension(150,0));
         leftPanel.setPreferredSize(new Dimension(150,0));
+        //panelJuego.setPreferredSize(new Dimension(1,50);
+
+
+        derecha.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    quorindiorDom.move("e");
+                }catch(Exception e0) {
+                    System.out.println("Error");
+                }
+            }
+        });
+
+        izquierda.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    quorindiorDom.move("w");
+                }catch(Exception e0) {
+                    System.out.println("Error");
+                }
+            }
+        });
+
+        arriba.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    quorindiorDom.move("u");
+                }catch(Exception e0) {
+                    System.out.println("Error");
+                }
+            }
+        });
+
+        abajo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    quorindiorDom.move("d");
+                }catch(Exception e0) {
+                    System.out.println("Error");
+                }
+            }
+        });
+
     }
+
 
     /**
      * Prepara y configura las acciones para los elementos del menú de la interfaz gráfica.
@@ -316,7 +382,7 @@ public class GameScreen extends JFrame{
      * @param component El componente a agregar circulo
      * @param fila La fila de la celda en la matriz de botones del tablero
      * @param columna La columna de la celda en la matriz de botones del tablero
-     //* @param casillas La matriz de botones del tablero
+    //* @param casillas La matriz de botones del tablero
      */
     private void addPlayer(Component component, int fila, int columna) {
         JPanel celda = new JPanel(new GridBagLayout());
@@ -324,6 +390,22 @@ public class GameScreen extends JFrame{
         celda.add(component);
         casillas[fila][columna].setLayout(new BorderLayout());
         casillas[fila][columna].add(celda, BorderLayout.CENTER);
+    }
+
+    public void updatePlayer1(String nombre, Color color) {
+        JPanel rightPanel = (JPanel) mainPanel.getComponent(1);
+        JLabel jugador1 = (JLabel) rightPanel.getComponent(0);
+        jugador1.setText(nombre);
+        Circle player1 = new Circle(color);
+        addPlayer(player1, 8, 4);
+    }
+
+    public void updatePlayer2(String nombre, Color color) {
+        JPanel leftPanel = (JPanel) mainPanel.getComponent(2);
+        JLabel jugador2 = (JLabel) leftPanel.getComponent(0);
+        jugador2.setText(nombre);
+        Circle player2 = new Circle(color);
+        addPlayer(player2, 0, 4);
     }
 
     /**
