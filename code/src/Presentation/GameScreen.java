@@ -1,5 +1,5 @@
-package Presentation;
-import Domain.*;
+//package Presentation;
+//import Domain.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -10,6 +10,7 @@ import java.io.File;
 import javax.swing.border.LineBorder;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 
 /**
@@ -28,6 +29,7 @@ public class GameScreen extends JFrame{
     private int columnas; // Columnas de la matriz tablero
     private JButton[][] casillas;// Matriz de botones para las casillas del tablero
     private int turned;
+    private ArrayList<Wall> paredes;
 
     /**
      * Constructor for objects of class GameScreen
