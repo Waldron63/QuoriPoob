@@ -3,30 +3,36 @@ import Domain.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JFrame;
-import javax.swing.event.*;
 import java.awt.Dimension;
 import java.awt.event.*;
 import java.awt.Toolkit;
-import java.util.*;
 import java.io.File;
 import javax.swing.border.LineBorder;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.Ellipse2D;
 
 
-public class QuorindorGUI extends JFrame{
+/**
+ * Clase Game de la visualizacion del proyecto, la interfaz del tablero y el juego de QuoriPoob
+ * @author Sofia Gil - Santiago Gualdron
+ * @version 1.0
+ */
+public class GameScreen extends JFrame{
     private static final int width = 700; //ancho de la vista
     private static final int height = 700; //largo de la vista
     private static final Dimension preferredDimention = new Dimension(width, height);
-    private QuoriPoob quorindiorDom;
-    private JPanel mainPanel;
-    private JPanel tableroPanel;
-    private int filas; //filas de la matriz
-    private int columnas;
-    private JLabel[][] casillas;
+    private QuoriPoob quorindiorDom; // Instancia de la clase Quorindior
+    private JPanel mainPanel; // Panel principal
+    private JPanel tableroPanel; // Panel del tablero
+    private int filas; //filas de la matriz tablero
+    private int columnas; // Columnas de la matriz tablero
+    private JButton[][] casillas;// Matriz de botones para las casillas del tablero
     private int turned;
 
-
-    private QuorindorGUI(){
+    /**
+     * Constructor for objects of class GameScreen
+     */
+    private GameScreen(){
         quorindiorDom = new QuoriPoob(9, "normal");
         filas =9;
         columnas =9;
@@ -40,27 +46,29 @@ public class QuorindorGUI extends JFrame{
      * @param args Argumentos de la línea de comandos (no se utilizan en este caso)
      */
     public static void main(String[] args){
-        QuorindorGUI gui = new QuorindorGUI();
+        GameScreen gui = new GameScreen();
         gui.setVisible(true);
+
     }
 
     /**
      * Prepara y configura los elementos visuales de la interfaz gráfica.
      */
     private void prepareElements(){
-        setTitle("Quorindior");
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setTitle("Quorindior"); // Establece el título de la ventana
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // Obtiene el tamaño de la pantalla
+        // calcula ancho y alto de la ventana
         int width = screenSize.width / 2;
         int height = screenSize.height / 2;
+        // Establece el tamaño de la ventana y lo centra
         setSize(width, height);
         setLocationRelativeTo(null);
+
         prepareElementsMenu();
         prepareElementsBoard();
         prepareElementsPlayers();
-
+        // Agrega el panel principal al contenedor de la ventana
         getContentPane().add(mainPanel);
-
-
     }
 
     /**
@@ -94,9 +102,8 @@ public class QuorindorGUI extends JFrame{
     /**
      * Prepara los elementos relacionados con la información de los jugadores.
      */
-
     public void prepareElementsPlayers() {
-        //Jugador1
+        // Panel Jugador1
         JPanel rightPanel = new JPanel(new GridLayout(5, 1));
         JLabel jugador1 = new JLabel("Jugador 1");
         jugador1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -105,11 +112,22 @@ public class QuorindorGUI extends JFrame{
         JLabel jugador1Estado = new JLabel("Estado: ...");
         jugador1Estado.setHorizontalAlignment(SwingConstants.CENTER);
         //jugador1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        // Establece fuentes y colores para los componentes
+        jugador1.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        jugador1.setForeground(Color.WHITE);
+        jugador1Color.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        jugador1Color.setForeground(Color.WHITE);
+        jugador1Estado.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        jugador1Estado.setForeground(Color.WHITE);
+
+        // Agrega los componentes al panel derecho
         rightPanel.add(jugador1);
         rightPanel.add(jugador1Color);
         rightPanel.add(jugador1Estado);
-        rightPanel.setBackground(new Color(255, 204, 153));
+        rightPanel.setBackground(new Color(115, 10, 25));
         mainPanel.add(rightPanel, BorderLayout.WEST);
+
 
         //Jugador 2
         JPanel leftPanel = new JPanel(new GridLayout(5, 1));
@@ -120,13 +138,22 @@ public class QuorindorGUI extends JFrame{
         JLabel jugador2Estado = new JLabel("Estado: ...");
         jugador2Estado.setHorizontalAlignment(SwingConstants.CENTER);
         //jugador1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        // Establece fuentes y colores para los componentes
+        jugador2.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        jugador2.setForeground(Color.WHITE);
+        jugador2Color.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        jugador2Color.setForeground(Color.WHITE);
+        jugador2Estado.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        jugador2Estado.setForeground(Color.WHITE);
+
+        // Agrega los componentes al panel izquierdo
         leftPanel.add(jugador2);
         leftPanel.add(jugador2Color);
         leftPanel.add(jugador2Estado);
-        leftPanel.setBackground(new Color(255, 204, 153));
+        leftPanel.setBackground(new Color(115, 10, 25));
         mainPanel.add(leftPanel, BorderLayout.EAST);
 
-        // Adjust the width according to your needs
         rightPanel.setPreferredSize(new Dimension(150,0));
         leftPanel.setPreferredSize(new Dimension(150,0));
     }
@@ -135,7 +162,7 @@ public class QuorindorGUI extends JFrame{
      * Prepara y configura las acciones para los elementos del menú de la interfaz gráfica.
      */
     private void prepareActionsMenu(){
-        //Abrir 
+        //Abrir
         JMenuItem loadMenuItem = getJMenuBar().getMenu(0).getItem(0);
         loadMenuItem.addActionListener(new ActionListener() {
             @Override
@@ -245,25 +272,61 @@ public class QuorindorGUI extends JFrame{
         prepareActionsMenu();
     }
 
+    /**
+     * Crea y configura el panel del tablero con los botones para cada celda.
+     *
+     * @return El panel del tablero configurado
+     */
     private JPanel createTableroPanel(){
+        // Crea un nuevo JPanel con un diseño de cuadrícula GridLayout
         JPanel tableroPanel = new JPanel(new GridLayout(filas,columnas));
-        casillas = new JLabel[filas][columnas];
+        // Inicializa la matriz de botones para representar las casillas del tablero
+        casillas = new JButton[filas][columnas];
+        // Itera sobre las filas y columnas para agregar botones a cada celda del tablero
         for(int i = 0; i < filas; i++){
             for(int j = 0; j < columnas; j++){
-                casillas[i][j] = new JLabel();
+                // Crea un nuevo JButton para representar una casilla
+                casillas[i][j] = new JButton();
+                // Establece la opacidad del botón como verdadero y el fondo del boton con color especifico
                 casillas[i][j].setOpaque(true);
-                casillas[i][j].setBackground(new Color(175, 132, 98));
-                casillas[i][j].setBorder(new RoundBorder(Color.WHITE, 2,15));
+                casillas[i][j].setBackground(new Color(210,180, 140));
+                // Establece el borde del botón como redondeado utilizando la clase RoundBorder
+                casillas[i][j].setBorder(new RoundBorder(new Color(115, 10, 25), 2,15));
+                // Agrega el botón al panel del tablero
                 tableroPanel.add(casillas[i][j]);
             }
         }
-        tableroPanel.setBorder(BorderFactory.createLineBorder(new Color(0,0,0), 5));
+        // Establece un borde alrededor del panel del tablero
+        tableroPanel.setBorder(BorderFactory.createLineBorder(new Color(255,255,255), 5));
+        //casillas[4][4].setBorder(new WallBorder());
+        // Crea un círculo para representar al jugador 1-2 y lo agrega a una celda específica del tablero
+        Circle player1 = new Circle(Color.RED);
+        addPlayer(player1,8,4);
+        Circle player2 = new Circle(Color.ORANGE);
+        addPlayer(player2,0,4);
+        // Retorna el panel del tablero configurado
         return tableroPanel;
     }
 
+    /**
+     * Agrega un componente circulo a una celda específica del tablero.
+     *
+     * @param component El componente a agregar circulo
+     * @param fila La fila de la celda en la matriz de botones del tablero
+     * @param columna La columna de la celda en la matriz de botones del tablero
+     //* @param casillas La matriz de botones del tablero
+     */
+    private void addPlayer(Component component, int fila, int columna) {
+        JPanel celda = new JPanel(new GridBagLayout());
+        celda.setBackground(new Color(210,180, 140));
+        celda.add(component);
+        casillas[fila][columna].setLayout(new BorderLayout());
+        casillas[fila][columna].add(celda, BorderLayout.CENTER);
+    }
 
-
-    // Clase RoundBorder para bordes redondos
+    /**
+     * Clase interna RoundBorder para crear bordes redondos.
+     */
     private class RoundBorder extends LineBorder {
         private int radio;
 
@@ -279,6 +342,37 @@ public class QuorindorGUI extends JFrame{
             g2d.setColor(lineColor);
             g2d.setStroke(new BasicStroke(thickness));
             g2d.draw(new RoundRectangle2D.Double(x, y, width - 1, height - 1, radio, radio));
+            g2d.dispose();
+        }
+    }
+
+    /**
+     * Clase interna WallBorder para crear bordes de paredes.
+     */
+    private class WallBorder extends LineBorder {
+        public WallBorder() {
+            super(Color.BLACK, 5);
+        }
+    }
+
+    /**
+     * Clase interna Circle para representar un círculo en la interfaz gráfica.
+     */
+    public class Circle extends JPanel {
+        private Color color;
+        public Circle(Color color) {
+            this.color = color;
+            setPreferredSize(new Dimension(30, 30));
+            setOpaque(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setColor(color);
+            g2d.fill(new Ellipse2D.Double(0, 0, getWidth(), getHeight()));
             g2d.dispose();
         }
     }
