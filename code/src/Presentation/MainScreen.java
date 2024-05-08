@@ -1,6 +1,6 @@
+
 //package Presentation;
 //import Presentation.*;
-//import Domain.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -48,13 +48,14 @@ public class MainScreen extends JFrame{
      */
     private void prepareMainMenu(){
         mainPanel = new JPanel(new GridBagLayout());
-
-
+        mainPanel.setBackground(new Color(115, 10, 25));
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(10, 10, 10, 10);
 
         JLabel tituloLabel = new JLabel("QuoriPoob");
         tituloLabel.setFont(new Font("Times New Roman", Font.BOLD, 80));
+        tituloLabel.setForeground(Color.WHITE);
+
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.gridwidth = 2;
@@ -63,12 +64,14 @@ public class MainScreen extends JFrame{
 
         //JUGAR
         JButton jugar = new JButton("Jugar");
+        jugar.setBackground(Color.WHITE);
         constraints.gridx = 0;
         constraints.gridy = 1;
         mainPanel.add(jugar,constraints);
-
+        //instrucciones
         //SALIR
         JButton salir = new JButton("Salir del juego");
+        salir.setBackground(Color.WHITE);
         constraints.gridx = 0;
         constraints.gridy = 3;
         mainPanel.add(salir, constraints);
@@ -78,8 +81,7 @@ public class MainScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventanaP.dispose();
-                GameScreen.main(new String[] {});
-                //pantallaOpciones = new ConfigScreen();
+                UserGameScreen.main(new String[] {});
             }
         });
 
