@@ -17,6 +17,9 @@ public class QuoriPoob {
     private String difficult; //tipo de dificultad escogido por los jugadores
     private int turn; //indica de quien es el turno actual en el juego
 
+    public static void main(String[] args){
+        QuoriPoob q = new QuoriPoob(9, "normal");
+    }
     /**
      * Constructor for objects of class QuoriPoob
      *
@@ -38,9 +41,9 @@ public class QuoriPoob {
     public void addPlayer(String name, Color color) {
         //revisa si es el primero o segundo jugador
         if (playerOne == null) {
-            playerOne = new Human(name, color, sizeTable);
+            playerOne = new Human(name, color, sizeTable, sizeTable - 1, (int) (sizeTable + 1)/2, 1);
         } else {
-            playerTwo = new Human(name, color, sizeTable);
+            playerTwo = new Human(name, color, sizeTable, 0, (int) (sizeTable + 1)/2, 2);
         }
     }
 
@@ -49,7 +52,7 @@ public class QuoriPoob {
      * @param difficult, la dificultad que va a tener la maquina
      */
     public void addMachine(String difficult) {
-        Machine m = new Machine(difficult, sizeTable);
+        Machine m = new Machine(difficult, sizeTable, 0, (int) (sizeTable + 1)/2);
         playerTwo = m;
     }
 

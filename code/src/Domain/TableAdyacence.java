@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -11,6 +12,7 @@ public class TableAdyacence {
     private int longitudNormal; //longitud principal del tablero
     private int longitudAdyacencia; //longitud de la matriz de adyacencia
     private int[][] matrix; //matriz de adyacencia
+    private HashMap<Integer, Wall>[] arrayAdyacence;
 
     /**
      * Constructor for objects of class TableAdyacence
@@ -22,6 +24,7 @@ public class TableAdyacence {
         movements = new int[] {-1,-longitudNormal, 1,longitudNormal};
         longitudAdyacencia = newLong * newLong;
         matrix = new int[longitudAdyacencia][longitudAdyacencia];
+        arrayAdyacence = (HashMap<Integer, Wall>[]) new HashMap[longitudAdyacencia];
         //ciclo para llenar la matriz de adyacencia de 0
         for (int i = 0; i < newLong; i++){
             for (int j = 0; j < newLong; j++){
@@ -31,6 +34,18 @@ public class TableAdyacence {
         makeRelations();
     }
 
+    public void addWall(Wall newWall, Integer numGraphOne, Integer numGraphTwo){
+        Player tPlayer = newWall.getPlayer();
+        int turn = tPlayer.getTurn();
+        //colocar el bfs con parametros, revisar si existe un camino desde cada jugador, si es asi colocar los muros en
+        //en arrayAdyacence, si no es posible volver a cambiar la matriz de adyacencia
+        //boolean isWallPosible = bfs();
+        arrayAdyacence[numGraphOne] = (HashMap<Integer, Wall>) new HashMap<>().put(numGraphTwo, newWall);
+        arrayAdyacence[numGraphTwo] = (HashMap<Integer, Wall>) new HashMap<>().put(numGraphOne, newWall);
+    }
+
+    private void changeRelationMatrix(){}
+
     /**
      * comprueba que se pueda pasar de un grafo a otro
      * @param initialG, grafo inicial o donde esta el usuario
@@ -39,7 +54,7 @@ public class TableAdyacence {
      */
     public boolean comproveSide(int initialG, int finalG) {
         //revisa que la celda a donde desee pasarse este en el rango
-        if (finalG < 0 || finalG >= longitudNormal){
+        if (finalG < 0 || finalG >= longitudAdyacencia){
             return false;
         }
         //revisa si se puede pasar de una celda a otra

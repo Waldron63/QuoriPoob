@@ -12,15 +12,21 @@ public abstract class Wall {
     protected int size; //tamano que va a tener el muro
     private Color color; //color que va a tener el muro
     private int[] positions; //posiciones en las celdas que va a ocupar el muro
+    private Player player; //jugador que coloco este muro
 
     /**
      * Constructor for objects of class Wall
      * @param newColor, color que va a tener el muro
      * @param newPositions, posiciones en las celdas que va a ocupar el muro
      */
-    public Wall(Color newColor, int[] newPositions){
+    public Wall(Color newColor, int[] newPositions, Player newPlayer){
         size = 2;
         positions= newPositions;
         color = newColor;
+        player = newPlayer;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

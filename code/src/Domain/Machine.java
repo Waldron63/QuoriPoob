@@ -16,8 +16,8 @@ public class Machine extends Player{
      * @param newDifficulty, el grado de dificultad que va a tener la maquina
      * @param nWalls, cantidad de muros que puede llegar a colocar la maquina
      */
-    public Machine(String newDifficulty, int nWalls) {
-        super("Robot", Color.BLACK, nWalls);
+    public Machine(String newDifficulty, int nWalls, int xPosition, int yPosition) {
+        super("Robot", Color.BLACK, nWalls, xPosition, yPosition, 2);
         difficulty = newDifficulty;
     }
 

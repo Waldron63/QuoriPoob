@@ -5,15 +5,15 @@ import java.awt.*;
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public class LargaWall extends Wall{
+public class LongWall extends Wall{
 
     /**
      * Constructor for objects of class LargaWall
      * @param newColor, color que va a obtener el muro
      * @param newPositions, posiciones de las celdas que va a ocupar el muro.
      */
-    public LargaWall(Color newColor, int[] newPositions) {
-        super(newColor, newPositions);
+    public LongWall(Color newColor, int[] newPositions, Player newPlayer) {
+        super(newColor, newPositions, newPlayer);
         size = 3;
     }
 }

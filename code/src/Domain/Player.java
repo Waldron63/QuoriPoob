@@ -12,6 +12,7 @@ public abstract class Player {
     private Color color; //color de la ficha del jugador
     protected int xPosition; //posicion en X dentro del tablero
     protected int yPosition; //posicion en Y dentro del tablero
+    protected final int turn; //dicta cual es el turno de este jugador
 
     /**
      * Constructor for objects of class Player
@@ -20,10 +21,13 @@ public abstract class Player {
      * @param newColor, color que decide el jugador
      * @param nWalls, cantidad de muros que puede llegar a poner
      */
-    public Player(String newName, Color newColor, int nWalls) {
+    public Player(String newName, Color newColor, int nWalls, int xPosition, int yPosition, int newTurn) {
         name = newName;
         cantWalls = nWalls + 1;
         color = newColor;
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        turn = newTurn;
     }
 
     /**
@@ -31,6 +35,13 @@ public abstract class Player {
      */
     public int getCantWalls() {
         return cantWalls;
+    }
+
+    /**
+     * @return turno de este jugador
+     */
+    public int getTurn(){
+        return turn;
     }
 
     /**

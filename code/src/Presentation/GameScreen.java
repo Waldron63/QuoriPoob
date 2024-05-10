@@ -20,7 +20,7 @@ public class GameScreen extends JFrame{
     private static final int width = 700; //ancho de la vista
     private static final int height = 700; //largo de la vista
     private static final Dimension preferredDimention = new Dimension(width, height);
-    private QuoriPoob quorindiorDom; // Instancia de la clase Quorindior
+    private QuoriPoob quorindorDom; // Instancia de la clase Quorindior
     private JPanel mainPanel; // Panel principal
     private JPanel tableroPanel; // Panel del tablero
     private int filas; //filas de la matriz tablero
@@ -32,7 +32,7 @@ public class GameScreen extends JFrame{
      * Constructor for objects of class GameScreen
      */
     public GameScreen(){
-        quorindiorDom = new QuoriPoob(9, "normal");
+        quorindorDom = new QuoriPoob(9, "normal");
         filas =9;
         columnas =9;
         prepareElements();
@@ -124,7 +124,6 @@ public class GameScreen extends JFrame{
         rightPanel.setBackground(new Color(115, 10, 25));
         mainPanel.add(rightPanel, BorderLayout.WEST);
 
-
         //Jugador 2
         JPanel leftPanel = new JPanel(new GridLayout(5, 1));
         JLabel jugador2 = new JLabel("Jugador 2");
@@ -183,7 +182,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    quorindiorDom.move("e");
+                    quorindorDom.move("e");
                 }catch(Exception e0) {
                     System.out.println("Error");
                 }
@@ -194,7 +193,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    quorindiorDom.move("w");
+                    quorindorDom.move("w");
                 }catch(Exception e0) {
                     System.out.println("Error");
                 }
@@ -205,9 +204,9 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    quorindiorDom.move("u");
+                    quorindorDom.move("n");
                 }catch(Exception e0) {
-                    System.out.println("Error");
+                    System.out.println(e0.getMessage());
                 }
             }
         });
@@ -216,7 +215,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    quorindiorDom.move("d");
+                    quorindorDom.move("s");
                 }catch(Exception e0) {
                     System.out.println("Error");
                 }
@@ -313,7 +312,7 @@ public class GameScreen extends JFrame{
         getContentPane().remove(mainPanel);
         turned = 0;
         try{
-            quorindiorDom = new QuoriPoob(9, "normal");
+            quorindorDom = new QuoriPoob(9, "normal");
         } catch(Exception ignore){}
         prepareElements();
         prepareActions();
@@ -398,6 +397,7 @@ public class GameScreen extends JFrame{
         jugador1.setText(nombre);
         Circle player1 = new Circle(color);
         addPlayer(player1, 8, 4);
+        quorindorDom.addPlayer(nombre, color);
     }
 
     public void updatePlayer2(String nombre, Color color) {
@@ -406,6 +406,7 @@ public class GameScreen extends JFrame{
         jugador2.setText(nombre);
         Circle player2 = new Circle(color);
         addPlayer(player2, 0, 4);
+        quorindorDom.addPlayer(nombre, color);
     }
 
     /**

@@ -13,8 +13,8 @@ public class Human extends Player{
      * @param newColor color que desee para la ficha
      * @param nWalls, cantidad maxima de muros que puede llegar a usar
      */
-    public Human(String newName, Color newColor, int nWalls) {
-        super(newName, newColor, nWalls);
+    public Human(String newName, Color newColor, int nWalls, int xPosition, int yPosition, int newTurn) {
+        super(newName, newColor, nWalls, xPosition, yPosition, newTurn);
     }
 
     /**

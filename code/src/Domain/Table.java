@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 public class Table {
     public static final String[] moves = new String[] {"n", "s", "e", "w"}; //posiciones basicas de movimiento
-    private HashMap<int[], Integer> graphs; //posiciones y el numero respectivo del "grafo" de la matriz
+    private HashMap<String, Integer> graphs; //posiciones y el numero respectivo del "grafo" de la matriz
     private int longitud; //longitud que va a tener el tablero
     private Box[][] casillas; //matriz con todas las casillas y jugadores
     private Wall[] muros; //arreglo de todos los muros que se pueden llegar a colocar
@@ -29,7 +29,8 @@ public class Table {
         for (int i = 0; i < casillas.length; i++){
             for (int j = 0; j < casillas.length; j++){
                 casillas[i][j] = new NormalBox();
-                graphs.put(new int[] {i, j}, contador);
+                String pos = i + "," + j;
+                graphs.put(pos, contador);
                 contador += 1;
             }
         }
@@ -47,7 +48,8 @@ public class Table {
         if (! Arrays.asList(moves).contains(side)){
             return new int[] {};
         }
-        int initialG = graphs.get(positionsP);
+        String pos = positionsP[0] + "," + positionsP[1];
+        int initialG = graphs.get(pos);
         boolean movePosible;
         int[] secondPositions;
         //los 4 casos para donde se quiere mover el jugador

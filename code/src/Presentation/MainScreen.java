@@ -16,7 +16,6 @@ import javax.swing.ImageIcon;
 public class MainScreen extends JFrame{
     private JPanel mainPanel;
     private JFrame ventanaP;
-    private QuoriPoob quorindior;
 
     /**
      * Constructor for objects of class MainScreen
