@@ -11,8 +11,8 @@ import java.awt.Color;
 public abstract class Wall {
     protected int size; //tamano que va a tener el muro
     private Color color; //color que va a tener el muro
-    private int[] positions; //posiciones en las celdas que va a ocupar el muro
-    private Player player; //jugador que coloco este muro
+    private int[] positions; //posiciones en las celdas en grafos que va a ocupar el muro
+    protected Player player; //jugador que coloco este muro
 
     /**
      * Constructor for objects of class Wall
@@ -28,5 +28,9 @@ public abstract class Wall {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public int[] getPositions() {
+        return positions;
     }
 }

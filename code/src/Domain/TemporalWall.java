@@ -22,12 +22,13 @@ public class TemporalWall extends Wall{
         return times;
     }
 
-    public boolean changeTimes() {
+    public int changeTimes() {
         times -= 1;
         if (times == 0){
-            return false;
+            int t = player.getTurn();
+            return t;
         }else{
-            return true;
+            return 0;
         }
     }
 }

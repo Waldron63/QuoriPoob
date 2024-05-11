@@ -13,6 +13,7 @@ public abstract class Player {
     protected int xPosition; //posicion en X dentro del tablero
     protected int yPosition; //posicion en Y dentro del tablero
     protected final int turn; //dicta cual es el turno de este jugador
+    protected  int positionGraph;
 
     /**
      * Constructor for objects of class Player
@@ -51,6 +52,14 @@ public abstract class Player {
     public void changePositions(int[] positions){
         xPosition = positions[0];
         yPosition = positions[1];
+    }
+
+    public void setPositionGraph(int newPositionGrapg){
+        positionGraph = newPositionGrapg;
+    }
+
+    public int getPositionGraph(){
+        return positionGraph;
     }
 
     /**

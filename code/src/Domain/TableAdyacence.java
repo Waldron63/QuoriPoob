@@ -7,12 +7,12 @@ import java.util.Queue;
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public class TableAdyacence {
+public class TableAdyacence{
     private final int[] movements; //los movimientos que puede hacer el jugador (arriba, abajo, izquierda, derecha)
     private int longitudNormal; //longitud principal del tablero
     private int longitudAdyacencia; //longitud de la matriz de adyacencia
     private int[][] matrix; //matriz de adyacencia
-    private HashMap<Integer, Wall>[] arrayAdyacence;
+    private HashMap<Integer, Wall>[] arrayAdyacence; //arreglo de adyacencia que guarda las relaciones entre las celdas y si hay un muro
 
     /**
      * Constructor for objects of class TableAdyacence
@@ -34,17 +34,43 @@ public class TableAdyacence {
         makeRelations();
     }
 
-    public void addWall(Wall newWall, Integer numGraphOne, Integer numGraphTwo){
-        Player tPlayer = newWall.getPlayer();
-        int turn = tPlayer.getTurn();
-        //colocar el bfs con parametros, revisar si existe un camino desde cada jugador, si es asi colocar los muros en
-        //en arrayAdyacence, si no es posible volver a cambiar la matriz de adyacencia
-        //boolean isWallPosible = bfs();
-        arrayAdyacence[numGraphOne] = (HashMap<Integer, Wall>) new HashMap<>().put(numGraphTwo, newWall);
-        arrayAdyacence[numGraphTwo] = (HashMap<Integer, Wall>) new HashMap<>().put(numGraphOne, newWall);
+    public boolean addWall(Wall newWall, Player fPlayer, Player sPlayer){
+        int[] selectGraph = newWall.getPositions();
+
+        int turn1 = fPlayer.getTurn();
+        int posGraph1 = fPlayer.getPositionGraph();
+
+        int turn2 = sPlayer.getTurn();
+        int posGraph2 = sPlayer.getPositionGraph();
+
+        boolean isWallPosible1 = true;
+        boolean isWallPosible2 = true;
+        for (int i = 0; i < selectGraph.length; i = i +2){
+            changeRelationMatrix(selectGraph[i], selectGraph[i + 1], -1);
+            isWallPosible1 = bfs(posGraph1, turn1);
+            isWallPosible2 = bfs(posGraph2, turn2);
+            if (!isWallPosible1 || !isWallPosible2){
+                break;
+            }
+        }
+        if (isWallPosible1 && isWallPosible2){
+            for (int j = 0; j < selectGraph.length; j = j + 2){
+                arrayAdyacence[selectGraph[j]] = (HashMap<Integer, Wall>) new HashMap<>().put(selectGraph[j +1], newWall);
+                arrayAdyacence[selectGraph[j + 1]] = (HashMap<Integer, Wall>) new HashMap<>().put(selectGraph[j], newWall);
+            }
+            return true;
+        }else{
+            for (int j = 0; j < selectGraph.length; j = j + 2) {
+                changeRelationMatrix(selectGraph[j], selectGraph[j + 1], 1);
+            }
+            return false;
+        }
     }
 
-    private void changeRelationMatrix(){}
+    private void changeRelationMatrix(int graph1, int graph2, int value){
+        matrix[graph1][graph2] = value;
+        matrix[graph2][graph1] = value;
+    }
 
     /**
      * comprueba que se pueda pasar de un grafo a otro
@@ -68,7 +94,7 @@ public class TableAdyacence {
      * Algoritmo de busqueda, encuentra los caminos posibles que hay entre la primera celda a alguna del otro extremo
      * donde el jugador puede ganar
      * @param initialPos, posicion de grafo inicial
-     * @param nPlayer, turno actual de la partida
+     * @param nPlayer, turno del jugador
      * @return true si existe algun camino para llegar al final, false en caso contrario
      */
     public boolean bfs(int initialPos, int nPlayer){
@@ -88,7 +114,7 @@ public class TableAdyacence {
                     //revisa si hay un 0
                     if (matrizTemp[ini][x] == 0) {
                         matrizTemp[ini][x] = -1;
-                    //caso contrario revisa si hay un 1 o un -1
+                        //caso contrario revisa si hay un 1 o un -1
                     }else if (matrizTemp[ini][x] == 1 && matrizTemp[x][x] != -1){
                         q.add(x);
                         matrizTemp[ini][x] = -1;
@@ -98,7 +124,7 @@ public class TableAdyacence {
                     //revisa el turno del jugador 1 y el rango de la meta de este jugador
                     if (nPlayer == 1 && (x >= 0 && x < longitudNormal)){
                         return true;
-                    //revisa el turno del jugador 2 y el rango de la meta de este jugador
+                        //revisa el turno del jugador 2 y el rango de la meta de este jugador
                     }else if (nPlayer == 2 && (x >= (longitudAdyacencia - longitudNormal) && x < longitudAdyacencia)){
                         return true;
                     }

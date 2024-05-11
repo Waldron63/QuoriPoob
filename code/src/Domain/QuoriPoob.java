@@ -40,10 +40,11 @@ public class QuoriPoob {
      */
     public void addPlayer(String name, Color color) {
         //revisa si es el primero o segundo jugador
+        int yPosition = (int) (sizeTable + 1)/2;
         if (playerOne == null) {
-            playerOne = new Human(name, color, sizeTable, sizeTable - 1, (int) (sizeTable + 1)/2, 1);
+            playerOne = new Human(name, color, sizeTable, sizeTable - 1, yPosition, 1);
         } else {
-            playerTwo = new Human(name, color, sizeTable, 0, (int) (sizeTable + 1)/2, 2);
+            playerTwo = new Human(name, color, sizeTable, 0, yPosition, 2);
         }
     }
 
@@ -54,28 +55,6 @@ public class QuoriPoob {
     public void addMachine(String difficult) {
         Machine m = new Machine(difficult, sizeTable, 0, (int) (sizeTable + 1)/2);
         playerTwo = m;
-    }
-
-    /**
-     * ayuda a cambiar el turno de los jugadores
-     * @retur turn, devuelve el turno del nuevo jugador
-     */
-    private int changeTurn(){
-        //genera un swap (cambio) en los turnos
-        if (turn == 1){
-            turn = 2;
-            return turn;
-        }else{
-            turn = 1;
-            return turn;
-        }
-    }
-
-    /**
-     * @return el turno actual
-     */
-    public int getTurn(){
-        return turn;
     }
 
     /**
@@ -107,12 +86,15 @@ public class QuoriPoob {
             throw new QuoriPoobException(QuoriPoobException.MOVEMENT_NOT_POSSIBLE);
         }else{
             // revisa el turno actual y cambia la posicion del jugador
+            int graphPosition = tablero.getGraphPosition(comp[0], comp[1]);
             if(turn == 1){
                 playerOne.changePositions(comp);
+                playerOne.setPositionGraph(graphPosition);
                 changeTurn();
                 return comp[0] >= 0 && comp[0] < sizeTable;
             }else {
                 playerTwo.changePositions(comp);
+                playerTwo.setPositionGraph(graphPosition);
                 changeTurn();
                 return (comp[0] >= (Math.pow(sizeTable, 2) - sizeTable) && comp[0] < Math.pow(sizeTable, 2));
             }
@@ -124,5 +106,27 @@ public class QuoriPoob {
      */
     public Box[][] board(){
         return tablero.getCasillas();
+    }
+
+    /**
+     * ayuda a cambiar el turno de los jugadores
+     * @retur turn, devuelve el turno del nuevo jugador
+     */
+    private int changeTurn(){
+        //genera un swap (cambio) en los turnos
+        if (turn == 1){
+            turn = 2;
+            return turn;
+        }else{
+            turn = 1;
+            return turn;
+        }
+    }
+
+    /**
+     * @return el turno actual
+     */
+    public int getTurn(){
+        return turn;
     }
 }

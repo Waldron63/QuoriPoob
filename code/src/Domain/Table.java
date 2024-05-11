@@ -37,6 +37,10 @@ public class Table {
         adyacence = new TableAdyacence(newLong);
     }
 
+    public void addWall(){
+        return ;
+    }
+
     /**
      * mueve cualquier jugador en su respectivo turno teniendo en cuenta el lado que decidio moverse
      * @param positionsP, las posiciones actuales del jugador
@@ -86,5 +90,10 @@ public class Table {
      */
     public Box[][] getCasillas(){
         return casillas;
+    }
+
+    public int getGraphPosition(int xPosition, int yPosition){
+        String pos = xPosition + "," + yPosition;
+        return graphs.get(pos);
     }
 }
