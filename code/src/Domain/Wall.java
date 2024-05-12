@@ -18,6 +18,7 @@ public abstract class Wall {
      * Constructor for objects of class Wall
      * @param newColor, color que va a tener el muro
      * @param newPositions, posiciones en las celdas que va a ocupar el muro
+     * @param newPlayer indica que jugador puso este muro
      */
     public Wall(Color newColor, int[] newPositions, Player newPlayer){
         size = 2;
@@ -26,11 +27,27 @@ public abstract class Wall {
         player = newPlayer;
     }
 
+    /**
+     * @return el jugador que coloco el muro
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * @return las posiciones en grafos de las posiciones de el muro
+     */
     public int[] getPositions() {
         return positions;
+    }
+
+    /**
+     * cambia el contador de los cambios de turnos
+     * (para el muro temporal)
+     *
+     * @return verdadero si el muro aun debe estar en el juego, false en cuyo caso deba borrarse
+     */
+    public boolean changeTimes(){
+        return true;
     }
 }

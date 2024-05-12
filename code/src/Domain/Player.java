@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.awt.Color;
 
 /**
@@ -12,8 +11,8 @@ public abstract class Player {
     private Color color; //color de la ficha del jugador
     protected int xPosition; //posicion en X dentro del tablero
     protected int yPosition; //posicion en Y dentro del tablero
-    protected final int turn; //dicta cual es el turno de este jugador
-    protected  int positionGraph;
+    protected final int mainTurn; //dicta cual es el turno de este jugador
+    protected  int positionGraph; //grafo en el que esta posicionado el jugador
 
     /**
      * Constructor for objects of class Player
@@ -21,6 +20,9 @@ public abstract class Player {
      * @param newName, nombre que decide el jugador
      * @param newColor, color que decide el jugador
      * @param nWalls, cantidad de muros que puede llegar a poner
+     * @param xPosition indica la posicion en x dentro de la matriz
+     * @param yPosition indica la posicion en y dentro de la matriz
+     * @param newTurn indica cual va a ser el turno de este jugador (si juega en el turno 1 o en el turno 2)
      */
     public Player(String newName, Color newColor, int nWalls, int xPosition, int yPosition, int newTurn) {
         name = newName;
@@ -28,7 +30,7 @@ public abstract class Player {
         color = newColor;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-        turn = newTurn;
+        mainTurn = newTurn;
     }
 
     /**
@@ -39,10 +41,24 @@ public abstract class Player {
     }
 
     /**
+     * añade en 1 la cantidad de muros que el usuario puede llegar a colocar
+     */
+    public void addCantWalls(){
+        cantWalls ++;
+    }
+
+    /**
+     * remueve en 1 la cantidad de muros que el usuario puede llegar a colocar
+     */
+    public void delCantWalls(){
+        cantWalls --;
+    }
+
+    /**
      * @return turno de este jugador
      */
-    public int getTurn(){
-        return turn;
+    public int getMainTurn(){
+        return mainTurn;
     }
 
     /**
@@ -54,10 +70,17 @@ public abstract class Player {
         yPosition = positions[1];
     }
 
+    /**
+     * actualiza cual es la posicion del jugador en terminos de grafo
+     * @param newPositionGrapg nueva posicion en grafos del jugador
+     */
     public void setPositionGraph(int newPositionGrapg){
         positionGraph = newPositionGrapg;
     }
 
+    /**
+     * @return retorna la posicion en el grafo de el jugador
+     */
     public int getPositionGraph(){
         return positionGraph;
     }

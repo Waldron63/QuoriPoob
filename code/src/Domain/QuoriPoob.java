@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.awt.Color;
 import java.util.Arrays;
 
@@ -41,10 +40,15 @@ public class QuoriPoob {
     public void addPlayer(String name, Color color) {
         //revisa si es el primero o segundo jugador
         int yPosition = (int) (sizeTable + 1)/2;
+        //revisa que ya este el primer jugador
         if (playerOne == null) {
             playerOne = new Human(name, color, sizeTable, sizeTable - 1, yPosition, 1);
-        } else {
+            int graphPos = tablero.getGraphPosition(sizeTable - 1, yPosition);
+            playerOne.setPositionGraph(graphPos);
+        } else { //inserta los datos del segundo jugador
             playerTwo = new Human(name, color, sizeTable, 0, yPosition, 2);
+            int graphPos = tablero.getGraphPosition(0, yPosition);
+            playerTwo.setPositionGraph(graphPos);
         }
     }
 
@@ -55,6 +59,8 @@ public class QuoriPoob {
     public void addMachine(String difficult) {
         Machine m = new Machine(difficult, sizeTable, 0, (int) (sizeTable + 1)/2);
         playerTwo = m;
+        int graphPos = tablero.getGraphPosition(0, (int) (sizeTable + 1)/2);
+        playerTwo.setPositionGraph(graphPos);
     }
 
     /**
@@ -74,13 +80,16 @@ public class QuoriPoob {
      */
     public boolean move(String side) throws QuoriPoobException{
         int[] positionsP;
+        int actualTurn;
         //revisa cual es el turno actual y recoge la posicion del jugador
         if(turn == 1){
             positionsP = playerOne.getPositions();
+            actualTurn = playerOne.getMainTurn();
         }else {
             positionsP = playerTwo.getPositions();
+            actualTurn = playerTwo.getMainTurn();
         }
-        int[] comp = tablero.move(positionsP, side);
+        int[] comp = tablero.move(positionsP, side, actualTurn);
         //comprueba si se puede mover hacia la casilla que el usuario desea
         if (Arrays.asList(comp).isEmpty()){
             throw new QuoriPoobException(QuoriPoobException.MOVEMENT_NOT_POSSIBLE);
@@ -110,9 +119,10 @@ public class QuoriPoob {
 
     /**
      * ayuda a cambiar el turno de los jugadores
-     * @retur turn, devuelve el turno del nuevo jugador
+     * @return mainTurn, devuelve el turno del nuevo jugador
      */
     private int changeTurn(){
+        tablero.changeWallCount();
         //genera un swap (cambio) en los turnos
         if (turn == 1){
             turn = 2;

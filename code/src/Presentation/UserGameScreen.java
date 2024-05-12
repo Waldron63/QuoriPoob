@@ -144,6 +144,7 @@ public class UserGameScreen extends JFrame {
                     gameScreen.updatePlayer2(nombre2, colorJugador2);
                     gameScreen.setVisible(true);
                 }
+                ventanaP.dispose();
             }
         });
     }
