@@ -3,7 +3,7 @@
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public abstract class TeleportBox {
+public class TeleportBox {
 
     /**
      * Constructor for objects of class Box

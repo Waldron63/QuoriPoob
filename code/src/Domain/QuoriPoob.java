@@ -45,10 +45,12 @@ public class QuoriPoob {
             playerOne = new Human(name, color, sizeTable, sizeTable - 1, yPosition, 1);
             int graphPos = tablero.getGraphPosition(sizeTable - 1, yPosition);
             playerOne.setPositionGraph(graphPos);
+            tablero.addPlayer(2, graphPos);
         } else { //inserta los datos del segundo jugador
             playerTwo = new Human(name, color, sizeTable, 0, yPosition, 2);
             int graphPos = tablero.getGraphPosition(0, yPosition);
             playerTwo.setPositionGraph(graphPos);
+            tablero.addPlayer(3, graphPos);
         }
     }
 
@@ -61,6 +63,7 @@ public class QuoriPoob {
         playerTwo = m;
         int graphPos = tablero.getGraphPosition(0, (int) (sizeTable + 1)/2);
         playerTwo.setPositionGraph(graphPos);
+        tablero.addPlayer(3, graphPos);
     }
 
     /**

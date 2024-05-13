@@ -62,20 +62,11 @@ public abstract class Player {
     }
 
     /**
-     * cambia las posiciones dentro del tablero de el jugador
-     * @param positions, las nuevas posiciones por las que se va a reemplazar
-     */
-    public void changePositions(int[] positions){
-        xPosition = positions[0];
-        yPosition = positions[1];
-    }
-
-    /**
      * actualiza cual es la posicion del jugador en terminos de grafo
-     * @param newPositionGrapg nueva posicion en grafos del jugador
+     * @param newPositionGraph nueva posicion en grafos del jugador
      */
-    public void setPositionGraph(int newPositionGrapg){
-        positionGraph = newPositionGrapg;
+    public void setPositionGraph(int newPositionGraph){
+        positionGraph = newPositionGraph;
     }
 
     /**
@@ -83,6 +74,15 @@ public abstract class Player {
      */
     public int getPositionGraph(){
         return positionGraph;
+    }
+
+    /**
+     * cambia las posiciones dentro del tablero de el jugador
+     * @param positions, las nuevas posiciones por las que se va a reemplazar
+     */
+    public void changePositions(int[] positions){
+        xPosition = positions[0];
+        yPosition = positions[1];
     }
 
     /**

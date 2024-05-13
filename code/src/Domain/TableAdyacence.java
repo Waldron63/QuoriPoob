@@ -38,6 +38,10 @@ public class TableAdyacence{
         makeRelations();
     }
 
+    public void addPlayer(int numPlayer, int numGraph){
+        matrix[numGraph][numGraph] = numPlayer;
+    }
+
     /**
      * anade los muros a la lista de adyacencia y cambia los valores en la matriz
      * @param newWall el nuevo muro que se va a anadir
@@ -120,6 +124,7 @@ public class TableAdyacence{
         }
         //revisa si se puede pasar de una celda a otra
         if (matrix[initialG][finalG] == 1){
+            //matrix[][] =
             return true;
         }else if (matrix[initialG][finalG] == -1){ //si hay algun muro en esta relacion de grafos y es muro aliado al jugador actual
             Wall putWall = arrayAdyacence[initialG].get(finalG);

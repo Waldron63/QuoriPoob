@@ -8,7 +8,7 @@ import java.awt.Color;
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public abstract class AllyWall extends Wall{
+public class AllyWall extends Wall{
 
     /**
      * Constructor for objects of class Wall

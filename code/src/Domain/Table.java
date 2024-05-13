@@ -38,6 +38,10 @@ public class Table {
         adyacence = new TableAdyacence(newLong);
     }
 
+    public void addPlayer(int numPlayer, int graphPos){
+        adyacence.addPlayer(numPlayer, graphPos);
+    }
+
     /**
      * anade los muros al tablero
      * @param newWall el nuevo muro que se va a colocar
