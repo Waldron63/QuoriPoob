@@ -142,6 +142,7 @@ public class UserGameScreen extends JFrame {
                     gameScreen.updatePlayer1(nombre1, colorJugador1);
                     gameScreen.updatePlayer2(nombre2, colorJugador2);
                     gameScreen.setVisible(true);
+                    ventanaP.dispose();
                 }
                 ventanaP.dispose();
             }
