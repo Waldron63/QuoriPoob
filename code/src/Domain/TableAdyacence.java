@@ -111,39 +111,47 @@ public class TableAdyacence{
     }
 
     /**
-     * comprueba que se pueda pasar de un grafo a otro
-     * @param initialG, grafo inicial o donde esta el usuario
-     * @param finalG, grafo final o a donde quiere ir el usuario
-     * @param turn, indica el turno atual en la partida
-     * @return true si si puede pasar de una celda a la otra, false en caso contrario
+     * indica a donde se va a mover el usuario en la matriz de adyacencia
+     * @param initialG grafo donde esta ubicado el usuario
+     * @param finalG grafo a donde se va a mover el usuario
      */
-    public boolean comproveBasicSide(int initialG, int finalG, int turn) {
-        //revisa que la celda a donde desee pasarse este en el rango
-        if (finalG < 0 || finalG >= longitudAdyacencia){
-            return false;
-        }
-        //revisa si se puede pasar de una celda a otra
-        if (matrix[initialG][finalG] == 1){
-            //matrix[][] =
-            return true;
-        }else if (matrix[initialG][finalG] == -1){ //si hay algun muro en esta relacion de grafos y es muro aliado al jugador actual
-            Wall putWall = arrayAdyacence[initialG].get(finalG);
-            int turnWall = putWall.getPlayer().getMainTurn();
-            //revisa que sea el mismo jugador y el muro sea aliado
-            if (turnWall == turn && putWall instanceof AllyWall){
-                return true;
-            }
-        }
-        return false;
+    public void movePlayer(int initialG, int finalG){
+        int value = matrix[initialG][initialG];
+        matrix[initialG][initialG] = 0;
+        matrix[finalG][finalG] = value;
     }
 
     /**
      * comprueba que se pueda pasar de un grafo a otro
      * @param initialG, grafo inicial o donde esta el usuario
      * @param finalG, grafo final o a donde quiere ir el usuario
+     * @param turn, indica el turno atual en la partida
      * @return true si si puede pasar de una celda a la otra, false en caso contrario
      */
-    public boolean comproveDiagonalSide(int initialG, int finalG) {
+    public Boolean comproveBasicSide(int initialG, int finalG, int turn) {
+        //revisa que la celda a donde desee pasarse este en el rango
+        if (finalG < 0 || finalG >= longitudAdyacencia){
+            return false;
+        }
+        //revisa si se puede pasar de una celda a otra
+        if (matrix[initialG][finalG] == 1){
+            if (matrix[finalG][finalG] == 0){
+                return true;
+            }else {
+                return null;
+            }
+        }else if (matrix[initialG][finalG] == -1){ //si hay algun muro en esta relacion de grafos y es muro aliado al jugador actual
+            Wall putWall = arrayAdyacence[initialG].get(finalG);
+            int turnWall = putWall.getPlayer().getMainTurn();
+            //revisa que sea el mismo jugador y el muro sea aliado
+            if (turnWall == turn && putWall instanceof AllyWall){
+                if (matrix[finalG][finalG] == 0){
+                    return true;
+                } else {
+                    return null;
+                }
+            }
+        }
         return false;
     }
 

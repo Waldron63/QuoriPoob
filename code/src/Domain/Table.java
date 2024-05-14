@@ -61,58 +61,124 @@ public class Table {
      */
     public int[] move(int[] positionsP, String side, int turn){
         //revisa que si sea un lado valido para moverse
-        if (! Arrays.asList(basicMoves).contains(side) || ! Arrays.asList(diagonalMoves).contains(side)){
+        if (! Arrays.asList(basicMoves).contains(side) && ! Arrays.asList(diagonalMoves).contains(side)){
             return new int[] {};
         }
         String pos = positionsP[0] + "," + positionsP[1];
         int initialG = graphs.get(pos);
-        boolean movePosible;
+        Boolean movePosible;
+        Boolean moveDOne;
+        Boolean moveDTwo;
         int[] secondPositions;
-        //los 4 casos para donde se quiere mover el jugador
+        //los 8 casos para donde se quiere mover el jugador
+        int finalG;
         switch (side){
             // CASOS BASICOS
             case "n": //moverse hacia el norte
-                movePosible = adyacence.comproveBasicSide(initialG, initialG - longitud, turn);
-                secondPositions = new int[] {positionsP[0], positionsP[1] - 1};
+                finalG = initialG - longitud;
+                movePosible = adyacence.comproveBasicSide(initialG, finalG, turn);
+                secondPositions = new int[] {positionsP[0] - 1, positionsP[1]};
+                //si el jugador contrario esta en la casilla a la que quiere mover
+                if (movePosible == null){
+                    finalG = initialG - longitud - longitud;
+                    movePosible = adyacence.comproveBasicSide(initialG - longitud, finalG, turn);
+                    secondPositions = new int[] {positionsP[0] - 2, positionsP[1]};
+                }
                 break;
             case "s": //moverse hacia el sur
-                movePosible = adyacence.comproveBasicSide(initialG, initialG + longitud, turn);
-                secondPositions = new int[] {positionsP[0], positionsP[1] + 1};
+                finalG = initialG + longitud;
+                movePosible = adyacence.comproveBasicSide(initialG, finalG, turn);
+                secondPositions = new int[] {positionsP[0] + 1, positionsP[1]};
+                if (movePosible == null){
+                    finalG = initialG + longitud + longitud;
+                    movePosible = adyacence.comproveBasicSide(initialG + longitud, finalG, turn);
+                    secondPositions = new int[] {positionsP[0] + 2, positionsP[1]};
+                }
                 break;
             case "e": //moverse hacia el este
-                movePosible = adyacence.comproveBasicSide(initialG, initialG + 1, turn);
-                secondPositions = new int[] {positionsP[0] + 1, positionsP[1]};
+                finalG = initialG + 1;
+                movePosible = adyacence.comproveBasicSide(initialG, finalG, turn);
+                secondPositions = new int[] {positionsP[0], positionsP[1] + 1};
+                if (movePosible == null){
+                    finalG = initialG + 2;
+                    movePosible = adyacence.comproveBasicSide(initialG +1, finalG, turn);
+                    secondPositions = new int[] {positionsP[0], positionsP[1] + 2};
+                }
                 break;
             case "w": //moverse hacia el oeste
-                movePosible = adyacence.comproveBasicSide(initialG, initialG - 1, turn);
-                secondPositions = new int[] {positionsP[0] - 1, positionsP[1]};
+                finalG = initialG - 1;
+                movePosible = adyacence.comproveBasicSide(initialG, finalG, turn);
+                secondPositions = new int[] {positionsP[0], positionsP[1] - 1};
+                if (movePosible == null){
+                    finalG = initialG - 2;
+                    movePosible = adyacence.comproveBasicSide(initialG -1, finalG, turn);
+                    secondPositions = new int[] {positionsP[0], positionsP[1] - 2};
+                }
                 break;
 
             //CASOS DIAGONALES
             case "ne": //moverse hacia el nor este
-                movePosible = adyacence.comproveDiagonalSide(0,0);
-                secondPositions = new int[] {0,0};
+                moveDOne = adyacence.comproveBasicSide(initialG, initialG - longitud, turn);
+                moveDTwo = adyacence.comproveBasicSide(initialG, initialG + 1, turn);
+                if (moveDOne == null && !moveDTwo){
+                    movePosible = adyacence.comproveBasicSide(initialG - longitud, initialG -longitud +1, turn);
+                }else if (moveDTwo == null && !moveDOne){
+                    movePosible = adyacence.comproveBasicSide(initialG +1, initialG +1 - longitud, turn);
+                }else{
+                    movePosible = false;
+                }
+                finalG = initialG + 1 - longitud;
+                secondPositions = new int[] {positionsP[0] -1,positionsP[1] +1};
                 break;
             case "nw": //moverse hacia el nor oeste
-                movePosible = adyacence.comproveDiagonalSide(0,0);
-                secondPositions = new int[] {0,0};
+                moveDOne = adyacence.comproveBasicSide(initialG, initialG - longitud, turn);
+                moveDTwo = adyacence.comproveBasicSide(initialG, initialG - 1, turn);
+                if (moveDOne == null && !moveDTwo){
+                    movePosible = adyacence.comproveBasicSide(initialG - longitud, initialG -longitud -1, turn);
+                }else if (moveDTwo == null && !moveDOne){
+                    movePosible = adyacence.comproveBasicSide(initialG - 1, initialG -1 -longitud, turn);
+                }else{
+                    movePosible = false;
+                }
+                finalG = initialG - 1 - longitud;
+                secondPositions = new int[] {positionsP[0] -1,positionsP[1] -1};
                 break;
             case "se": //moverse hacia el sur este
-                movePosible = adyacence.comproveDiagonalSide(0,0);
-                secondPositions = new int[] {0,0};
+                moveDOne = adyacence.comproveBasicSide(initialG, initialG + longitud, turn);
+                moveDTwo = adyacence.comproveBasicSide(initialG, initialG + 1, turn);
+                if (moveDOne == null && !moveDTwo){
+                    movePosible = adyacence.comproveBasicSide(initialG + longitud, initialG + longitud + 1, turn);
+                }else if (moveDTwo == null && !moveDOne){
+                    movePosible = adyacence.comproveBasicSide(initialG +1, initialG + 1 + longitud, turn);
+                }else{
+                    movePosible = false;
+                }
+                finalG = initialG + 1 + longitud;
+                secondPositions = new int[] {positionsP[0] + 1,positionsP[1] + 1};
                 break;
             case "sw": //moverse hacia el sur oeste
-                movePosible = adyacence.comproveDiagonalSide(0,0);
+                moveDOne = adyacence.comproveBasicSide(initialG, initialG + longitud, turn);
+                moveDTwo = adyacence.comproveBasicSide(initialG, initialG - 1, turn);
+                if (moveDOne == null && !moveDTwo){
+                    movePosible = adyacence.comproveBasicSide(initialG + longitud, initialG +longitud - 1, turn);
+                }else if (moveDTwo == null && !moveDOne){
+                    movePosible = adyacence.comproveBasicSide(initialG -1, initialG -1 + longitud, turn);
+                }else{
+                    movePosible = false;
+                }
+                finalG = initialG - 1 + longitud;
                 secondPositions = new int[] {0,0};
                 break;
 
             //caso diferente
             default: //si todos los casos anteriores llegan a fallar
+                finalG = 0;
                 movePosible = false;
                 secondPositions = new int[] {};
         }
         //revisa que el usuario si se pueda mover hacia el lado que desea
         if (movePosible){
+            adyacence.movePlayer(initialG, finalG);
             return secondPositions;
         }
         return new int[] {};

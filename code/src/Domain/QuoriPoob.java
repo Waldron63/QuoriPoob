@@ -1,4 +1,11 @@
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
 
@@ -39,15 +46,15 @@ public class QuoriPoob {
      */
     public void addPlayer(String name, Color color) {
         //revisa si es el primero o segundo jugador
-        int yPosition = (int) (sizeTable + 1)/2;
+        int yPosition = (int) (sizeTable - 1)/2;
         //revisa que ya este el primer jugador
         if (playerOne == null) {
-            playerOne = new Human(name, color, sizeTable, sizeTable - 1, yPosition, 1);
+            playerOne = new Human(name, color, sizeTable + 1, sizeTable - 1, yPosition, 1);
             int graphPos = tablero.getGraphPosition(sizeTable - 1, yPosition);
             playerOne.setPositionGraph(graphPos);
             tablero.addPlayer(2, graphPos);
         } else { //inserta los datos del segundo jugador
-            playerTwo = new Human(name, color, sizeTable, 0, yPosition, 2);
+            playerTwo = new Human(name, color, sizeTable + 1, 0, yPosition, 2);
             int graphPos = tablero.getGraphPosition(0, yPosition);
             playerTwo.setPositionGraph(graphPos);
             tablero.addPlayer(3, graphPos);
@@ -81,7 +88,7 @@ public class QuoriPoob {
      * @return true, si el jugador gano, false en caso contrario
      * @throws QuoriPoobException, indica si no se puede generar el movimiento pedido por el usuario
      */
-    public boolean move(String side) throws QuoriPoobException{
+    public int[] move(String side) throws QuoriPoobException{
         int[] positionsP;
         int actualTurn;
         //revisa cual es el turno actual y recoge la posicion del jugador
@@ -103,12 +110,12 @@ public class QuoriPoob {
                 playerOne.changePositions(comp);
                 playerOne.setPositionGraph(graphPosition);
                 changeTurn();
-                return comp[0] >= 0 && comp[0] < sizeTable;
+                return comp;
             }else {
                 playerTwo.changePositions(comp);
                 playerTwo.setPositionGraph(graphPosition);
                 changeTurn();
-                return (comp[0] >= (Math.pow(sizeTable, 2) - sizeTable) && comp[0] < Math.pow(sizeTable, 2));
+                return comp;
             }
         }
     }
@@ -126,6 +133,7 @@ public class QuoriPoob {
      */
     private int changeTurn(){
         tablero.changeWallCount();
+        //playerWin();
         //genera un swap (cambio) en los turnos
         if (turn == 1){
             turn = 2;
@@ -137,9 +145,62 @@ public class QuoriPoob {
     }
 
     /**
+     * indica si el jugador que se movio gano la partida o continua jugando
+     * @return true si el jugador gano la partida, false en caso contrario
+     */
+    private boolean playerWin(){
+        return false;
+    }
+
+    /**
      * @return el turno actual
      */
     public int getTurn(){
         return turn;
+    }
+
+    /**
+     * apertura de un nuevo archivo Garden
+     * @param archivo, archivo que contiene todo el QuoriPoob que se desea abrir
+     * @throws QuoriPoobException
+     */
+    public static QuoriPoob openArchivo(File archivo) throws QuoriPoobException{
+        if (archivo ==null){
+            //throw new QuoriPoobException(QuoriPoobException.ARCHIVE_NOT_NULL);
+        }
+        try{
+            ObjectInputStream open = new ObjectInputStream(new FileInputStream(archivo));
+            QuoriPoob qp = (QuoriPoob) open.readObject();
+            open.close();
+            return qp;
+        } catch(FileNotFoundException e){
+            throw new QuoriPoobException("Archivo no encontrado: " + archivo.getName());
+        } catch(IOException e1){
+            throw new QuoriPoobException("Error al abrir el archivo: " + archivo.getName());
+        } catch(Exception e2){
+            throw new QuoriPoobException("Opcion open no se abrio. Archivo: "+archivo.getName());
+        }
+    }
+
+    /**
+     * salvar el actual archivo Garden 
+     * @param archivo, archivo que va a contener todo el QuoriPoob actual
+     * @throws QuoriPoobException
+     */
+    public void saveArchivo(File archivo) throws QuoriPoobException{
+        if (archivo ==null){
+            //throw new QuoriPoobException(QuoriPoobException.ARCHIVE_NOT_NULL);
+        }
+        try{
+            ObjectOutputStream save = new ObjectOutputStream(new FileOutputStream(archivo));
+            save.writeObject(this);
+            save.close();
+        } catch(FileNotFoundException e){
+            throw new QuoriPoobException("Archivo no guardado: " + archivo.getName());
+        } catch(IOException e1){
+            throw new QuoriPoobException("Error al salvar el archivo: " + archivo.getName());
+        } catch(Exception e2){
+            throw new QuoriPoobException("Opcion save no permite guardar. Archivo: "+archivo.getName());
+        }
     }
 }
