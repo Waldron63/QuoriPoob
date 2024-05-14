@@ -12,6 +12,7 @@ public class NormalWall extends Wall{
      *
      * @param newColor, el color que va a tomar el muro comun
      * @param newPositions, lista de las posiciones que va a ocupar el muro
+     * @param newPlayer indica que jugador puso este muro
      */
     public NormalWall(Color newColor, int[] newPositions, Player newPlayer) {
         super(newColor, newPositions, newPlayer);

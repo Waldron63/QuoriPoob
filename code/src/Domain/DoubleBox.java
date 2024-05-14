@@ -3,7 +3,7 @@
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public abstract class DoubleBox {
+public class DoubleBox {
 
     /**
      * Constructor for objects of class Box

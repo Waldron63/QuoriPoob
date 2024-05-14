@@ -1,4 +1,5 @@
 
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -205,7 +206,8 @@ public class GameScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    quorindorDom.move("e");
+                    int[] pos = quorindorDom.move("e");
+                    refresh(pos);
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
@@ -216,7 +218,8 @@ public class GameScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    quorindorDom.move("w");
+                    int[] pos = quorindorDom.move("w");
+                    refresh(pos);
                     //refresh();
                 } catch (Exception e0) {
                     System.out.println("Error");
@@ -228,7 +231,8 @@ public class GameScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    quorindorDom.move("n");
+                    int[] pos = quorindorDom.move("n");
+                    refresh(pos);
                 } catch (Exception e0) {
                     System.out.println(e0.getMessage());
                 }
@@ -239,7 +243,8 @@ public class GameScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    quorindorDom.move("s");
+                    int[] pos = quorindorDom.move("s");
+                    refresh(pos);
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
@@ -312,8 +317,8 @@ public class GameScreen extends JFrame {
             File selectFile = fileChooser.getSelectedFile();
             if (selectFile != null) {
                 try {
-                    //QuoriPoob g = quorindorDom.open01Archivo(selectFile);
-                    //this.quorindorDom = g;
+                    QuoriPoob qp = quorindorDom.openArchivo(selectFile);
+                    this.quorindorDom = qp;
                     repaint();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -332,7 +337,7 @@ public class GameScreen extends JFrame {
             File selectFile = fileChooser.getSelectedFile();
             if (selectFile != null) {
                 try {
-                    //quorindorDom.save01Archivo(selectFile);
+                    quorindorDom.saveArchivo(selectFile);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -493,6 +498,7 @@ public class GameScreen extends JFrame {
         Circle player1 = new Circle(color);
         addPlayer(player1, 8, 4);
         posPlayer1 = new int[]{8, 4};
+        quorindorDom.addPlayer(nombre, color);
     }
 
     public void updatePlayer2(String nombre, Color color) {
@@ -502,6 +508,7 @@ public class GameScreen extends JFrame {
         Circle player2 = new Circle(color);
         addPlayer(player2, 0, 4);
         posPlayer2 = new int[]{0, 4};
+        quorindorDom.addPlayer(nombre, color);
     }
 
     private JPanel createTitlePanel(String title) {
