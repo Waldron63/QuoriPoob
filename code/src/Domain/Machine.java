@@ -22,23 +22,4 @@ public class Machine extends Player{
         super("Robot", Color.BLACK, nWalls, xPosition, yPosition, 2);
         difficulty = newDifficulty;
     }
-
-    /**
-     * movimiento que va a usar la maquina para intentar  ganar
-     *
-     * @param positions, ...
-     * @return, ...
-     */
-    @Override
-    public boolean move(int[] positions) {
-        return false;
-    }
-
-    /**
-     * ayuda a colocar los muros que la maquina desea poner
-     */
-    @Override
-    public void addWall() {
-        return;
-    }
 }
