@@ -10,13 +10,12 @@ import javax.swing.border.LineBorder;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.geom.Ellipse2D;
 
-
 /**
  * Clase Game de la visualizacion del proyecto, la interfaz del tablero y el juego de QuoriPoob
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public class GameScreen extends JFrame {
+public class GameScreen extends JFrame{
     private static final int width = 700; //ancho de la vista
     private static final int height = 700; //largo de la vista
     private static final Dimension preferredDimention = new Dimension(width, height);
@@ -31,14 +30,18 @@ public class GameScreen extends JFrame {
     private JFileChooser fileChooser;
     private int[] posPlayer1;
     private int[] posPlayer2;
+    private JPanel leftPanel;
+    private JPanel rightPanel;
+    private JButton derecha, izquierda, arriba, abajo;
+
 
     /**
      * Constructor for objects of class GameScreen
      */
-    public GameScreen() {
+    public GameScreen(){
         quorindorDom = new QuoriPoob(9, "normal");
-        filas = 9;
-        columnas = 9;
+        filas =9;
+        columnas =9;
         prepareElements();
         prepareActions();
     }
@@ -48,7 +51,7 @@ public class GameScreen extends JFrame {
      *
      * @param args Argumentos de la línea de comandos (no se utilizan en este caso)
      */
-    public static void main(String[] args) {
+    public static void main(String[] args){
         GameScreen gui = new GameScreen();
         gui.setVisible(true);
 
@@ -57,7 +60,7 @@ public class GameScreen extends JFrame {
     /**
      * Prepara y configura los elementos visuales de la interfaz gráfica.
      */
-    private void prepareElements() {
+    private void prepareElements(){
         setTitle("Quorindior"); // Establece el título de la ventana
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width / 2;
@@ -78,7 +81,7 @@ public class GameScreen extends JFrame {
     /**
      * Prepara y configura los elementos del menú de la interfaz gráfica.
      */
-    private void prepareElementsMenu() {
+    private void prepareElementsMenu(){
         JMenuBar menu = new JMenuBar();
         setJMenuBar(menu);
         JMenu fileMenu = new JMenu("Menu");
@@ -100,8 +103,7 @@ public class GameScreen extends JFrame {
     private void prepareElementsBoard() {
         mainPanel = new JPanel(new BorderLayout());
         tableroPanel = createTableroPanel();
-        mainPanel.add(tableroPanel, BorderLayout.CENTER);
-
+        mainPanel.add(tableroPanel,BorderLayout.CENTER);
     }
 
 
@@ -109,59 +111,140 @@ public class GameScreen extends JFrame {
      * Prepara los elementos relacionados con la información de los jugadores.
      */
     public void prepareElementsPlayers() {
-        // Panel Jugador1
+        preparePlayer();
+        prepareGame();
+
+    }
+
+    private void preparePlayer() {
+
         JPanel rightPanel = new JPanel(new GridLayout(5, 1));
         JLabel jugador1 = new JLabel("Jugador 1");
         jugador1.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel jugador1Estado = new JLabel("Estado: ...");
-        jugador1Estado.setHorizontalAlignment(SwingConstants.CENTER);
-        //jugador1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        // Establece fuentes y colores para los componentes
         jugador1.setFont(new Font("Times New Roman", Font.BOLD, 20));
         jugador1.setForeground(Color.WHITE);
-        jugador1Estado.setFont(new Font("Times New Roman", Font.BOLD, 16));
-        jugador1Estado.setForeground(Color.WHITE);
-
-        // Agrega los componentes al panel derecho
         rightPanel.add(jugador1);
-        rightPanel.add(jugador1Estado);
+
+        JPanel circulo= new JPanel(new FlowLayout(FlowLayout.CENTER));
+        Circle turnoPlayer1= new Circle(Color.GREEN);
+        turnoPlayer1.setPreferredSize(new Dimension(50, 50));
+        circulo.add(turnoPlayer1);
+        circulo.setBackground(new Color(115, 10, 25));
+        rightPanel.add(circulo);
         rightPanel.setBackground(new Color(115, 10, 25));
         mainPanel.add(rightPanel, BorderLayout.WEST);
 
 
-        //Jugador 2
         JPanel leftPanel = new JPanel(new GridLayout(5, 1));
         JLabel jugador2 = new JLabel("Jugador 2");
         jugador2.setHorizontalAlignment(SwingConstants.CENTER);
-        JLabel jugador2Estado = new JLabel("Estado: ...");
-        jugador2Estado.setHorizontalAlignment(SwingConstants.CENTER);
-        //jugador1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        // Establece fuentes y colores para los componentes
         jugador2.setFont(new Font("Times New Roman", Font.BOLD, 20));
         jugador2.setForeground(Color.WHITE);
-
-        jugador2Estado.setFont(new Font("Times New Roman", Font.BOLD, 16));
-        jugador2Estado.setForeground(Color.WHITE);
-
-
-        // Agrega los componentes al panel izquierdo
         leftPanel.add(jugador2);
-        leftPanel.add(jugador2Estado);
+
+        JPanel circulo2= new JPanel(new FlowLayout(FlowLayout.CENTER));
+        Circle turnoPlayer2= new Circle(Color.GREEN);
+        turnoPlayer2.setPreferredSize(new Dimension(50, 50));
+        circulo2.add(turnoPlayer2);
+        circulo2.setBackground(new Color(115, 10, 25));
+        leftPanel.add(circulo2);
         leftPanel.setBackground(new Color(115, 10, 25));
+        mainPanel.add(leftPanel, BorderLayout.EAST);
 
 
+        JPanel wallsPanel1 = new JPanel(new GridLayout(2, 1));
+        JLabel walls = new JLabel("Numero de muros:");
+        walls.setForeground(Color.WHITE);
+        walls.setHorizontalAlignment(SwingConstants.CENTER);
+        walls.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        wallsPanel1.add(walls);
+        wallsPanel1.setBackground(new Color(115, 10, 25));
+        wallsPanel1.setForeground(Color.WHITE);
+
+        //
+        JPanel casillas1 = new JPanel(new GridLayout(4, 1));
+        JLabel normal1 = new JLabel("Casilla normal:");
+        normal1.setForeground(Color.WHITE);
+        normal1.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel teleport1 = new JLabel("Casilla teleport:");
+        teleport1.setForeground(Color.WHITE);
+        teleport1.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel return1 = new JLabel("Casilla retorno:");
+        return1.setForeground(Color.WHITE);
+        return1.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel doubleTurn1 = new JLabel("Casilla doble turno:");
+        doubleTurn1.setForeground(Color.WHITE);
+        doubleTurn1.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        normal1.setHorizontalAlignment(SwingConstants.CENTER);
+        teleport1.setHorizontalAlignment(SwingConstants.CENTER);
+        return1.setHorizontalAlignment(SwingConstants.CENTER);
+        doubleTurn1.setHorizontalAlignment(SwingConstants.CENTER);
+        casillas1.add(normal1);
+        casillas1.add(teleport1);
+        casillas1.add(return1);
+        casillas1.add(doubleTurn1);
+        casillas1.setBackground(new Color(115, 10, 25));
+        casillas1.setForeground(Color.WHITE);
+
+        //
+        rightPanel.add(wallsPanel1);
+        rightPanel.add(casillas1);
+
+        //
+        JPanel wallsPanel2 = new JPanel(new GridLayout(2, 1));
+        JLabel walls2 = new JLabel("Numero de muros:");
+        walls2.setForeground(Color.WHITE);
+        walls2.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        walls2.setHorizontalAlignment(SwingConstants.CENTER);
+        wallsPanel2.add(walls2);
+        wallsPanel2.setBackground(new Color(115, 10, 25));
+        wallsPanel2.setForeground(Color.WHITE);
+
+        JPanel casillas2 = new JPanel(new GridLayout(4, 1));
+        JLabel normal2 = new JLabel("Casilla normal:");
+        normal2.setForeground(Color.WHITE);
+        normal2.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel teleport2 = new JLabel("Casilla teleport:");
+        teleport2.setForeground(Color.WHITE);
+        teleport2.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel return2 = new JLabel("Casilla retorno:");
+        return2.setForeground(Color.WHITE);
+        return2.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel doubleTurn2 = new JLabel("Casilla doble turno:");
+        doubleTurn2.setForeground(Color.WHITE);
+        doubleTurn2.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        normal2.setHorizontalAlignment(SwingConstants.CENTER);
+        teleport2.setHorizontalAlignment(SwingConstants.CENTER);
+        return2.setHorizontalAlignment(SwingConstants.CENTER);
+        doubleTurn2.setHorizontalAlignment(SwingConstants.CENTER);
+        casillas2.add(normal2);
+        casillas2.add(teleport2);
+        casillas2.add(return2);
+        casillas2.add(doubleTurn2);
+        casillas2.setBackground(new Color(115, 10, 25));
+        casillas2.setForeground(Color.WHITE);
+
+
+        leftPanel.add(wallsPanel2);
+        leftPanel.add(casillas2);
+
+
+        rightPanel.setPreferredSize(new Dimension(200, 0));
+        leftPanel.setPreferredSize(new Dimension(200, 0));
+    }
+
+
+    private void prepareGame(){
         JPanel panelJuego = new JPanel(new GridLayout(3, 3));
 
         JButton izquierda = new JButton("←");
         JButton derecha = new JButton("→");
-        JButton arriba = new JButton("↑");
+        JButton arriba= new JButton("↑");
         JButton abajo = new JButton("↓");
-        JButton dUderecha = new JButton("↗");
-        JButton dUizquierda = new JButton("↖");
-        JButton dDderecha = new JButton("↘");
-        JButton dDizquierda = new JButton("↙");
+        JButton dUderecha= new JButton("↗");
+        JButton dUizquierda= new JButton("↖");
+        JButton dDderecha= new JButton("↘");
+        JButton dDizquierda= new JButton("↙");
 
         JPanel relleno = new JPanel();
 
@@ -187,20 +270,56 @@ public class GameScreen extends JFrame {
         panelJuego.add(dDderecha);
 
 
-        leftPanel.add(panelJuego, BorderLayout.EAST);
-        mainPanel.add(leftPanel, BorderLayout.EAST);
 
-        rightPanel.setPreferredSize(new Dimension(180, 0));
-        leftPanel.setPreferredSize(new Dimension(180, 0));
+        JPanel panelAbajoTablero = new JPanel(new BorderLayout());
+        panelAbajoTablero.setPreferredSize(new Dimension(width, height / 6));
+        panelAbajoTablero.setBackground(Color.GRAY);
 
-        String[] tiposMuro = {"Muro Temporal", "Muro Largo", "Muro Aliado"};
+
+        JPanel rellenoIzquierda = new JPanel();
+        rellenoIzquierda.setPreferredSize(new Dimension(650, height / 6));
+        rellenoIzquierda.setBackground(new Color(115, 10, 25));
+
+        JPanel rellenoDerecha = new JPanel();
+        rellenoDerecha.setPreferredSize(new Dimension(200, height / 6));
+        rellenoDerecha.setBackground(new Color(115, 10, 25));
+
+        JPanel panelCombo = new JPanel(new BorderLayout());
+        panelCombo.setBackground(new Color(115, 10, 25));
+
+        String[] tiposMuro = { "Muro Temporal", "Muro Largo", "Muro Aliado" };
         tipoMuro = new JComboBox<>(tiposMuro);
         tipoMuro.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         tipoMuro.setBackground(Color.WHITE);
-        tipoMuro.setBounds(109, 76, 89, 23);
-        rightPanel.add(tipoMuro, BorderLayout.SOUTH);
+        tipoMuro.setPreferredSize(new Dimension(180, 60));
+
+        panelCombo.add(tipoMuro, BorderLayout.WEST);
+
+        JPanel panelCronometro = new JPanel();
+        panelCronometro.setBackground(Color.WHITE);
+        JLabel labelCronometro = new JLabel("00:00");
 
 
+        labelCronometro.setFont(new Font("Times New Roman", Font.BOLD, 24));
+        panelCronometro.add(labelCronometro);
+        panelCronometro.setPreferredSize(new Dimension(180, 50));
+
+        panelCombo.add(panelCronometro, BorderLayout.CENTER);
+        rellenoIzquierda.add(panelCombo);
+
+
+        panelAbajoTablero.add(rellenoIzquierda, BorderLayout.WEST);
+        panelAbajoTablero.add(panelJuego, BorderLayout.CENTER);
+        panelAbajoTablero.add(rellenoDerecha, BorderLayout.EAST);
+
+
+        mainPanel.add(panelAbajoTablero, BorderLayout.SOUTH);
+
+        //prepareGameActionListeners();
+    }
+
+     /*
+    private void prepareGameActionListeners(){
         derecha.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -217,7 +336,6 @@ public class GameScreen extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     quorindorDom.move("w");
-                    //refresh();
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
@@ -246,13 +364,16 @@ public class GameScreen extends JFrame {
             }
         });
 
-    }
+    }*/
+
+
+
 
 
     /**
      * Prepara y configura las acciones para los elementos del menú de la interfaz gráfica.
      */
-    private void prepareActionsMenu() {
+    private void prepareActionsMenu(){
         //Abrir
         JMenuItem loadMenuItem = getJMenuBar().getMenu(0).getItem(0);
         loadMenuItem.addActionListener(new ActionListener() {
@@ -282,9 +403,9 @@ public class GameScreen extends JFrame {
 
         //salir menu
         JMenuItem exitMenuItem = getJMenuBar().getMenu(0).getItem(3);
-        exitMenuItem.addActionListener(new ActionListener() {
+        exitMenuItem.addActionListener(new ActionListener(){
             @Override
-            public void actionPerformed(ActionEvent event) {
+            public void actionPerformed(ActionEvent event){
                 exitOptions();
             }
 
@@ -295,9 +416,9 @@ public class GameScreen extends JFrame {
      * Muestra un cuadro de diálogo para confirmar la salida de la aplicación.
      * Cierra la aplicación si el usuario confirma la salida.
      */
-    private void exitOptions() {
-        int j = JOptionPane.showConfirmDialog(this, "Desea salir de la aplicacion", "Confirmar salida", JOptionPane.YES_NO_OPTION);
-        if (j == 0) {
+    private void exitOptions(){
+        int j = JOptionPane.showConfirmDialog(this,"Desea salir de la aplicacion", "Confirmar salida",JOptionPane.YES_NO_OPTION);
+        if(j==0){
             System.exit(0);
         }
     }
@@ -308,15 +429,15 @@ public class GameScreen extends JFrame {
      */
     private void openFile() {
         int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
+        if (result == JFileChooser.APPROVE_OPTION){
             File selectFile = fileChooser.getSelectedFile();
-            if (selectFile != null) {
-                try {
+            if(selectFile != null){
+                try{
                     //QuoriPoob g = quorindorDom.open01Archivo(selectFile);
                     //this.quorindorDom = g;
                     repaint();
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }catch (Exception e){
+                    JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -328,13 +449,13 @@ public class GameScreen extends JFrame {
      */
     private void optionSave() {
         int result = fileChooser.showSaveDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
+        if (result == JFileChooser.APPROVE_OPTION){
             File selectFile = fileChooser.getSelectedFile();
-            if (selectFile != null) {
-                try {
+            if(selectFile != null){
+                try{
                     //quorindorDom.save01Archivo(selectFile);
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }catch (Exception e){
+                    JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -346,10 +467,9 @@ public class GameScreen extends JFrame {
     private void resetBoard() {
         getContentPane().remove(mainPanel);
         turned = 0;
-        try {
+        try{
             quorindorDom = new QuoriPoob(9, "normal");
-        } catch (Exception ignore) {
-        }
+        } catch(Exception ignore){}
         prepareElements();
         prepareActions();
         // Validar y repintar
@@ -362,11 +482,11 @@ public class GameScreen extends JFrame {
      * Prepara y configura las acciones de los elementos de la interfaz gráfica.
      * Esto incluye acciones para los elementos del menú y los botones del tablero.
      */
-    private void prepareActions() {
+    private void prepareActions(){
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
+        addWindowListener(new WindowAdapter(){
             @Override
-            public void windowClosing(WindowEvent event) {
+            public void windowClosing(WindowEvent event){
                 exitOptions();
             }
 
@@ -376,113 +496,118 @@ public class GameScreen extends JFrame {
     }
 
     /**
-     * Crea y configura el panel del tablero con los botones para cada celda.
-     *
-     * @return El panel del tablero configurado
+     * Metodo para crear el tablero
      */
-    private JPanel createTableroPanel() {
+    private JPanel createTableroPanel(){
         // Crea un nuevo JPanel con un diseño de cuadrícula GridLayout
-        JPanel tableroPanel = new JPanel(new GridLayout(filas, columnas));
+        JPanel tableroPanel = new JPanel(new GridLayout(filas,columnas));
         casillas = new JLabel[filas][columnas];
-        // Itera sobre las filas y columnas para agregar botones a cada celda del tablero
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                casillas[i][j] = new JLabel();
-                // Establece la opacidad del botón como verdadero y el fondo del boton con color especifico
-                casillas[i][j].setOpaque(true);
-                casillas[i][j].setBackground(new Color(210, 180, 140));
-
-                // Establece el borde del botón como redondeado utilizando la clase RoundBorder
-                casillas[i][j].setBorder(new RoundBorder(new Color(115, 10, 25), 2, 15));
-
-                // Agrega el botón al panel del tablero
+        // Itera sobre las filas y columnas para crear y agregar casillas al tablero
+        for(int i = 0; i < filas; i++){
+            for(int j = 0; j < columnas; j++){
+                // Crea una casilla y la agrega al tablero
+                casillas[i][j] = createCasilla();
                 tableroPanel.add(casillas[i][j]);
-
-                // Agregar botones alrededor de cada casilla
-                JButton upButton = new JButton();  // Botón superior
-                JButton downButton = new JButton();  // Botón inferior
-                JButton leftButton = new JButton();  // Botón izquierdo
-                JButton rightButton = new JButton();  // Botón derecho
-
-                //Color
-                upButton.setBackground(new Color(210, 180, 140));
-                downButton.setBackground(new Color(210, 180, 140));
-                leftButton.setBackground(new Color(210, 180, 140));
-                rightButton.setBackground(new Color(210, 180, 140));
-
-                // Color borde
-                upButton.setBorder(BorderFactory.createLineBorder(new Color(210, 180, 140)));
-                downButton.setBorder(BorderFactory.createLineBorder(new Color(210, 180, 140)));
-                leftButton.setBorder(BorderFactory.createLineBorder(new Color(210, 180, 140)));
-                rightButton.setBorder(BorderFactory.createLineBorder(new Color(210, 180, 140)));
-
-                //Tamaño de los botones alrededor de cada casilla
-                Dimension buttonSize = new Dimension(8, 8);
-                upButton.setPreferredSize(buttonSize);
-                downButton.setPreferredSize(buttonSize);
-                leftButton.setPreferredSize(buttonSize);
-                rightButton.setPreferredSize(buttonSize);
-
-
-                //Boton centro
-                JPanel centerButton = new JPanel();
-                centerButton.setBackground(new Color(210, 180, 140));
-                centerButton.setBorder(BorderFactory.createEmptyBorder());
-                JPanel centerPanel = new JPanel(new BorderLayout());
-                centerPanel.add(centerButton, BorderLayout.CENTER);
-
-                // Agregar los botones al panel de la casilla actual
-                JPanel casillaPanel = new JPanel(new BorderLayout());
-                casillaPanel.setBackground(new Color(210, 180, 140));
-
-                casillaPanel.add(upButton, BorderLayout.NORTH);
-                casillaPanel.add(downButton, BorderLayout.SOUTH);
-                casillaPanel.add(leftButton, BorderLayout.WEST);
-                casillaPanel.add(rightButton, BorderLayout.EAST);
-                casillaPanel.add(centerPanel, BorderLayout.CENTER);
-
-                // Agregar el panel de la casilla a la celda del tablero
-                casillas[i][j].setLayout(new BorderLayout());
-                casillas[i][j].add(casillaPanel, BorderLayout.CENTER);
             }
         }
-        tableroPanel.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 5));
+        // Establece un borde alrededor del tablero
+        tableroPanel.setBorder(BorderFactory.createLineBorder(new Color(255,255,255), 5));
 
-        // Crea un círculo para representar al jugador 1-2 y lo agrega a una celda específica del tablero
-        Circle player1 = new Circle(Color.RED);
-        addPlayer(player1, 8, 4);
-        Circle player2 = new Circle(Color.ORANGE);
-        addPlayer(player2, 0, 4);
+        // Agrega jugadores al tablero en posiciones específicas
+        addPlayer(new Circle(Color.RED), 8, 4);
+        addPlayer(new Circle(Color.ORANGE), 0, 4);
         // Retorna el panel del tablero configurado
         return tableroPanel;
+    }
+
+    /**
+     * Metodo para crear una casilla
+     */
+    private JLabel createCasilla() {
+        JLabel casilla = new JLabel();
+        casilla.setOpaque(true);
+        casilla.setBackground(new Color(210, 180, 140));
+        casilla.setBorder(new RoundBorder(new Color(115, 10, 25), 2, 15));
+        casilla.setLayout(new BorderLayout());
+
+        // Crea el panel de la casilla que contiene los botones direccionales y el centro
+        JPanel casillaPanel = new JPanel(new BorderLayout());
+        casillaPanel.setBackground(new Color(210, 180, 140));
+        // Crea el panel central que representa el centro de la casilla
+        JPanel centerButton = createButtonPanel(new Color(210, 180, 140));
+        casillaPanel.add(centerButton, BorderLayout.CENTER);
+
+        // Agrega el panel de la casilla al componente de la casilla
+        casilla.add(casillaPanel, BorderLayout.CENTER);
+
+        return casilla;
+    }
+
+    /**
+     * Metodo para crear un panel de botones bordes en la casilla
+     */
+    private JPanel createButtonPanel(Color bgColor) {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(bgColor);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder());
+        // Crea y agrega los botones direccionales al panel
+        JButton upButton = dimensionButton(bgColor);
+        JButton downButton = dimensionButton(bgColor);
+        JButton leftButton = dimensionButton(bgColor);
+        JButton rightButton = dimensionButton(bgColor);
+
+        // Crea un panel central para representar el centro de la casilla
+        JPanel centerButton = new JPanel();
+        centerButton.setBackground(bgColor);
+
+        // Configura el diseño del panel de botones direccionales y los agrega al panel principal
+        buttonPanel.setLayout(new BorderLayout());
+        buttonPanel.add(upButton, BorderLayout.NORTH);
+        buttonPanel.add(downButton, BorderLayout.SOUTH);
+        buttonPanel.add(leftButton, BorderLayout.WEST);
+        buttonPanel.add(rightButton, BorderLayout.EAST);
+        buttonPanel.add(centerButton, BorderLayout.CENTER);
+
+        return buttonPanel;
+    }
+
+    /**
+     * Configurar los botones de direcciones
+     */
+    private JButton dimensionButton(Color bgColor) {
+        JButton button = new JButton();
+        button.setBackground(bgColor);
+        button.setBorder(BorderFactory.createLineBorder(bgColor));
+        button.setPreferredSize(new Dimension(8, 8));
+        return button;
     }
 
     /**
      * Agrega un componente circulo a una celda específica del tablero.
      *
      * @param component El componente a agregar circulo
-     * @param fila      La fila de la celda en la matriz de botones del tablero
-     * @param columna   La columna de la celda en la matriz de botones del tablero
-     *                  //* @param casillas La matriz de botones del tablero
+     * @param fila La fila de la celda en la matriz de botones del tablero
+     * @param columna La columna de la celda en la matriz de botones del tablero
+    //* @param casillas La matriz de botones del tablero
      */
     private void addPlayer(Component component, int fila, int columna) {
         JPanel celda = new JPanel(new GridBagLayout());
         JLabel casilla = casillas[fila][columna];
-        JPanel panel = (JPanel) casilla.getComponent(0);
+        JPanel panel =  (JPanel) casilla.getComponent(0);
         Color obtColor = panel.getBackground();
         celda.setBackground(obtColor);
         celda.add(component);
-        panel.add(celda, BorderLayout.CENTER);
+        panel.add(celda,BorderLayout.CENTER);
         casillas[fila][columna].add(panel);
     }
 
-    private void delPlayer(int fila, int columna) {
+    private void delPlayer( int fila, int columna){
         JPanel celda = new JPanel(new GridBagLayout());
         JLabel casilla = casillas[fila][columna];
-        JPanel panel = (JPanel) casilla.getComponent(0);
+        JPanel panel =  (JPanel) casilla.getComponent(0);
         Color obtColor = panel.getBackground();
         celda.setBackground(obtColor);
-        panel.add(celda, BorderLayout.CENTER);
+        panel.add(celda,BorderLayout.CENTER);
         casillas[fila][columna].add(panel);
     }
 
@@ -492,7 +617,7 @@ public class GameScreen extends JFrame {
         jugador1.setText(nombre);
         Circle player1 = new Circle(color);
         addPlayer(player1, 8, 4);
-        posPlayer1 = new int[]{8, 4};
+        posPlayer1 = new int[]{8,4};
     }
 
     public void updatePlayer2(String nombre, Color color) {
@@ -501,7 +626,7 @@ public class GameScreen extends JFrame {
         jugador2.setText(nombre);
         Circle player2 = new Circle(color);
         addPlayer(player2, 0, 4);
-        posPlayer2 = new int[]{0, 4};
+        posPlayer2 = new int[]{0,4};
     }
 
     private JPanel createTitlePanel(String title) {
@@ -515,27 +640,43 @@ public class GameScreen extends JFrame {
         return titlePanel;
     }
 
-    private void refresh(int[] positions) {
+    private void refresh(int[] positions){
         int turn = quorindorDom.getTurn();
-        //Refresh de turno panel
-        JLabel casilla = casillas[positions[0]][positions[1]];
-        JPanel panel = (JPanel) casilla.getComponent(0);
-        JPanel centro = (JPanel) panel.getComponent(4);
+        // Obtener los circulos
+        Circle player1 = (Circle) ((JPanel) mainPanel.getComponent(1)).getComponent(1);
+        Circle player2 = (Circle) ((JPanel) mainPanel.getComponent(2)).getComponent(1);
+        // turno jugador 1, cambia el color
         if (turn == 1) {
+            player1.setColor(Color.WHITE);
+            player2.setColor(new Color(115, 10, 25));
+        } else { //turno del jugador 2
+            player1.setColor(new Color(115, 10, 25));
+            player2.setColor(Color.WHITE);
+        }
+
+        // Actualizar los colores
+        mainPanel.getComponent(1).repaint();
+        mainPanel.getComponent(2).repaint();
+        //------------------------------------------------
+        // Obtener el JPanel centerButton de la casilla actual del jugador
+        JLabel casilla = casillas[positions[0]][positions[1]];
+        JPanel panel =  (JPanel) casilla.getComponent(0);
+        JPanel centro =  (JPanel) panel.getComponent(3);
+        if(turn==1){
             JLabel casilla2 = casillas[posPlayer2[0]][posPlayer2[1]];
             JPanel panel2 = (JPanel) casilla2.getComponent(0);
             JPanel jugador = (JPanel) panel2.getComponent(4);
-            panel.add(jugador, BorderLayout.CENTER);
+            panel.add(jugador,BorderLayout.CENTER);
             casillas[positions[0]][positions[1]].add(panel);
-            panel2.add(centro, BorderLayout.CENTER);
+            panel2.add(centro,BorderLayout.CENTER);
             casillas[posPlayer2[0]][posPlayer2[1]].add(panel2);
-        } else {
+        }else{
             JLabel casilla2 = casillas[posPlayer1[0]][posPlayer1[1]];
             JPanel panel2 = (JPanel) casilla2.getComponent(0);
             JPanel jugador = (JPanel) panel2.getComponent(4);
-            panel.add(jugador, BorderLayout.CENTER);
+            panel.add(jugador,BorderLayout.CENTER);
             casillas[positions[0]][positions[1]].add(panel);
-            panel2.add(centro, BorderLayout.CENTER);
+            panel2.add(centro,BorderLayout.CENTER);
             casillas[posPlayer1[0]][posPlayer1[1]].add(panel2);
         }
     }
@@ -567,7 +708,6 @@ public class GameScreen extends JFrame {
      */
     public class Circle extends JPanel {
         private Color color;
-
         public Circle(Color color) {
             this.color = color;
             setPreferredSize(new Dimension(30, 30));
@@ -582,6 +722,15 @@ public class GameScreen extends JFrame {
             g2d.setColor(color);
             g2d.fill(new Ellipse2D.Double(0, 0, getWidth(), getHeight()));
             g2d.dispose();
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor(Color color) {
+            this.color = color;
+            repaint();
         }
     }
 }
