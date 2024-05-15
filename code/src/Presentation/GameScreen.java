@@ -1,5 +1,4 @@
 
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -10,6 +9,7 @@ import java.io.File;
 import javax.swing.border.LineBorder;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.geom.Ellipse2D;
+
 
 /**
  * Clase Game de la visualizacion del proyecto, la interfaz del tablero y el juego de QuoriPoob
@@ -325,8 +325,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int[] pos = quorindorDom.move("e");
-                    refresh(pos);
+                    quorindorDom.move("e");
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
@@ -337,13 +336,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-<<<<<<< HEAD
                     quorindorDom.move("w");
-=======
-                    int[] pos = quorindorDom.move("w");
-                    refresh(pos);
-                    //refresh();
->>>>>>> 0f318d067b0d18bbc9f0d403556108797e300f62
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
@@ -354,8 +347,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int[] pos = quorindorDom.move("n");
-                    refresh(pos);
+                    quorindorDom.move("n");
                 } catch (Exception e0) {
                     System.out.println(e0.getMessage());
                 }
@@ -366,8 +358,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int[] pos = quorindorDom.move("s");
-                    refresh(pos);
+                    quorindorDom.move("s");
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
@@ -441,17 +432,10 @@ public class GameScreen extends JFrame{
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION){
             File selectFile = fileChooser.getSelectedFile();
-<<<<<<< HEAD
             if(selectFile != null){
                 try{
-                    //QuoriPoob g = quorindorDom.open01Archivo(selectFile);
-                    //this.quorindorDom = g;
-=======
-            if (selectFile != null) {
-                try {
-                    QuoriPoob qp = quorindorDom.openArchivo(selectFile);
-                    this.quorindorDom = qp;
->>>>>>> 0f318d067b0d18bbc9f0d403556108797e300f62
+                   // QuoriPoob g = quorindorDom.open01Archivo(selectFile);
+                    // this.quorindorDom = g;
                     repaint();
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -468,19 +452,11 @@ public class GameScreen extends JFrame{
         int result = fileChooser.showSaveDialog(this);
         if (result == JFileChooser.APPROVE_OPTION){
             File selectFile = fileChooser.getSelectedFile();
-<<<<<<< HEAD
             if(selectFile != null){
                 try{
                     //quorindorDom.save01Archivo(selectFile);
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-=======
-            if (selectFile != null) {
-                try {
-                    quorindorDom.saveArchivo(selectFile);
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
->>>>>>> 0f318d067b0d18bbc9f0d403556108797e300f62
                 }
             }
         }
@@ -642,12 +618,7 @@ public class GameScreen extends JFrame{
         jugador1.setText(nombre);
         Circle player1 = new Circle(color);
         addPlayer(player1, 8, 4);
-<<<<<<< HEAD
         posPlayer1 = new int[]{8,4};
-=======
-        posPlayer1 = new int[]{8, 4};
-        quorindorDom.addPlayer(nombre, color);
->>>>>>> 0f318d067b0d18bbc9f0d403556108797e300f62
     }
 
     public void updatePlayer2(String nombre, Color color) {
@@ -656,12 +627,7 @@ public class GameScreen extends JFrame{
         jugador2.setText(nombre);
         Circle player2 = new Circle(color);
         addPlayer(player2, 0, 4);
-<<<<<<< HEAD
         posPlayer2 = new int[]{0,4};
-=======
-        posPlayer2 = new int[]{0, 4};
-        quorindorDom.addPlayer(nombre, color);
->>>>>>> 0f318d067b0d18bbc9f0d403556108797e300f62
     }
 
     private JPanel createTitlePanel(String title) {
