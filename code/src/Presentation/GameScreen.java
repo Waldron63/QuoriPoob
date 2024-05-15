@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.JFrame;
@@ -8,6 +9,7 @@ import java.io.File;
 import javax.swing.border.LineBorder;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.geom.Ellipse2D;
+
 
 /**
  * Clase Game de la visualizacion del proyecto, la interfaz del tablero y el juego de QuoriPoob
@@ -323,8 +325,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int[] pos = quorindorDom.move("e");
-                    refresh(pos);
+                    quorindorDom.move("e");
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
@@ -335,13 +336,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-<<<<<<< HEAD
                     quorindorDom.move("w");
-=======
-                    int[] pos = quorindorDom.move("w");
-                    refresh(pos);
-                    //refresh();
->>>>>>> 0f318d067b0d18bbc9f0d403556108797e300f62
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
@@ -352,8 +347,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int[] pos = quorindorDom.move("n");
-                    refresh(pos);
+                    quorindorDom.move("n");
                 } catch (Exception e0) {
                     System.out.println(e0.getMessage());
                 }
@@ -364,8 +358,7 @@ public class GameScreen extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int[] pos = quorindorDom.move("s");
-                    refresh(pos);
+                    quorindorDom.move("s");
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
@@ -441,12 +434,8 @@ public class GameScreen extends JFrame{
             File selectFile = fileChooser.getSelectedFile();
             if(selectFile != null){
                 try{
-                    //QuoriPoob g = quorindorDom.open01Archivo(selectFile);
-                    //this.quorindorDom = g;
-            if (selectFile != null) {
-                try {
-                    QuoriPoob qp = quorindorDom.openArchivo(selectFile);
-                    this.quorindorDom = qp;
+                   // QuoriPoob g = quorindorDom.open01Archivo(selectFile);
+                    // this.quorindorDom = g;
                     repaint();
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -468,11 +457,6 @@ public class GameScreen extends JFrame{
                     //quorindorDom.save01Archivo(selectFile);
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            if (selectFile != null) {
-                try {
-                    quorindorDom.saveArchivo(selectFile);
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -635,8 +619,6 @@ public class GameScreen extends JFrame{
         Circle player1 = new Circle(color);
         addPlayer(player1, 8, 4);
         posPlayer1 = new int[]{8,4};
-        posPlayer1 = new int[]{8, 4};
-        quorindorDom.addPlayer(nombre, color);
     }
 
     public void updatePlayer2(String nombre, Color color) {
@@ -646,8 +628,6 @@ public class GameScreen extends JFrame{
         Circle player2 = new Circle(color);
         addPlayer(player2, 0, 4);
         posPlayer2 = new int[]{0,4};
-        posPlayer2 = new int[]{0, 4};
-        quorindorDom.addPlayer(nombre, color);
     }
 
     private JPanel createTitlePanel(String title) {
