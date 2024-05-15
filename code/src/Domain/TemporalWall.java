@@ -6,7 +6,7 @@ import java.awt.*;
  * @version 1.0
  */
 public class TemporalWall extends Wall{
-    private int times;
+    private int times; //idica la cantidad de tiempos que necesita el muro antes de desaparecer
 
     /**
      * Constructor for objects of class LargaWall
@@ -18,12 +18,23 @@ public class TemporalWall extends Wall{
         times = 4;
     }
 
+    /**
+     * @return  la cantidad de tiempos que le quedan al muro antes de desaparecer
+     */
     public int getTimes() {
         return times;
     }
 
+    /**
+     * cambia el contador de los cambios de turnos
+     * (para el muro temporal)
+     *
+     * @return verdadero si el muro aun debe estar en el juego, false en cuyo caso deba borrarse
+     */
+    @Override
     public boolean changeTimes() {
         times -= 1;
+        //condicional para saber si se elimina el muro o se deja
         if (times == 0){
             return false;
         }else{

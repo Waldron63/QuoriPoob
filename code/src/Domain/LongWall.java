@@ -11,6 +11,7 @@ public class LongWall extends Wall{
      * Constructor for objects of class LargaWall
      * @param newColor, color que va a obtener el muro
      * @param newPositions, posiciones de las celdas que va a ocupar el muro.
+     * @param newPlayer indica que jugador puso este muro
      */
     public LongWall(Color newColor, int[] newPositions, Player newPlayer) {
         super(newColor, newPositions, newPlayer);

@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 public class UserGameScreen extends JFrame {
     private JPanel mainPanel;
     private JFrame ventanaP;
-    private QuoriPoob quorindior;
 
     private Color color1;
     private Color color2;
@@ -145,6 +144,7 @@ public class UserGameScreen extends JFrame {
                     gameScreen.setVisible(true);
                     ventanaP.dispose();
                 }
+                ventanaP.dispose();
             }
         });
     }
