@@ -1,7 +1,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.awt.event.*;
 import java.awt.Toolkit;
@@ -26,18 +25,20 @@ public class GameScreen extends JFrame{
     private int filas; //filas de la matriz tablero
     private int columnas; // Columnas de la matriz tablero
     private JLabel[][] casillas;// Matriz de botones para las casillas del tablero
-    private int turned;
-    private JComboBox<String> tipoMuro;
-    private JFileChooser fileChooser;
-    private int[] posPlayer1;
-    private int[] posPlayer2;
-    private JPanel leftPanel;
-    private JPanel rightPanel;
-    private JButton derecha, izquierda, arriba, abajo;
-
+    private int turned; // Variable para controlar el turno del jugador
+    private JComboBox<String> tipoMuro; // ComboBox para seleccionar el tipo de muro
+    private JFileChooser fileChooser;  // Selector de archivos para guardar y cargar partidas
+    private int[] posPlayer1; // Posición del Jugador 1
+    private int[] posPlayer2; // Posición del Jugador 2
+    private String nombreJugador1; // Nombre del Jugador 1
+    private String nombreJugador2; // Nombre del Jugador 2
+    private Color color1; // Color del Jugador 1
+    private Color color2; // Color del Jugador 2
+    private long countdownTime = 300000; // Tiempo de cuenta regresiva en milisegundos (5 minutos)
+    private Timer timer;// Temporizador para la cuenta regresiva
 
     /**
-     * Constructor for objects of class GameScreen
+     * Constructor de objetos de la clase GameScreen
      */
     public GameScreen(){
         quorindorDom = new QuoriPoob(9, "normal");
@@ -99,7 +100,6 @@ public class GameScreen extends JFrame{
 
     /**
      * Prepara y configura los elementos relacionados con el tablero de juego.
-     * Esto incluye la creación de botones para cada celda del tablero.
      */
     private void prepareElementsBoard() {
         mainPanel = new JPanel(new BorderLayout());
@@ -117,8 +117,11 @@ public class GameScreen extends JFrame{
 
     }
 
-    private void preparePlayer() {
 
+    /**
+     * Prepara y configura los elementos visuales y la disposición de los jugadores.
+     */
+    private void preparePlayer() {
         JPanel rightPanel = new JPanel(new GridLayout(5, 1));
         JLabel jugador1 = new JLabel("Jugador 1");
         jugador1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -162,7 +165,7 @@ public class GameScreen extends JFrame{
         wallsPanel1.setBackground(new Color(115, 10, 25));
         wallsPanel1.setForeground(Color.WHITE);
 
-        //
+
         JPanel casillas1 = new JPanel(new GridLayout(4, 1));
         JLabel normal1 = new JLabel("Casilla normal:");
         normal1.setForeground(Color.WHITE);
@@ -187,11 +190,11 @@ public class GameScreen extends JFrame{
         casillas1.setBackground(new Color(115, 10, 25));
         casillas1.setForeground(Color.WHITE);
 
-        //
+
         rightPanel.add(wallsPanel1);
         rightPanel.add(casillas1);
 
-        //
+
         JPanel wallsPanel2 = new JPanel(new GridLayout(2, 1));
         JLabel walls2 = new JLabel("Numero de muros:");
         walls2.setForeground(Color.WHITE);
@@ -235,6 +238,9 @@ public class GameScreen extends JFrame{
     }
 
 
+    /**
+     * Prepara y configura los elementos del juego, incluyendo los botones de movimiento y el comboBox para el tipo de muro.
+     */
     private void prepareGame(){
         JPanel panelJuego = new JPanel(new GridLayout(3, 3));
 
@@ -285,8 +291,11 @@ public class GameScreen extends JFrame{
         rellenoDerecha.setPreferredSize(new Dimension(200, height / 6));
         rellenoDerecha.setBackground(new Color(115, 10, 25));
 
-        JPanel panelCombo = new JPanel(new BorderLayout());
-        panelCombo.setBackground(new Color(115, 10, 25));
+        JPanel panelRelleno = new JPanel(new BorderLayout());
+
+        panelRelleno.setPreferredSize(new Dimension(250, 50));
+        panelRelleno.setBackground(new Color(115, 10, 25));
+        rellenoIzquierda.add(panelRelleno, BorderLayout.WEST);
 
         String[] tiposMuro = { "Muro Temporal", "Muro Largo", "Muro Aliado" };
         tipoMuro = new JComboBox<>(tiposMuro);
@@ -294,20 +303,13 @@ public class GameScreen extends JFrame{
         tipoMuro.setBackground(Color.WHITE);
         tipoMuro.setPreferredSize(new Dimension(180, 60));
 
-        panelCombo.add(tipoMuro, BorderLayout.WEST);
+        rellenoIzquierda.add(tipoMuro, BorderLayout.CENTER);
 
-        JPanel panelCronometro = new JPanel();
-        panelCronometro.setBackground(Color.WHITE);
-        JLabel labelCronometro = new JLabel("00:00");
-
-
-        labelCronometro.setFont(new Font("Times New Roman", Font.BOLD, 24));
-        panelCronometro.add(labelCronometro);
-        panelCronometro.setPreferredSize(new Dimension(180, 50));
-
-        panelCombo.add(panelCronometro, BorderLayout.CENTER);
-        rellenoIzquierda.add(panelCombo);
-
+        JLabel cronometro = new JLabel("00:00");
+        cronometro.setForeground(Color.WHITE);
+        cronometro.setFont(new Font("Times New Roman", Font.BOLD, 24));
+        cronometro.setPreferredSize(new Dimension(180, 50));
+        rellenoIzquierda.add(cronometro, BorderLayout.EAST);
 
         panelAbajoTablero.add(rellenoIzquierda, BorderLayout.WEST);
         panelAbajoTablero.add(panelJuego, BorderLayout.CENTER);
@@ -316,59 +318,119 @@ public class GameScreen extends JFrame{
 
         mainPanel.add(panelAbajoTablero, BorderLayout.SOUTH);
 
-        //prepareGameActionListeners();
+        prepareGameActionListeners();
+        startTimer();
     }
 
-     /*
+
     private void prepareGameActionListeners(){
-        derecha.addActionListener(new ActionListener() {
+        JPanel panelAbajoTablero= (JPanel) mainPanel.getComponent(3);
+        JPanel panelJuego = (JPanel) panelAbajoTablero.getComponent(1);
+
+        JButton dUizquierda = (JButton) panelJuego.getComponent(0);
+        dUizquierda.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    quorindorDom.move("e");
+                    int[] nw = quorindorDom.move("nw");
+                    refresh(nw);
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
             }
         });
 
-        izquierda.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    quorindorDom.move("w");
-                } catch (Exception e0) {
-                    System.out.println("Error");
-                }
-            }
-        });
-
+        JButton arriba = (JButton) panelJuego.getComponent(1);
         arriba.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    quorindorDom.move("n");
+                    int[] n=quorindorDom.move("n");
+                    refresh(n);
                 } catch (Exception e0) {
                     System.out.println(e0.getMessage());
                 }
             }
         });
 
-        abajo.addActionListener(new ActionListener() {
+        JButton dUderecha = (JButton) panelJuego.getComponent(2);
+        dUderecha.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    quorindorDom.move("s");
+                    int[] ne =quorindorDom.move("ne");
+                    refresh(ne);
                 } catch (Exception e0) {
                     System.out.println("Error");
                 }
             }
         });
 
-    }*/
+        JButton izquierda = (JButton) panelJuego.getComponent(3);
+        izquierda.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int[] w=quorindorDom.move("w");
+                    refresh(w);
+                } catch (Exception e0) {
+                    System.out.println("Error");
+                }
+            }
+        });
 
+        JButton derecha = (JButton) panelJuego.getComponent(5);
+        derecha.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int[] ei= quorindorDom.move("e");
+                    refresh(ei);
+                } catch (Exception e0) {
+                    System.out.println("Error");
+                }
+            }
+        });
 
+        JButton dDizquierda = (JButton) panelJuego.getComponent(6);
+        dDizquierda.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int [] sw =quorindorDom.move("sw");
+                    refresh(sw);
+                } catch (Exception e0) {
+                    System.out.println("Error");
+                }
+            }
+        });
 
+        JButton abajo = (JButton) panelJuego.getComponent(7);
+        abajo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int [] s =quorindorDom.move("s");
+                    refresh(s);
+                } catch (Exception e0) {
+                    System.out.println("Error");
+                }
+            }
+        });
+
+        JButton dDderecha = (JButton) panelJuego.getComponent(8);
+        dDderecha.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int[] se =quorindorDom.move("se");
+                    refresh(se);
+                } catch (Exception e0) {
+                    System.out.println("Error");
+                }
+            }
+        });
+    }
 
 
     /**
@@ -434,8 +496,8 @@ public class GameScreen extends JFrame{
             File selectFile = fileChooser.getSelectedFile();
             if(selectFile != null){
                 try{
-                   // QuoriPoob g = quorindorDom.open01Archivo(selectFile);
-                    // this.quorindorDom = g;
+                    QuoriPoob g = quorindorDom.openArchivo(selectFile);
+                    this.quorindorDom = g;
                     repaint();
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -454,7 +516,7 @@ public class GameScreen extends JFrame{
             File selectFile = fileChooser.getSelectedFile();
             if(selectFile != null){
                 try{
-                    //quorindorDom.save01Archivo(selectFile);
+                    quorindorDom.saveArchivo(selectFile);
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -473,6 +535,8 @@ public class GameScreen extends JFrame{
         } catch(Exception ignore){}
         prepareElements();
         prepareActions();
+        updatePlayer1(nombreJugador1,color1);
+        updatePlayer2(nombreJugador2,color2);
         // Validar y repintar
         validate();
         repaint();
@@ -513,10 +577,9 @@ public class GameScreen extends JFrame{
         }
         // Establece un borde alrededor del tablero
         tableroPanel.setBorder(BorderFactory.createLineBorder(new Color(255,255,255), 5));
-
         // Agrega jugadores al tablero en posiciones específicas
-        addPlayer(new Circle(Color.RED), 8, 4);
-        addPlayer(new Circle(Color.ORANGE), 0, 4);
+        //addPlayer(new Circle(Color.RED), 8, 4);
+        //addPlayer(new Circle(Color.ORANGE), 0, 4);
         // Retorna el panel del tablero configurado
         return tableroPanel;
     }
@@ -558,8 +621,8 @@ public class GameScreen extends JFrame{
         JButton rightButton = dimensionButton(bgColor);
 
         // Crea un panel central para representar el centro de la casilla
-        JPanel centerButton = new JPanel();
-        centerButton.setBackground(bgColor);
+        JPanel center = new JPanel();
+        center.setBackground(bgColor);
 
         // Configura el diseño del panel de botones direccionales y los agrega al panel principal
         buttonPanel.setLayout(new BorderLayout());
@@ -567,7 +630,7 @@ public class GameScreen extends JFrame{
         buttonPanel.add(downButton, BorderLayout.SOUTH);
         buttonPanel.add(leftButton, BorderLayout.WEST);
         buttonPanel.add(rightButton, BorderLayout.EAST);
-        buttonPanel.add(centerButton, BorderLayout.CENTER);
+        buttonPanel.add(center, BorderLayout.CENTER);
 
         return buttonPanel;
     }
@@ -602,7 +665,13 @@ public class GameScreen extends JFrame{
         casillas[fila][columna].add(panel);
     }
 
-    private void delPlayer( int fila, int columna){
+
+    /**
+     * Elimina el jugador de la celda especificada.
+     * @param fila Fila de la celda
+     * @param columna Columna de la celda
+     */
+    private void delPlayer(int fila, int columna){
         JPanel celda = new JPanel(new GridBagLayout());
         JLabel casilla = casillas[fila][columna];
         JPanel panel =  (JPanel) casilla.getComponent(0);
@@ -612,6 +681,11 @@ public class GameScreen extends JFrame{
         casillas[fila][columna].add(panel);
     }
 
+    /**
+     * Actualiza la información del Jugador 1.
+     * @param nombre Nombre del Jugador 1
+     * @param color Color del Jugador 1
+     */
     public void updatePlayer1(String nombre, Color color) {
         JPanel rightPanel = (JPanel) mainPanel.getComponent(1);
         JLabel jugador1 = (JLabel) rightPanel.getComponent(0);
@@ -621,6 +695,12 @@ public class GameScreen extends JFrame{
         posPlayer1 = new int[]{8,4};
     }
 
+
+    /**
+     * Actualiza la información del Jugador 2.
+     * @param nombre Nombre del Jugador 2
+     * @param color Color del Jugador 2
+     */
     public void updatePlayer2(String nombre, Color color) {
         JPanel leftPanel = (JPanel) mainPanel.getComponent(2);
         JLabel jugador2 = (JLabel) leftPanel.getComponent(0);
@@ -630,6 +710,11 @@ public class GameScreen extends JFrame{
         posPlayer2 = new int[]{0,4};
     }
 
+    /**
+     * Crea y configura el panel del título con el texto especificado.
+     * @param title Título del panel
+     * @return Panel del título configurado
+     */
     private JPanel createTitlePanel(String title) {
         JPanel titlePanel = new JPanel(new BorderLayout());
         JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
@@ -641,6 +726,11 @@ public class GameScreen extends JFrame{
         return titlePanel;
     }
 
+
+    /**
+     * Refresca el tablero con las posiciones de los jugadores actualizadas.
+     * @param positions Posiciones de los jugadores
+     */
     private void refresh(int[] positions){
         int turn = quorindorDom.getTurn();
         // Obtener los circulos
@@ -679,6 +769,40 @@ public class GameScreen extends JFrame{
             casillas[positions[0]][positions[1]].add(panel);
             panel2.add(centro,BorderLayout.CENTER);
             casillas[posPlayer1[0]][posPlayer1[1]].add(panel2);
+        }
+    }
+
+    /**
+     * Actualiza el cronómetro con el tiempo restante.
+     * @param time Tiempo restante en milisegundos
+     */
+    private void updateCronometro(long time) {
+        long minutes = time / 60000;
+        long seconds = (time % 60000) / 1000;
+        String timeString = String.format("%02d:%02d", minutes, seconds);
+        JPanel panelAbajoTablero= (JPanel) mainPanel.getComponent(3);
+        JPanel rellenoizquierda = (JPanel) panelAbajoTablero.getComponent(0);
+        JLabel cronometro = (JLabel) rellenoizquierda.getComponent(2);
+        cronometro.setText(timeString);
+    }
+
+    /**
+     * Inicia el temporizador del juego.
+     */
+    private void startTimer() {
+        if (timer == null) {
+            timer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    countdownTime -= 1000;
+                    if (countdownTime >= 0) {
+                        updateCronometro(countdownTime);
+                    } else {
+                        timer.stop();
+                    }
+                }
+            });
+            timer.start();
         }
     }
 
