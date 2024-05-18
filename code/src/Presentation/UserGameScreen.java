@@ -144,7 +144,6 @@ public class UserGameScreen extends JFrame {
                     gameScreen.setVisible(true);
                     ventanaP.dispose();
                 }
-                ventanaP.dispose();
             }
         });
     }

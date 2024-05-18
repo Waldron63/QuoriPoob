@@ -4,16 +4,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/***
+ * Clase GameMode para crear la ventana de modo de juego
+ */
 public class GameMode extends JFrame {
-    private JPanel mainPanel;
-    private JFrame ventana;
-    private JComboBox<String> modoJugador;
-    private JComboBox<String> maquina;
-    private JButton guardar;
+    private JPanel mainPanel;  // Panel principal de la ventana
+    private JFrame ventana;// Marco de la ventana
+    private JComboBox<String> modoJugador; // ComboBox para seleccionar el modo de juego
+    private JComboBox<String> tipoJuego; // ComboBox para seleccionar el tipo de juego
+    private JButton guardar; // Boton para guardar la configuración
+
+    /***
+     * Constructor de la clase que inicializa los elementos de la interfaz
+     */
     public GameMode(){
         prepareElements();
     }
 
+    /***
+     * Metodo para preparar los elementos de la interfaz
+     */
     private void prepareElements(){
         ventana = new JFrame("Modo de Juego");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -27,15 +37,19 @@ public class GameMode extends JFrame {
         ventana.setVisible(true);
     }
 
+    /***
+     * Metodo para preparar los componentes del modo de juego
+     */
     private void prepareGameMode(){
+        // Crear el panel principal con un GridBagLayout
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(new Color(115, 10, 25));
         GridBagConstraints gbc = new GridBagConstraints();
+
+        // Título del modo de juego
         JLabel tituloLabel = new JLabel("Modo de Juego");
         tituloLabel.setFont(new Font("Times New Roman", Font.BOLD, 50));
         tituloLabel.setForeground(Color.WHITE);
-
-        // Ajustes para centrar el título
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2; // Ocupa las dos columnas disponibles
@@ -43,8 +57,8 @@ public class GameMode extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(tituloLabel, gbc);
 
-
-        JLabel modoJuego = new JLabel("Modo de Juego:");
+        // Etiqueta y ComboBox para seleccionar el modo de juego
+        JLabel modoJuego = new JLabel("Tipo de Juego:");
         modoJuego.setFont(new Font("Times New Roman", Font.BOLD, 20));
         modoJuego.setForeground(Color.WHITE);
         gbc.gridx = 0;
@@ -58,19 +72,20 @@ public class GameMode extends JFrame {
         gbc.gridx = 1;
         mainPanel.add(modoJugador, gbc);
 
-        JLabel tipoMaquina = new JLabel("Tipo de Maquina:");
-        tipoMaquina.setFont(new Font("Times New Roman", Font.BOLD, 20));
-        tipoMaquina.setForeground(Color.WHITE);
+        // Etiqueta y ComboBox para seleccionar el tipo de juego
+        JLabel modoJuego1 = new JLabel("Dificultad de Juego:");
+        modoJuego1.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        modoJuego1.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 2;
-        mainPanel.add(tipoMaquina, gbc);
+        mainPanel.add(modoJuego1, gbc);
 
-        String[] tiposMaquina = {"Principiante", "Intermedio", "Avanzado"};
-        maquina = new JComboBox<>(tiposMaquina);
+        String[] tipos = {"Normal", "ContraReloj","Cronometrado"};
+        tipoJuego = new JComboBox<>(tipos);
         gbc.gridx = 1;
-        gbc.gridy = 2;
-        mainPanel.add(maquina, gbc);
+        mainPanel.add(tipoJuego, gbc);
 
+        // Boton para guardar la configuración
         guardar = new JButton("Guardar");
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -78,9 +93,16 @@ public class GameMode extends JFrame {
         mainPanel.add(guardar, gbc);
     }
 
+    /***
+     * Metodo para preparar las acciones de los elementos
+     */
     private void prepareGameModeActions(){
     }
 
+    /***
+     * Metodo principal para ejecutar la aplicación
+     * @param args
+     */
     public static void main(String[] args) {
         GameMode ventana = new GameMode();
     }
