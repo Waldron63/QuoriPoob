@@ -19,4 +19,12 @@ public class AllyWall extends Wall{
     public AllyWall(Color newColor, int[] newPositions, Player newPlayer){
         super(newColor, newPositions, newPlayer);
     }
+
+    boolean confirmPositions(int[] newPositions){
+        if (newPositions.length == 2){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

@@ -3,7 +3,7 @@
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public class ReturnBox {
+public class ReturnBox extends Box{
 
     /**
      * Constructor for objects of class Box

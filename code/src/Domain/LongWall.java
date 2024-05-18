@@ -17,4 +17,12 @@ public class LongWall extends Wall{
         super(newColor, newPositions, newPlayer);
         size = 3;
     }
+
+    boolean confirmPositions(int[] newPositions){
+        if (newPositions.length == 3){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

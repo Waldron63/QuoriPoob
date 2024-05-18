@@ -21,11 +21,17 @@ public abstract class Wall {
      * @param newPlayer indica que jugador puso este muro
      */
     public Wall(Color newColor, int[] newPositions, Player newPlayer){
+        boolean confirm = confirmPositions(newPositions);
+        if (!confirm){
+            return ;
+        }
         size = 2;
         positions= newPositions;
         color = newColor;
         player = newPlayer;
     }
+
+    abstract boolean confirmPositions(int[] newPositions);
 
     /**
      * @return el jugador que coloco el muro

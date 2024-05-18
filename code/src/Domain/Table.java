@@ -8,7 +8,7 @@ import java.util.HashMap;
  * @version 1.0
  */
 public class Table {
-    public static final String[] basicMoves = new String[] {"n", "s", "e", "w"}; //posiciones basicas de movimiento
+    public static final String[] basicMoves = new String[] {"n", "e", "w", "s"}; //posiciones basicas de movimiento
     public static final String[] diagonalMoves = new String[] {"ne", "nw", "se", "sw"}; //posiciones diagonales de movimiento
     private HashMap<String, Integer> graphs; //posiciones y el numero respectivo del "grafo" de la matriz
     private int longitud; //longitud que va a tener el tablero
@@ -46,10 +46,35 @@ public class Table {
      * anade los muros al tablero
      * @param newWall el nuevo muro que se va a colocar
      */
-    public void addWall(Wall newWall){
-        Player player = newWall.getPlayer();
-        player.delCantWalls();
-        return ;
+    public boolean addWall(Wall newWall, Player playerOne, Player playerTwo){
+        boolean isPosible =  adyacence.addWall(newWall, playerOne, playerTwo);
+        if (isPosible){
+            muros.add(newWall);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public void addRandomBox(int[] cantTypeBoxes){
+        for (int i = 0; i < cantTypeBoxes.length; i++){
+            for (int j = 0; j < cantTypeBoxes[i]; j++){
+                Box box;
+                switch (i){
+                    case 0:
+                        box = new TeleportBox();
+                        break;
+                    case 1:
+                        box = new ReturnBox();
+                        break;
+                    case 2:
+                        box = new DoubleBox();
+                        break;
+                }
+                
+            }
+
+        }
     }
 
     /**

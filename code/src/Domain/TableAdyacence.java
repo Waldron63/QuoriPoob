@@ -60,13 +60,19 @@ public class TableAdyacence{
 
         boolean isWallPosible1 = true;
         boolean isWallPosible2 = true;
+        int k = selectGraph.length;
         //revisa que se puedan colocar todos los elementos del muro sin cerrar todos los caminos
         for (int i = 0; i < selectGraph.length; i = i +2){
+            if (matrix[selectGraph[i]][selectGraph[i + 1]] == -1){
+                k = i;
+                break;
+            }
             changeRelationMatrix(selectGraph[i], selectGraph[i + 1], -1);
             isWallPosible1 = bfs(posGraph1, turn1);
             isWallPosible2 = bfs(posGraph2, turn2);
             //si se cierra todos los caminos, rompe el ciclo
             if (!isWallPosible1 || !isWallPosible2){
+                k = i;
                 break;
             }
         }
@@ -78,7 +84,7 @@ public class TableAdyacence{
             }
             return true;
         }else{ //en cuyo caso si halla cerrado todos los caminos, devuelve la matriz a como estaba inicialmente
-            for (int j = 0; j < selectGraph.length; j = j + 2) {
+            for (int j = 0; j < k; j = j + 2) {
                 changeRelationMatrix(selectGraph[j], selectGraph[j + 1], 1);
             }
             return false;

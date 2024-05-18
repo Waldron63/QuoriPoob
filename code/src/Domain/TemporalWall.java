@@ -18,6 +18,14 @@ public class TemporalWall extends Wall{
         times = 4;
     }
 
+    boolean confirmPositions(int[] newPositions){
+        if (newPositions.length == 2){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * @return  la cantidad de tiempos que le quedan al muro antes de desaparecer
      */

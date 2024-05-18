@@ -22,6 +22,7 @@ public class QuoriPoob {
     private int sizeTable; //longitud total del tablero
     private String difficult; //tipo de dificultad escogido por los jugadores
     private int turn; //indica de quien es el turno actual en el juego
+    private String[] typeWalls; //indica los muros que el usuario puede colocar
 
     public static void main(String[] args){
         QuoriPoob q = new QuoriPoob(9, "normal");
@@ -37,6 +38,10 @@ public class QuoriPoob {
         sizeTable = n;
         difficult = newDifficult;
         turn = 1;
+    }
+
+    public void setTypeWalls(String[] newTypes){
+        typeWalls = newTypes;
     }
 
     /**
@@ -73,12 +78,43 @@ public class QuoriPoob {
         tablero.addPlayer(3, graphPos);
     }
 
+
+    public void addRandomBox(int[] cantTypeBoxes){
+        tablero.addRandomBox(cantTypeBoxes);
+    }
+
     /**
      * ayuda a anadir nuevos muros al tablero, mientras no se cierren todos
      * los caminos de un lado a otro.
      */
-    public void addWall(){
-
+    public void addWall(String type, int[] positions){
+        if (! Arrays.asList(typeWalls).contains(type)){
+            return ;
+        }
+        Player actPlayer = (turn == 1) ? playerOne : playerTwo;
+        Wall newWall;
+        switch (type){
+            case "AllyWall":
+                newWall = new AllyWall(actPlayer.getColor(),positions,actPlayer);
+                break;
+            case "LongWall":
+                newWall = new LongWall(Color.BLACK, positions, actPlayer);
+                break;
+            case "NormalWall":
+                newWall = new NormalWall(Color.black, positions, actPlayer);
+                break;
+            case "TemporalWall":
+                newWall = new TemporalWall(Color.black, positions, actPlayer);
+                break;
+            default:
+                return ;
+        }
+        boolean comp = tablero.addWall(newWall, playerOne, playerTwo);
+        if (comp){
+            actPlayer.delCantWalls();
+        }else{
+            return;
+        }
         changeTurn();
     }
 
@@ -131,9 +167,14 @@ public class QuoriPoob {
      * ayuda a cambiar el turno de los jugadores
      * @return mainTurn, devuelve el turno del nuevo jugador
      */
-    private int changeTurn(){
+    private void changeTurn(){
         tablero.changeWallCount();
         //playerWin();
+        //TakeBox();
+        setTurn();
+    }
+
+    public int setTurn(){
         //genera un swap (cambio) en los turnos
         if (turn == 1){
             turn = 2;

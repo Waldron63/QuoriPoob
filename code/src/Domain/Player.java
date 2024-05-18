@@ -91,4 +91,8 @@ public abstract class Player {
     public int[] getPositions(){
         return new int[] {xPosition, yPosition};
     }
+
+    public Color getColor(){
+        return color;
+    }
 }

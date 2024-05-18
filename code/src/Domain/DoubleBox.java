@@ -3,7 +3,7 @@
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public class DoubleBox {
+public class DoubleBox extends Box{
 
     /**
      * Constructor for objects of class Box
