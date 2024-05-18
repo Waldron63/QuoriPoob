@@ -19,28 +19,4 @@ public class Human extends Player{
     public Human(String newName, Color newColor, int nWalls, int xPosition, int yPosition, int newTurn) {
         super(newName, newColor, nWalls, xPosition, yPosition, newTurn);
     }
-
-    /**
-     * movimientos que puede hacer el jugador para intentar ganar
-     * @param positions, ...
-     * @return true si el jugador se puede mover, falso en cuyo caso no
-     */
-    @Override
-    public boolean move(int[] positions) {
-        int distX = Math.abs(positions[0] - xPosition);
-        int distY = Math.abs(positions[1] - xPosition);
-        //revisa que las distancias entre las celdas sean unitarias o 0
-        if (distX <= 1 && distY <= 1 && (distY + distX) == 1){
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * ayuda a colocar los muros que el jugador obstaculice a su contrincante
-     */
-    @Override
-    public void addWall() {
-        return;
-    }
 }

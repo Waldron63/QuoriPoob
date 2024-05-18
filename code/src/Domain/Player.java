@@ -91,7 +91,4 @@ public abstract class Player {
     public int[] getPositions(){
         return new int[] {xPosition, yPosition};
     }
-
-    public abstract boolean move(int[] positions); //el movimiento que va a hacer el jugador
-    public abstract void addWall(); //los muros que va a anadir el jugador
 }
