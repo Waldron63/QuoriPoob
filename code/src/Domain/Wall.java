@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.Color;
+import java.io.Serializable;
 
 /**
  * Clase abstracta del muro, donde mostrara los comportamientos basicos de
@@ -8,7 +9,7 @@ import java.awt.Color;
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public abstract class Wall {
+public abstract class Wall implements Serializable {
     protected int size; //tamano que va a tener el muro
     private Color color; //color que va a tener el muro
     private int[] positions; //posiciones en las celdas en grafos que va a ocupar el muro

@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -7,7 +8,7 @@ import java.util.Queue;
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public class TableAdyacence{
+public class TableAdyacence implements Serializable {
     private final int[] movements; //los movimientos que puede hacer el jugador (arriba, abajo, izquierda, derecha)
     private int longitudNormal; //longitud principal del tablero
     private int longitudAdyacencia; //longitud de la matriz de adyacencia

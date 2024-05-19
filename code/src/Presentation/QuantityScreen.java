@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +13,14 @@ public class QuantityScreen extends JFrame {
     private JComboBox<String> casiTeleport; // ComboBox para seleccionar la cantidad de casillas Teleport
     private JComboBox<String> casiReturn; // ComboBox para seleccionar la cantidad de casillas Return
     private JComboBox<String> casiDouble; // ComboBox para seleccionar la cantidad de casillas Double
-    private JButton jugar;  // Botón para iniciar el juego
+
+    /***
+     * Metodo principal para ejecutar la aplicación
+     * @param args
+     */
+    public static void main(String[] args) {
+        QuantityScreen ventana = new QuantityScreen();
+    }
 
     /***
      * Constructor de la clase que inicializa los elementos de la interfaz
@@ -127,25 +133,25 @@ public class QuantityScreen extends JFrame {
         mainPanel.add(casiDouble, gbc);
 
         // Boton para iniciar el juego
-        jugar = new JButton("Jugar");
+        JButton continuar = new JButton("Continuar");
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        mainPanel.add(jugar, gbc);
+        mainPanel.add(continuar, gbc);
     }
 
     /***
      *  Metodo para preparar las acciones de los elementos
      */
     private void prepareQuantityScreenActions(){
-    }
-
-    /***
-     * Metodo principal para ejecutar la aplicación
-     * @param args
-     */
-    public static void main(String[] args) {
-        QuantityScreen ventana = new QuantityScreen();
+        JButton continuar = (JButton) mainPanel.getComponent(9);
+        continuar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ventana.dispose();
+                GameMode gm = new GameMode();
+            }
+        });
     }
 }

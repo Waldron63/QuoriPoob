@@ -1,10 +1,9 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/***
+/**
  * Clase GameMode para crear la ventana de modo de juego
  */
 public class GameMode extends JFrame {
@@ -13,6 +12,14 @@ public class GameMode extends JFrame {
     private JComboBox<String> modoJugador; // ComboBox para seleccionar el modo de juego
     private JComboBox<String> tipoJuego; // ComboBox para seleccionar el tipo de juego
     private JButton guardar; // Boton para guardar la configuración
+
+    /***
+     * Metodo principal para ejecutar la aplicación
+     * @param args
+     */
+    public static void main(String[] args) {
+        GameMode ventana = new GameMode();
+    }
 
     /***
      * Constructor de la clase que inicializa los elementos de la interfaz
@@ -86,7 +93,7 @@ public class GameMode extends JFrame {
         mainPanel.add(tipoJuego, gbc);
 
         // Boton para guardar la configuración
-        guardar = new JButton("Guardar");
+        guardar = new JButton("Continuar");
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
@@ -97,13 +104,19 @@ public class GameMode extends JFrame {
      * Metodo para preparar las acciones de los elementos
      */
     private void prepareGameModeActions(){
-    }
-
-    /***
-     * Metodo principal para ejecutar la aplicación
-     * @param args
-     */
-    public static void main(String[] args) {
-        GameMode ventana = new GameMode();
+        JButton continuar = (JButton) mainPanel.getComponent(5);
+        continuar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String modoSelect = (String) modoJugador.getSelectedItem();
+                String difSelect = (String) tipoJuego.getSelectedItem();
+                ventana.dispose();
+                if (modoSelect == "Jugador vs Jugador"){
+                    UserGameScreen ugs = new UserGameScreen(difSelect);
+                }else{
+                    MachineGameScreen mgs = new MachineGameScreen(difSelect);
+                }
+            }
+        });
     }
 }

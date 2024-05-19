@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,7 +8,7 @@ import java.util.HashMap;
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public class Table {
+public class Table implements Serializable {
     public static final String[] basicMoves = new String[] {"n", "e", "w", "s"}; //posiciones basicas de movimiento
     public static final String[] diagonalMoves = new String[] {"ne", "nw", "se", "sw"}; //posiciones diagonales de movimiento
     private HashMap<String, Integer> graphs; //posiciones y el numero respectivo del "grafo" de la matriz

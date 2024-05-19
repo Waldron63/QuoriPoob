@@ -1,11 +1,12 @@
 import java.awt.Color;
+import java.io.Serializable;
 
 /**
  * Clase abstracta Player del juego, mostrara los comportamientos basicos de los jugadores en el juego
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public abstract class Player {
+public abstract class Player implements Serializable {
     private String name; //nombre del jugador
     private int cantWalls; //cantidad maxima de muros que puede llegar a colocar
     private Color color; //color de la ficha del jugador
@@ -94,5 +95,9 @@ public abstract class Player {
 
     public Color getColor(){
         return color;
+    }
+
+    public String getName(){
+        return name;
     }
 }

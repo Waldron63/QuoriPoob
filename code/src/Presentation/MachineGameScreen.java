@@ -7,19 +7,29 @@ import java.awt.event.ActionListener;
 /***
  * Clase principal para crear la ventana de configuración del juego
  */
-public class UserGameScreen1 extends JFrame {
+public class MachineGameScreen extends JFrame {
     private JPanel mainPanel; // Panel principal de la ventana
     private JFrame ventana; // Marco de la ventana
     private JComboBox<String> maquina; //ComboBox para seleccionar el tipo de máquina
     private JButton jugar; // Botón para guardar la configuración
     private Color color1; // Color seleccionado para el jugador
     private JTextField nombreJugador1; // Campo de texto para el nombre del jugador
+    private String difficultySelect;
+
+    /**
+     * Metodo principal para ejecutar la aplicación
+     * @param args
+     */
+    public static void main(String[] args) {
+        MachineGameScreen ventana = new MachineGameScreen("Normal");
+    }
 
     /***
      *  Constructor de la clase que inicializa los elementos de la interfaz
      */
-    public UserGameScreen1() {
+    public MachineGameScreen(String difSelect) {
         prepareElements();
+        difficultySelect = difSelect;
     }
 
     /***
@@ -80,13 +90,8 @@ public class UserGameScreen1 extends JFrame {
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(labelColor1, gbc);
-
+        //
         JButton btnColor1 = new JButton("Seleccionar Color");
-        btnColor1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                color1 = JColorChooser.showDialog(null, "Selecciona un color", Color.BLACK);
-            }
-        });
         btnColor1.setBackground(Color.WHITE);
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.EAST;
@@ -101,7 +106,7 @@ public class UserGameScreen1 extends JFrame {
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(modoJuego, gbc);
-
+        //
         String[] tiposMaquina = {"Principiante", "Intermedio", "Avanzado"};
         maquina = new JComboBox<>(tiposMaquina);
         gbc.gridx = 1;
@@ -122,15 +127,29 @@ public class UserGameScreen1 extends JFrame {
      * Metodo para preparar las acciones de los elementos
      */
     private void prepareGameModeActions() {
-
-    }
-
-    /***
-     * Metodo principal para ejecutar la aplicación
-     * @param args
-     */
-    public static void main(String[] args) {
-        UserGameScreen1 ventana = new UserGameScreen1();
+        //color jugador
+        JButton btnColor1 = (JButton) mainPanel.getComponent(4);
+        btnColor1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                color1 = JColorChooser.showDialog(null, "Selecciona un color", Color.BLACK);
+            }
+        });
+        //boton jugar
+        JButton jugar = (JButton) mainPanel.getComponent(7);
+        jugar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nombre1 = nombreJugador1.getText();
+                Color colorJugador1 = color1;
+                String typeMachine = (String) maquina.getSelectedItem();
+                if (!nombre1.isEmpty() && colorJugador1 != null) {
+                    GameScreen gameScreen = new GameScreen(difficultySelect);
+                    gameScreen.updatePlayer1(nombre1, colorJugador1);
+                    gameScreen.updateMachine(typeMachine);
+                    gameScreen.setVisible(true);
+                    ventana.dispose();
+                }
+            }
+        });
     }
 }
-

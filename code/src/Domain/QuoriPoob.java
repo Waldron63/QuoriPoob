@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Arrays;
 
 
@@ -14,7 +15,7 @@ import java.util.Arrays;
  * @author Sofia Gil - Santiago Gualdron
  * @version 1.0
  */
-public class QuoriPoob {
+public class QuoriPoob implements Serializable {
     public static final int players = 2; // cantidad total de jugadores en el tablero
     private Player playerOne; //primer jugador de la partida
     private Player playerTwo; //segundo jugador de la partida
@@ -25,7 +26,7 @@ public class QuoriPoob {
     private String[] typeWalls; //indica los muros que el usuario puede colocar
 
     public static void main(String[] args){
-        QuoriPoob q = new QuoriPoob(9, "normal");
+        QuoriPoob q = new QuoriPoob(9, "Normal");
     }
     /**
      * Constructor for objects of class QuoriPoob
@@ -121,7 +122,7 @@ public class QuoriPoob {
     /**
      * mueve al jugador que esta en turno actual, hacia la casilla que desea
      * @param side el lado hacia el cual va a caminar la ficha
-     * @return true, si el jugador gano, false en caso contrario
+     * @return int[], las posiciones de la casilla a la que el jugador se va a mover si puede
      * @throws QuoriPoobException, indica si no se puede generar el movimiento pedido por el usuario
      */
     public int[] move(String side) throws QuoriPoobException{
@@ -157,19 +158,13 @@ public class QuoriPoob {
     }
 
     /**
-     * @return el tablero con las casillas actuales.
-     */
-    public Box[][] board(){
-        return tablero.getCasillas();
-    }
-
-    /**
      * ayuda a cambiar el turno de los jugadores
      * @return mainTurn, devuelve el turno del nuevo jugador
      */
     private void changeTurn(){
         tablero.changeWallCount();
-        //playerWin();
+        int winner = playerWin();
+        
         //TakeBox();
         setTurn();
     }
@@ -189,8 +184,16 @@ public class QuoriPoob {
      * indica si el jugador que se movio gano la partida o continua jugando
      * @return true si el jugador gano la partida, false en caso contrario
      */
-    private boolean playerWin(){
-        return false;
+    private int playerWin(){
+        int graphPlayer1 = playerOne.getPositionGraph();
+        int graphPlayer2 = playerTwo.getPositionGraph();
+        if (graphPlayer1 >= 0 && graphPlayer1 > sizeTable){
+            return 1;
+        }else if(graphPlayer2 >= Math.pow(sizeTable,2) - sizeTable && graphPlayer2 < Math.pow(sizeTable,2)){
+            return 2;
+        }else{
+            return 0;
+        }
     }
 
     /**
@@ -198,6 +201,37 @@ public class QuoriPoob {
      */
     public int getTurn(){
         return turn;
+    }
+
+    public Color getPlayerColor(int mainTurn){
+        if (mainTurn == 1){
+            return playerOne.getColor();
+        }else{
+            return playerTwo.getColor();
+        }
+    }
+
+    public String getPlayerName(int mainTurn){
+        if (mainTurn == 1){
+            return playerOne.getName();
+        }else{
+            return playerTwo.getName();
+        }
+    }
+
+    /**
+     * @return el tablero con las casillas actuales.
+     */
+    public Box[][] getBoard(){
+        return tablero.getCasillas();
+    }
+
+    public int getSizeTable(){
+        return sizeTable;
+    }
+
+    public String getDifficult() {
+        return difficult;
     }
 
     /**
