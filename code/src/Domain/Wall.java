@@ -10,6 +10,8 @@ import java.io.Serializable;
  * @version 1.0
  */
 public abstract class Wall implements Serializable {
+    //Los tipos de muros validos para QuoriPoob
+    public static final String[] typesWalls = new String[] {"Normal", "Temporal", "Larga", "Aliada"};
     protected int size; //tamano que va a tener el muro
     private Color color; //color que va a tener el muro
     private int[] positions; //posiciones en las celdas en grafos que va a ocupar el muro
@@ -21,7 +23,7 @@ public abstract class Wall implements Serializable {
      * @param newPositions, posiciones en las celdas que va a ocupar el muro
      * @param newPlayer indica que jugador puso este muro
      */
-    public Wall(Color newColor, int[] newPositions, Player newPlayer){
+    public Wall(Color newColor, int[] newPositions, Player newPlayer) throws QuoriPoobException{
         boolean confirm = confirmPositions(newPositions);
         if (!confirm){
             return ;

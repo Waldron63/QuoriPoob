@@ -14,7 +14,7 @@ public class MachineGameScreen extends JFrame {
     private JButton jugar; // Botón para guardar la configuración
     private Color color1; // Color seleccionado para el jugador
     private JTextField nombreJugador1; // Campo de texto para el nombre del jugador
-    private String difficultySelect;
+    private String difficultySelect; //dificultad que desea aplicar para el juego
 
     /**
      * Metodo principal para ejecutar la aplicación

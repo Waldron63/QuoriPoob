@@ -21,7 +21,10 @@ public class Table implements Serializable {
      * Constructor for objects of class Table
      * @param newLong, longitud del tablero
      */
-    public Table(int newLong){
+    public Table(int newLong) throws QuoriPoobException {
+        if (newLong <= 3){
+            throw new QuoriPoobException(QuoriPoobException.SMALLEST_BOARD_LENGTH);
+        }
         longitud = newLong;
         muros = new ArrayList<>();
         casillas = new Box[newLong][newLong];
@@ -39,6 +42,11 @@ public class Table implements Serializable {
         adyacence = new TableAdyacence(newLong);
     }
 
+    /**
+     * anade el jugador a la matriz de adyacencia
+     * @param numPlayer el numero que tiene el jugador en la partida
+     * @param graphPos la posicion en el tablero en grafo que tiene el usaurio
+     */
     public void addPlayer(int numPlayer, int graphPos){
         adyacence.addPlayer(numPlayer, graphPos);
     }
@@ -46,35 +54,41 @@ public class Table implements Serializable {
     /**
      * anade los muros al tablero
      * @param newWall el nuevo muro que se va a colocar
+     //* @return true si el muro fue anadido correctamente, false en caso contrario
      */
-    public boolean addWall(Wall newWall, Player playerOne, Player playerTwo){
-        boolean isPosible =  adyacence.addWall(newWall, playerOne, playerTwo);
-        if (isPosible){
-            muros.add(newWall);
-            return true;
-        }else{
-            return false;
-        }
+    public void addWall(Wall newWall, Player playerOne, Player playerTwo) throws QuoriPoobException{
+        adyacence.addWall(newWall, playerOne, playerTwo);
+        muros.add(newWall);
     }
 
+    /**
+     * anade a la matriz los tipos de casillas diferentes, en lugares aleatorios
+     * @param cantTypeBoxes, dicta el numero de casillas especiales que quiere de cada tipo
+     */
     public void addRandomBox(int[] cantTypeBoxes){
+        //recorre el array de los nuevos tipos de casillas a agregar
         for (int i = 0; i < cantTypeBoxes.length; i++){
+            //recorre la cantidad de casilla especial que quere de este tipo
             for (int j = 0; j < cantTypeBoxes[i]; j++){
                 Box box;
                 switch (i){
+                    //si es tipo Teletransportador
                     case 0:
                         box = new TeleportBox();
                         break;
+                    //si es tipo Regresar
                     case 1:
                         box = new ReturnBox();
                         break;
                     case 2:
+                    //si es tipo Doble
                         box = new DoubleBox();
                         break;
+                    default:
+                        box = new NormalBox();
+                        break;
                 }
-                
             }
-
         }
     }
 
@@ -85,10 +99,10 @@ public class Table implements Serializable {
      * @param turn el turno actual de la partida
      * @return las nuevas posiciones en las que va a estar el jugador
      */
-    public int[] move(int[] positionsP, String side, int turn){
+    public int[] move(int[] positionsP, String side, int turn) throws QuoriPoobException {
         //revisa que si sea un lado valido para moverse
         if (! Arrays.asList(basicMoves).contains(side) && ! Arrays.asList(diagonalMoves).contains(side)){
-            return new int[] {};
+            throw new QuoriPoobException(QuoriPoobException.MOVEMENT_NOT_POSSIBLE);
         }
         String pos = positionsP[0] + "," + positionsP[1];
         int initialG = graphs.get(pos);
@@ -206,8 +220,9 @@ public class Table implements Serializable {
         if (movePosible){
             adyacence.movePlayer(initialG, finalG);
             return secondPositions;
+        }else{
+            throw new QuoriPoobException(QuoriPoobException.MOVEMENT_NOT_POSSIBLE);
         }
-        return new int[] {};
     }
 
     /**

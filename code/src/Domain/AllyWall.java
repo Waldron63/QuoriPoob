@@ -16,7 +16,7 @@ public class AllyWall extends Wall{
      * @param newPositions, posiciones en las celdas que va a ocupar el muro
      * @param newPlayer indica ue jugador coloco el muro
      */
-    public AllyWall(Color newColor, int[] newPositions, Player newPlayer){
+    public AllyWall(Color newColor, int[] newPositions, Player newPlayer) throws QuoriPoobException {
         super(newColor, newPositions, newPlayer);
     }
 

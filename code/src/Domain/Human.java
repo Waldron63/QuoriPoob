@@ -16,7 +16,7 @@ public class Human extends Player{
      * @param yPosition indica la posicion en y dentro de la matriz
      * @param newTurn indica cual va a ser el turno de este jugador (si juega en el turno 1 o en el turno 2)
      */
-    public Human(String newName, Color newColor, int nWalls, int xPosition, int yPosition, int newTurn) {
+    public Human(String newName, Color newColor, int nWalls, int xPosition, int yPosition, int newTurn) throws QuoriPoobException{
         super(newName, newColor, nWalls, xPosition, yPosition, newTurn);
     }
 }

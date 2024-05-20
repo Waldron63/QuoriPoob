@@ -39,6 +39,11 @@ public class TableAdyacence implements Serializable {
         makeRelations();
     }
 
+    /**
+     * anade el jugador a la matriz de adyacencia
+     * @param numPlayer numero de el jugador que quiere anadir
+     * @param numGraph la posicion en grafo de el tablero
+     */
     public void addPlayer(int numPlayer, int numGraph){
         matrix[numGraph][numGraph] = numPlayer;
     }
@@ -50,7 +55,7 @@ public class TableAdyacence implements Serializable {
      * @param sPlayer segundo jugador de la partida
      * @return true si el muro si se puede colocar, false en caso contrario
      */
-    public boolean addWall(Wall newWall, Player fPlayer, Player sPlayer){
+    public void addWall(Wall newWall, Player fPlayer, Player sPlayer) throws QuoriPoobException {
         int[] selectGraph = newWall.getPositions();
 
         int turn1 = fPlayer.getMainTurn();
@@ -66,15 +71,18 @@ public class TableAdyacence implements Serializable {
         for (int i = 0; i < selectGraph.length; i = i +2){
             if (matrix[selectGraph[i]][selectGraph[i + 1]] == -1){
                 k = i;
+                isWallPosible1 = false;
+                isWallPosible2 = false;
                 break;
-            }
-            changeRelationMatrix(selectGraph[i], selectGraph[i + 1], -1);
-            isWallPosible1 = bfs(posGraph1, turn1);
-            isWallPosible2 = bfs(posGraph2, turn2);
-            //si se cierra todos los caminos, rompe el ciclo
-            if (!isWallPosible1 || !isWallPosible2){
-                k = i;
-                break;
+            }else {
+                changeRelationMatrix(selectGraph[i], selectGraph[i + 1], -1);
+                isWallPosible1 = bfs(posGraph1, turn1);
+                isWallPosible2 = bfs(posGraph2, turn2);
+                //si se cierra todos los caminos, rompe el ciclo
+                if (!isWallPosible1 || !isWallPosible2) {
+                    k = i;
+                    break;
+                }
             }
         }
         //si no se cerraron todos los caminos, anade el puente a la lista
@@ -83,12 +91,13 @@ public class TableAdyacence implements Serializable {
                 arrayAdyacence[selectGraph[j]].put(selectGraph[j +1], newWall);
                 arrayAdyacence[selectGraph[j + 1]].put(selectGraph[j], newWall);
             }
-            return true;
+            //return true;
         }else{ //en cuyo caso si halla cerrado todos los caminos, devuelve la matriz a como estaba inicialmente
             for (int j = 0; j < k; j = j + 2) {
                 changeRelationMatrix(selectGraph[j], selectGraph[j + 1], 1);
             }
-            return false;
+            throw new QuoriPoobException(QuoriPoobException.WRONG_SIDE_WALL);
+            //return false;
         }
     }
 
@@ -135,10 +144,10 @@ public class TableAdyacence implements Serializable {
      * @param turn, indica el turno atual en la partida
      * @return true si si puede pasar de una celda a la otra, false en caso contrario
      */
-    public Boolean comproveBasicSide(int initialG, int finalG, int turn) {
+    public Boolean comproveBasicSide(int initialG, int finalG, int turn) throws QuoriPoobException {
         //revisa que la celda a donde desee pasarse este en el rango
         if (finalG < 0 || finalG >= longitudAdyacencia){
-            return false;
+            throw new QuoriPoobException(QuoriPoobException.GRAPH_EXCEED_SIZE_TABLE);
         }
         //revisa si se puede pasar de una celda a otra
         if (matrix[initialG][finalG] == 1){

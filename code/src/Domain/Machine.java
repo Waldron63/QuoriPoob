@@ -24,15 +24,15 @@ public class Machine extends Player{
      * @param xPosition indica la posicion en x dentro de la matriz
      * @param yPosition indica la posicion en y dentro de la matriz
      */
-    public Machine(String newDifficulty, int nWalls, int xPosition, int yPosition) {
+    public Machine(String newDifficulty, int nWalls, int xPosition, int yPosition) throws QuoriPoobException{
         super("Robot", Color.BLACK, nWalls, xPosition, yPosition, 2);
-        if (! Arrays.asList(typesMachines).contains(newDifficulty)){
-            return ;
+        if (newDifficulty.isEmpty() || !Arrays.asList(typesMachines).contains(newDifficulty)){
+            throw new QuoriPoobException(QuoriPoobException.DIFFICULTY_MACHINE_NOT_VALID);
         }
         difficulty = newDifficulty;
     }
 
-    public void setSelection(){
+    public void setSelection() throws QuoriPoobException{
         switch (difficulty){
             case "principiante":
                 selectBeginner();
@@ -44,17 +44,19 @@ public class Machine extends Player{
                 selectHardCore();
                 break;
             default:
-                return;
+                break;
         }
     }
 
-    private void selectBeginner(){
+    private void selectBeginner() throws QuoriPoobException{
         Random random = new Random();
         int randomNumber = random.nextInt(2) + 1;
         if (randomNumber == 1){
             int randomIndex = random.nextInt(Table.basicMoves.length);
             String randomElement = Table.basicMoves[randomIndex];
-            tablero.move(new int[] {xPosition, yPosition}, randomElement, mainTurn);
+            try{
+                tablero.move(new int[] {xPosition, yPosition}, randomElement, mainTurn);
+            }catch (QuoriPoobException ignore){}
         }else{
 
         }

@@ -12,8 +12,8 @@ import java.awt.event.*;
  * @version 1.0
  */
 public class MainScreen extends JFrame{
-    private JPanel mainPanel;
-    private JFrame ventanaP;
+    private JPanel mainPanel; //Panel que tiene toda la visualizacion
+    private JFrame ventanaP; //ventana emergente principal
 
     /**
      * Metodo main para empezar a correr el sistema
@@ -82,6 +82,9 @@ public class MainScreen extends JFrame{
         mainPanel.add(salir, constraints);
     }
 
+    /**
+     * Listener de los botones del main: jugar y salir
+     */
     private void prepareMenuActions(){
         //jugar
         JButton jugar = (JButton) mainPanel.getComponent(1);

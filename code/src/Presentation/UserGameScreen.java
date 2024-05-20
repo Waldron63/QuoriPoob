@@ -5,21 +5,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UserGameScreen extends JFrame {
-    private JPanel mainPanel;
-    private JFrame ventanaP;
+    private JPanel mainPanel; //panel principal con todas las configuraciones
+    private JFrame ventanaP; //ventana emergente principal
 
-    private Color color1;
-    private Color color2;
-    private JTextField nombreJugador1;
-    private JTextField nombreJugador2;
-    private String difficultySelect;
+    private Color color1; //color seleccionado por el jugador 1
+    private Color color2; //color seleccionado por el jugador 2
+    private JTextField nombreJugador1; //nombre del jugador 1
+    private JTextField nombreJugador2; //nombre del jugador 2
+    private String difficultySelect; //dificultad que desea aplicar para el juego
 
+    /**
+     * Metodo principal para ejecutar esta ventana
+     * @param args
+     */
     public static void main(String[] args) {
         UserGameScreen ventana = new UserGameScreen("Normal");
     }
 
     /**
      * Constructor for objects of class
+     * @param difSelect, indica la dificultad del juego que selecciono el jugador anteriormente
      */
     public UserGameScreen(String difSelect){
         prepareElements();
@@ -27,6 +32,9 @@ public class UserGameScreen extends JFrame {
         difficultySelect = difSelect;
     }
 
+    /**
+     * prepara los elementos para la interfaz de este panel
+     */
     private void prepareElements(){
         ventanaP = new JFrame("Configuracion del Jugador");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -40,6 +48,9 @@ public class UserGameScreen extends JFrame {
         ventanaP.setVisible(true);
     }
 
+    /**
+     * prepara los elementos para la configyracion de los 2 usuarios
+     */
     private void prepareConfigUser(){
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(new Color(115, 10, 25));
@@ -129,6 +140,9 @@ public class UserGameScreen extends JFrame {
         mainPanel.add(guardarButton, gbc);
     }
 
+    /**
+     * prepara los listener para los colores de los jugadores y el boton guardar
+     */
     private void prepareUserGameActions(){
         //Color 1er usuario
         JButton btnColor1 = (JButton) mainPanel.getComponent(4);

@@ -14,6 +14,7 @@ public abstract class Player implements Serializable {
     protected int yPosition; //posicion en Y dentro del tablero
     protected final int mainTurn; //dicta cual es el turno de este jugador
     protected  int positionGraph; //grafo en el que esta posicionado el jugador
+    private int[] cantDifferentsWalls; //contador de cada muro que le quedan al jugador
 
     /**
      * Constructor for objects of class Player
@@ -25,7 +26,12 @@ public abstract class Player implements Serializable {
      * @param yPosition indica la posicion en y dentro de la matriz
      * @param newTurn indica cual va a ser el turno de este jugador (si juega en el turno 1 o en el turno 2)
      */
-    public Player(String newName, Color newColor, int nWalls, int xPosition, int yPosition, int newTurn) {
+    public Player(String newName, Color newColor, int nWalls, int xPosition, int yPosition, int newTurn) throws QuoriPoobException{
+        if (newName.isEmpty()){
+            throw new QuoriPoobException(QuoriPoobException.NAME_NOT_VALID);
+        }else if(newTurn <= 0 || newTurn >=3){
+            throw new QuoriPoobException(QuoriPoobException.TURN_OUT_OF_RANGE);
+        }
         name = newName;
         cantWalls = nWalls + 1;
         color = newColor;
@@ -93,10 +99,16 @@ public abstract class Player implements Serializable {
         return new int[] {xPosition, yPosition};
     }
 
+    /**
+     * @return devuelve el color del usuario
+     */
     public Color getColor(){
         return color;
     }
 
+    /**
+     * @return devuelve el nombre del usuario
+     */
     public String getName(){
         return name;
     }

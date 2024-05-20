@@ -87,7 +87,7 @@ public class GameMode extends JFrame {
         gbc.gridy = 2;
         mainPanel.add(modoJuego1, gbc);
 
-        String[] tipos = {"Normal", "ContraReloj","Cronometrado"};
+        String[] tipos = {"Normal", "Contrarreloj","Cronometrado"};
         tipoJuego = new JComboBox<>(tipos);
         gbc.gridx = 1;
         mainPanel.add(tipoJuego, gbc);

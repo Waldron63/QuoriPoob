@@ -13,7 +13,7 @@ public class LongWall extends Wall{
      * @param newPositions, posiciones de las celdas que va a ocupar el muro.
      * @param newPlayer indica que jugador puso este muro
      */
-    public LongWall(Color newColor, int[] newPositions, Player newPlayer) {
+    public LongWall(Color newColor, int[] newPositions, Player newPlayer) throws QuoriPoobException {
         super(newColor, newPositions, newPlayer);
         size = 3;
     }

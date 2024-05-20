@@ -16,18 +16,18 @@ import java.awt.geom.Ellipse2D;
 public class GameScreen extends JFrame{
     private int width; //ancho de la vista
     private int height; //largo de la vista
-    private Dimension preferredDimention;
-    private QuoriPoob quorindorDom; // Instancia de la clase Quorindior
-    private JPanel mainPanel; // Panel principal
-    private JPanel tableroPanel; // Panel del tablero
-    private JPanel[][] casillas;// Matriz de botones para las casillas del tablero
-    //private int turned; // Variable para controlar el turno del jugador
-    private JComboBox<String> tipoMuro; // ComboBox para seleccionar el tipo de muro
-    private JFileChooser fileChooser;  // Selector de archivos para guardar y cargar partidas
-    private int[] posPlayer1; // Posición del Jugador 1
-    private int[] posPlayer2; // Posición del Jugador 2
-    private long countdownTime = 300000; // Tiempo de cuenta regresiva en milisegundos (5 minutos)
-    private Timer timer;// Temporizador para la cuenta regresiva
+    private Dimension preferredDimention; //dimensiones de la interfaz
+    private QuoriPoob quorindorDom; //Instancia de la clase Quorindior
+    private JPanel mainPanel; //Panel principal
+    private JPanel tableroPanel; //Panel del tablero
+    private JPanel[][] casillas; //Matriz de botones para las casillas del tablero
+    //private int turned; //Variable para controlar el turno del jugador
+    private JComboBox<String> tipoMuro; //ComboBox para seleccionar el tipo de muro
+    private JFileChooser fileChooser;  //Selector de archivos para guardar y cargar partidas
+    private int[] posPlayer1; //Posición del Jugador 1
+    private int[] posPlayer2; //Posición del Jugador 2
+    private long countdownTime = 300000; //Tiempo de cuenta regresiva en milisegundos (5 minutos)
+    private Timer timer; //Temporizador para la cuenta regresiva
 
     /**
      * Método principal que inicia la aplicación creando una instancia de SquareGUI y haciéndola visible.
@@ -43,7 +43,11 @@ public class GameScreen extends JFrame{
      * Constructor de objetos de la clase GameScreen
      */
     public GameScreen(String difficulty){
-        quorindorDom = new QuoriPoob(9, difficulty);
+        try {
+            quorindorDom = new QuoriPoob(9, difficulty);
+        }catch (QuoriPoobException e0){
+            System.out.println(e0.getMessage());
+        }
         prepareElements();
         prepareActions();
     }
@@ -122,9 +126,8 @@ public class GameScreen extends JFrame{
         prepareGame();
     }
 
-
     /**
-     * Prepara y configura los elementos visuales y la disposición de los jugadores.
+     * Prepara y configura los elementos visuales y la disposición de el primer jugador
      */
     private void prepareLeftPlayer() {
         //PANEL IZQUIERDO
@@ -185,6 +188,9 @@ public class GameScreen extends JFrame{
         mainPanel.add(leftPanel, BorderLayout.WEST);
     }
 
+    /**
+     * Prepara y configura los elementos visuales y la disposición de el segundo jugador
+     */
     private void prepareRightPlayer(){
         //PANEL DERECHO
         JPanel rightPanel = new JPanel(new GridLayout(5, 1));
@@ -245,7 +251,8 @@ public class GameScreen extends JFrame{
     }
 
     /**
-     * Prepara y configura los elementos del juego, incluyendo los botones de movimiento y el comboBox para el tipo de muro.
+     * Prepara y configura los elementos del juego, incluyendo los botones de movimiento
+     * y el comboBox para el tipo de muro.
      */
     private void prepareGame(){
         JPanel panelJuego = new JPanel(new GridLayout(3, 3));
@@ -325,6 +332,7 @@ public class GameScreen extends JFrame{
      * Inicia el temporizador del juego.
      */
     private void startTimer() {
+        //indica si el tiempo se acabo
         if (timer == null) {
             timer = new Timer(1000, new ActionListener() {
                 @Override
@@ -355,7 +363,9 @@ public class GameScreen extends JFrame{
         cronometro.setText(timeString);
     }
 
-
+    /**
+     * Prepara los listeners para los botones de movimiento
+     */
     private void prepareGameActionListeners(){
         JPanel panelAbajoTablero= (JPanel) mainPanel.getComponent(3);
         JPanel panelJuego = (JPanel) panelAbajoTablero.getComponent(1);
@@ -368,7 +378,7 @@ public class GameScreen extends JFrame{
                     int[] nw = quorindorDom.move("nw");
                     refresh(nw);
                 } catch (Exception e0) {
-                    e0.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -381,7 +391,7 @@ public class GameScreen extends JFrame{
                     int[] n=quorindorDom.move("n");
                     refresh(n);
                 } catch (Exception e0) {
-                    e0.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -394,7 +404,7 @@ public class GameScreen extends JFrame{
                     int[] ne =quorindorDom.move("ne");
                     refresh(ne);
                 } catch (Exception e0) {
-                    e0.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -407,7 +417,7 @@ public class GameScreen extends JFrame{
                     int[] w=quorindorDom.move("w");
                     refresh(w);
                 } catch (Exception e0) {
-                    e0.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -420,7 +430,7 @@ public class GameScreen extends JFrame{
                     int[] ei= quorindorDom.move("e");
                     refresh(ei);
                 } catch (Exception e0) {
-                    e0.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -433,7 +443,7 @@ public class GameScreen extends JFrame{
                     int [] sw =quorindorDom.move("sw");
                     refresh(sw);
                 } catch (Exception e0) {
-                    e0.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -446,7 +456,7 @@ public class GameScreen extends JFrame{
                     int [] s =quorindorDom.move("s");
                     refresh(s);
                 } catch (Exception e0) {
-                    e0.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -459,7 +469,8 @@ public class GameScreen extends JFrame{
                     int[] se =quorindorDom.move("se");
                     refresh(se);
                 } catch (Exception e0) {
-                    e0.printStackTrace();
+                    JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+                    //e0.printStackTrace();
                 }
             }
         });
@@ -508,6 +519,8 @@ public class GameScreen extends JFrame{
 
     /**
      * Metodo para crear un panel de botones bordes en la casilla
+     * @param bgColor color del fondo para los botones
+     * @return Jpanel la casilla con los botones laterales
      */
     private JPanel createButtonPanel(Color bgColor) {
         JPanel buttonPanel = new JPanel(new BorderLayout());
@@ -533,6 +546,8 @@ public class GameScreen extends JFrame{
 
     /**
      * Configurar los botones de direcciones
+     * @param bgColor color del fondo para los botones
+     * @return JButton las dimeniones de los botones
      */
     private JButton dimensionButton(Color bgColor) {
         JButton button = new JButton();
@@ -544,7 +559,6 @@ public class GameScreen extends JFrame{
 
     /**
      * Agrega un componente circulo a una celda específica del tablero.
-     *
      * @param component El componente a agregar circulo
      * @param fila La fila de la celda en la matriz de botones del tablero
      * @param columna La columna de la celda en la matriz de botones del tablero
@@ -568,7 +582,11 @@ public class GameScreen extends JFrame{
         Circle player1 = new Circle(color);
         addPlayer(player1, 8, 4);
         posPlayer1 = new int[]{8,4};
-        quorindorDom.addPlayer(nombre, color);
+        try {
+            quorindorDom.addPlayer(nombre, color);
+        }catch (QuoriPoobException e0){
+            JOptionPane.showMessageDialog(this, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -583,7 +601,11 @@ public class GameScreen extends JFrame{
         Circle player2 = new Circle(color);
         addPlayer(player2, 0, 4);
         posPlayer2 = new int[]{0,4};
-        quorindorDom.addPlayer(nombre, color);
+        try {
+            quorindorDom.addPlayer(nombre, color);
+        }catch (QuoriPoobException e0){
+            JOptionPane.showMessageDialog(this, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -597,7 +619,11 @@ public class GameScreen extends JFrame{
         Circle player2 = new Circle(Color.BLACK);
         addPlayer(player2, 0, 4);
         posPlayer2 = new int[]{0,4};
-        quorindorDom.addMachine(difficulty);
+        try {
+            quorindorDom.addMachine(difficulty);
+        }catch (QuoriPoobException e0){
+            JOptionPane.showMessageDialog(this, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -624,6 +650,7 @@ public class GameScreen extends JFrame{
         JPanel casilla = casillas[positions[0]][positions[1]];
         JPanel casillaButton = (JPanel) casilla.getComponent(0);
         JPanel center = (JPanel) casillaButton.getComponent(4);
+        //si el turno es del jugador 1, indica que se acaba de mover el jugador 2
         if(turn==1) {
             JPanel casilla2 = casillas[posPlayer2[0]][posPlayer2[1]];
             JPanel casillaButton2 = (JPanel) casilla2.getComponent(0);
@@ -631,7 +658,7 @@ public class GameScreen extends JFrame{
             casillaButton.add(jugador, BorderLayout.CENTER);
             casillaButton2.add(center, BorderLayout.CENTER);
             posPlayer2 = positions;
-        }else{
+        }else{//si el turno es del jugador 2, indica que se acaba de mover el jugador 1
             JPanel casilla2 = casillas[posPlayer1[0]][posPlayer1[1]];
             JPanel casillaButton2 = (JPanel) casilla2.getComponent(0);
             JPanel jugador = (JPanel) casillaButton2.getComponent(4);
@@ -640,6 +667,31 @@ public class GameScreen extends JFrame{
             posPlayer1 = positions;
         }
         mainPanel.repaint();
+        int winner = quorindorDom.playerWin();
+        //revisa si el jugador 1 o el jugador 2 gano
+        if (winner != 0){
+            JOptionPane.showMessageDialog(this, "el jugador "+winner+" ha ganado!",
+                    "ganador",JOptionPane.INFORMATION_MESSAGE);
+            playerWinner();
+        }
+    }
+
+    /**
+     * ventana emergente que le indica al usuario que desea hacer despues de haber ganado
+     */
+    private void playerWinner(){
+        Object[] options = {"reiniciar", "configurar", "salir"};
+        int resp = JOptionPane.showOptionDialog(this, "deseas volver a jugar?", "ganador",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+        //si desea jugar la partida con la misma configuracion
+        if (resp == 0){
+            resetBoard();
+        }else if(resp == 1){ //si quiere actualizar la configuracion
+            setVisible(false);
+            MainScreen.main(new String[] {});
+        }else{ //si desea salir del juego
+            exitOptions();
+        }
     }
 
     /**
