@@ -10,7 +10,7 @@ import java.util.Random;
  * @version 1.0
  */
 public class Machine extends Player{
-    public static final String[] typesMachines = new String[] {"principiante","intermedio","avanzado"};
+    public static final String[] typesMachines = new String[] {"Principiante", "Intermedio", "Avanzado"};
     //los tipos de maquina que existen en el juego
 
     private String difficulty; //dificultad que va a tener la maquina
@@ -34,13 +34,13 @@ public class Machine extends Player{
 
     public void setSelection() throws QuoriPoobException{
         switch (difficulty){
-            case "principiante":
+            case "Principiante":
                 selectBeginner();
                 break;
-            case "intermedio":
+            case "Intermedio":
                 selectMedium();
                 break;
-            case "avanzado":
+            case "Avanzado":
                 selectHardCore();
                 break;
             default:

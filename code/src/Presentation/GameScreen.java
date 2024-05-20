@@ -47,6 +47,7 @@ public class GameScreen extends JFrame{
             quorindorDom = new QuoriPoob(9, difficulty);
         }catch (QuoriPoobException e0){
             System.out.println(e0.getMessage());
+            Log.record(e0);
         }
         prepareElements();
         prepareActions();
@@ -379,6 +380,7 @@ public class GameScreen extends JFrame{
                     refresh(nw);
                 } catch (Exception e0) {
                     JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+                    Log.record(e0);
                 }
             }
         });
@@ -392,6 +394,7 @@ public class GameScreen extends JFrame{
                     refresh(n);
                 } catch (Exception e0) {
                     JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+                    Log.record(e0);
                 }
             }
         });
@@ -405,6 +408,7 @@ public class GameScreen extends JFrame{
                     refresh(ne);
                 } catch (Exception e0) {
                     JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+                    Log.record(e0);
                 }
             }
         });
@@ -418,6 +422,7 @@ public class GameScreen extends JFrame{
                     refresh(w);
                 } catch (Exception e0) {
                     JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+                    Log.record(e0);
                 }
             }
         });
@@ -431,6 +436,7 @@ public class GameScreen extends JFrame{
                     refresh(ei);
                 } catch (Exception e0) {
                     JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+                    Log.record(e0);
                 }
             }
         });
@@ -444,6 +450,7 @@ public class GameScreen extends JFrame{
                     refresh(sw);
                 } catch (Exception e0) {
                     JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+                    Log.record(e0);
                 }
             }
         });
@@ -457,6 +464,7 @@ public class GameScreen extends JFrame{
                     refresh(s);
                 } catch (Exception e0) {
                     JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+                    Log.record(e0);
                 }
             }
         });
@@ -470,6 +478,7 @@ public class GameScreen extends JFrame{
                     refresh(se);
                 } catch (Exception e0) {
                     JOptionPane.showMessageDialog(null, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+                    Log.record(e0);
                     //e0.printStackTrace();
                 }
             }
@@ -586,6 +595,7 @@ public class GameScreen extends JFrame{
             quorindorDom.addPlayer(nombre, color);
         }catch (QuoriPoobException e0){
             JOptionPane.showMessageDialog(this, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+            Log.record(e0);
         }
     }
 
@@ -605,6 +615,7 @@ public class GameScreen extends JFrame{
             quorindorDom.addPlayer(nombre, color);
         }catch (QuoriPoobException e0){
             JOptionPane.showMessageDialog(this, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+            Log.record(e0);
         }
     }
 
@@ -623,6 +634,7 @@ public class GameScreen extends JFrame{
             quorindorDom.addMachine(difficulty);
         }catch (QuoriPoobException e0){
             JOptionPane.showMessageDialog(this, e0.getMessage(), "error",JOptionPane.ERROR_MESSAGE);
+            Log.record(e0);
         }
     }
 
@@ -766,7 +778,9 @@ public class GameScreen extends JFrame{
                     QuoriPoob g = quorindorDom.openArchivo(selectFile);
                     this.quorindorDom = g;
                 }catch (Exception e){
-                    JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    Log.record(e);
                 }
             }
         }
@@ -784,7 +798,9 @@ public class GameScreen extends JFrame{
                 try{
                     quorindorDom.saveArchivo(selectFile);
                 }catch (Exception e){
-                    JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    Log.record(e);
                 }
             }
         }
@@ -803,7 +819,10 @@ public class GameScreen extends JFrame{
         String difficulty = quorindorDom.getDifficult();
         try{
             quorindorDom = new QuoriPoob(9, difficulty);
-        } catch(Exception ignore){}
+        } catch(Exception e0){
+            System.out.println(e0.getMessage());
+            Log.record(e0);
+        }
         prepareElements();
         prepareActions();
         updatePlayer1(nombreJugador1,color1);
