@@ -73,7 +73,7 @@ public class GameScreen extends JFrame{
      * Prepara y configura los elementos visuales de la interfaz gráfica.
      */
     private void prepareElements(){
-        setTitle("Quorindior"); // Establece el título de la ventana
+        setTitle("Quorindor"); // Establece el título de la ventana
         preferredDimention = Toolkit.getDefaultToolkit().getScreenSize();
         width = preferredDimention.width / 2;
         height = preferredDimention.height / 2;
@@ -491,6 +491,7 @@ public class GameScreen extends JFrame{
     private JPanel createTableroPanel(){
         // Crea un nuevo JPanel con un diseño de cuadrícula GridLayout
         int longTable = quorindorDom.getSizeTable();
+        String[][] tableroDom = quorindorDom.getBoard();
         JPanel tableroPanel = new JPanel(new GridLayout(longTable, longTable));
         casillas = new JPanel[longTable][longTable];
         // Itera sobre las filas y columnas para crear y agregar casillas al tablero
@@ -689,6 +690,50 @@ public class GameScreen extends JFrame{
     }
 
     /**
+     * Refresca el tablero con las posiciones de los jugadores actualizadas.
+     */
+    private void refresh(){
+        prepareElements();
+        prepareActions();
+        int turn = quorindorDom.getTurn();
+        // Obtener los circulos
+        Circle player1 = (Circle) ((JPanel) ((JPanel) mainPanel.getComponent(1)).getComponent(1)).getComponent(0);
+        Circle player2 = (Circle) ((JPanel) ((JPanel) mainPanel.getComponent(2)).getComponent(1)).getComponent(0);
+        // turno jugador 1, cambia el color
+        if (turn == 1) {
+            player1.setColor(new Color(210, 180, 140));
+            player2.setColor(new Color(115, 10, 25));
+        } else { //turno del jugador 2
+            player1.setColor(new Color(115, 10, 25));
+            player2.setColor(new Color(210, 180, 140));
+        }
+        //jugador 1
+        String namePlayer1 = quorindorDom.getPlayerName(1);
+        Color colorPlayer1 = quorindorDom.getPlayerColor(1);
+        int[] positions1 = quorindorDom.getPlayerPositions(1);
+        posPlayer1 = positions1;
+        JPanel rightPanel = (JPanel) mainPanel.getComponent(1);
+        JLabel jugador1 = (JLabel) rightPanel.getComponent(0);
+        jugador1.setText(namePlayer1);
+        Circle movePlayer1 = new Circle(colorPlayer1);
+        addPlayer(movePlayer1, positions1[0], positions1[1]);
+
+        //jugador 2
+        String namePlayer2 = quorindorDom.getPlayerName(2);
+        Color colorPlayer2 = quorindorDom.getPlayerColor(2);
+        int[] positions2 = quorindorDom.getPlayerPositions(2);
+        posPlayer2 = positions2;
+        JPanel leftPanel = (JPanel) mainPanel.getComponent(2);
+        JLabel jugador2 = (JLabel) rightPanel.getComponent(0);
+        jugador1.setText(namePlayer2);
+        Circle movePlayer2 = new Circle(colorPlayer2);
+        addPlayer(movePlayer2, positions2[0], positions2[1]);
+        //muros
+        mainPanel.repaint();
+    }
+
+
+    /**
      * ventana emergente que le indica al usuario que desea hacer despues de haber ganado
      */
     private void playerWinner(){
@@ -777,6 +822,7 @@ public class GameScreen extends JFrame{
                 try{
                     QuoriPoob g = quorindorDom.openArchivo(selectFile);
                     this.quorindorDom = g;
+                    refresh();
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);

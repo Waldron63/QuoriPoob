@@ -131,7 +131,12 @@ public class TableAdyacence implements Serializable {
      * @param initialG grafo donde esta ubicado el usuario
      * @param finalG grafo a donde se va a mover el usuario
      */
-    public void movePlayer(int initialG, int finalG){
+    public void movePlayer(int initialG, int finalG) throws QuoriPoobException{
+        if (finalG < 0 || finalG >= longitudAdyacencia){
+            throw new QuoriPoobException(QuoriPoobException.GRAPH_EXCEED_SIZE_TABLE);
+        }else if (matrix[finalG][finalG] != 0){
+            throw new QuoriPoobException(QuoriPoobException.MOVEMENT_NOT_POSSIBLE);
+        }
         int value = matrix[initialG][initialG];
         matrix[initialG][initialG] = 0;
         matrix[finalG][finalG] = value;

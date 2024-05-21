@@ -15,6 +15,7 @@ public abstract class Player implements Serializable {
     protected final int mainTurn; //dicta cual es el turno de este jugador
     protected  int positionGraph; //grafo en el que esta posicionado el jugador
     private int[] cantDifferentsWalls; //contador de cada muro que le quedan al jugador
+    private int[] cantDifferentsBoxes; //contador de las casillas que ha pisado el jugador
 
     /**
      * Constructor for objects of class Player
@@ -38,34 +39,22 @@ public abstract class Player implements Serializable {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         mainTurn = newTurn;
+        cantDifferentsBoxes = new int[] {0, 0, 0, 0};
     }
 
-    /**
-     * @return cantidad de muros que le falta por colocar al jugador
-     */
-    public int getCantWalls() {
-        return cantWalls;
-    }
-
-    /**
-     * añade en 1 la cantidad de muros que el usuario puede llegar a colocar
-     */
-    public void addCantWalls(){
-        cantWalls ++;
-    }
-
-    /**
-     * remueve en 1 la cantidad de muros que el usuario puede llegar a colocar
-     */
-    public void delCantWalls(){
-        cantWalls --;
-    }
-
-    /**
-     * @return turno de este jugador
-     */
-    public int getMainTurn(){
-        return mainTurn;
+    public void setCantDifferentWalls(int[] newCantWalls) throws QuoriPoobException {
+        if (newCantWalls.length < 4){
+            throw new QuoriPoobException(QuoriPoobException.WRONG_TOTAL_WALLS);
+        }
+        int contar = 0;
+        for (int i = 0; i < newCantWalls.length; i++){
+            contar += newCantWalls[i];
+        }
+        if (contar == cantWalls){
+            cantDifferentsWalls = newCantWalls;
+        }else{
+            throw new QuoriPoobException(QuoriPoobException.WRONG_TOTAL_WALLS);
+        }
     }
 
     /**
@@ -77,10 +66,88 @@ public abstract class Player implements Serializable {
     }
 
     /**
-     * @return retorna la posicion en el grafo de el jugador
+     * añade en 1 la cantidad de casillas que el usuario ha pisado
+     * @param type tipo de muro que se le va a sumar
      */
-    public int getPositionGraph(){
-        return positionGraph;
+    public void addCantBoxes(String type) throws QuoriPoobException {
+        switch (type){
+            case "Normal":
+                cantDifferentsBoxes[0] += 1;
+                break;
+            case "Teletransportador":
+                cantDifferentsBoxes[1] += 1;
+                break;
+            case "Regresar":
+                cantDifferentsBoxes[2] += 1;
+                break;
+            case "Doble":
+                cantDifferentsBoxes[3] += 1;
+                break;
+            default:
+                throw new QuoriPoobException(QuoriPoobException.BOX_NOT_FOUND);
+        }
+    }
+
+    /**
+     * añade en 1 la cantidad de muros que el usuario puede llegar a colocar
+     * @param type tipo de muro que se le va a sumar
+     */
+    public void addCantWalls(String type) throws QuoriPoobException {
+        switch (type){
+            case "Normal":
+                cantDifferentsWalls[0] += 1;
+                break;
+            case "Temporal":
+                cantDifferentsWalls[1] += 1;
+                break;
+            case "Larga":
+                cantDifferentsWalls[2] += 1;
+                break;
+            case "Aliada":
+                cantDifferentsWalls[3] += 1;
+                break;
+            default:
+                throw new QuoriPoobException(QuoriPoobException.WALL_NOT_FOUND);
+        }
+    }
+
+    /**
+     * remueve en 1 la cantidad de muros que el usuario puede llegar a colocar
+     * @param type tipo de muro que se le va a restar
+     */
+    public void delCantWalls(String type) throws QuoriPoobException {
+        switch (type){
+            case "Normal":
+                if (cantDifferentsWalls[0] == 0){
+                    throw new QuoriPoobException(QuoriPoobException.WALL_NOT_FOUND);
+                }else{
+                    cantDifferentsWalls[0] -= 1;
+                }
+                break;
+            case "Temporal":
+                if (cantDifferentsWalls[1] == 0){
+                    throw new QuoriPoobException(QuoriPoobException.WALL_NOT_FOUND);
+                }else{
+                    cantDifferentsWalls[1] -= 1;
+                }
+                break;
+            case "Larga":
+                if (cantDifferentsWalls[2] == 0){
+                    throw new QuoriPoobException(QuoriPoobException.WALL_NOT_FOUND);
+                }else{
+                    cantDifferentsWalls[2] -= 1;
+                }
+                break;
+            case "Aliada":
+                if (cantDifferentsWalls[3] == 0){
+                    throw new QuoriPoobException(QuoriPoobException.WALL_NOT_FOUND);
+                }else{
+                    cantDifferentsWalls[3] -= 1;
+                }
+                break;
+            default:
+                throw new QuoriPoobException(QuoriPoobException.WALL_NOT_FOUND);
+        }
     }
 
     /**
@@ -93,10 +160,38 @@ public abstract class Player implements Serializable {
     }
 
     /**
+     * @return turno de este jugador
+     */
+    public int getMainTurn(){
+        return mainTurn;
+    }
+
+    /**
+     * @return retorna la posicion en el grafo de el jugador
+     */
+    public int getPositionGraph(){
+        return positionGraph;
+    }
+
+    /**
      * @return las posiciones actuales en donde esta el jugador
      */
     public int[] getPositions(){
         return new int[] {xPosition, yPosition};
+    }
+
+    /**
+     * @return cantidad de muros que le falta por colocar al jugador
+     */
+    public int[] getCantDifferentWalls(){
+        return cantDifferentsWalls;
+    }
+
+    /**
+     * @return la camtidad de casillas que el jugador ha pisado
+     */
+    public int[] getCantDifferentsBoxes() {
+        return cantDifferentsBoxes;
     }
 
     /**

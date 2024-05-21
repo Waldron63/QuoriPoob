@@ -24,7 +24,6 @@ public class QuoriPoob implements Serializable {
     private int sizeTable; //longitud total del tablero
     private String difficult; //tipo de dificultad escogido por los jugadores
     private int turn; //indica de quien es el turno actual en el juego
-    private String[] typeWalls; //indica los muros que el usuario puede colocar
 
     /**
      * metodo principal para comenzar el dominio
@@ -42,7 +41,6 @@ public class QuoriPoob implements Serializable {
      * @param newDifficult, la dificultad que va a tener el juego
      */
     public QuoriPoob(int n, String newDifficult) throws QuoriPoobException{
-
         if(newDifficult.isEmpty() || !Arrays.asList(typesDifficults).contains(newDifficult)){
             throw new QuoriPoobException(QuoriPoobException.DIFFICULTY_NOT_FOUND);
         }
@@ -50,19 +48,6 @@ public class QuoriPoob implements Serializable {
         sizeTable = n;
         difficult = newDifficult;
         turn = 1;
-    }
-
-    /**
-     * inidica cual es la configuracion de los tipos de muro que desea el usuario
-     * @param newTypes los tipos de muros seleccionados
-     */
-    public void setTypeWalls(String[] newTypes) throws QuoriPoobException {
-        for (String types : newTypes){
-            if (!Arrays.asList(Wall.typesWalls).contains(types)){
-                throw new QuoriPoobException(QuoriPoobException.TYPES_OF_WALLS_NOT_VALID);
-            }
-        }
-        typeWalls = newTypes;
     }
 
     /**
@@ -75,12 +60,12 @@ public class QuoriPoob implements Serializable {
         int yPosition = (int) (sizeTable - 1)/2;
         //revisa que ya este el primer jugador
         if (playerOne == null) {
-            playerOne = new Human(name, color, sizeTable + 1, sizeTable - 1, yPosition, 1);
+            playerOne = new Human(name, color, sizeTable, sizeTable - 1, yPosition, 1);
             int graphPos = tablero.getGraphPosition(sizeTable - 1, yPosition);
             playerOne.setPositionGraph(graphPos);
             tablero.addPlayer(2, graphPos);
         } else { //inserta los datos del segundo jugador
-            playerTwo = new Human(name, color, sizeTable + 1, 0, yPosition, 2);
+            playerTwo = new Human(name, color, sizeTable, 0, yPosition, 2);
             int graphPos = tablero.getGraphPosition(0, yPosition);
             playerTwo.setPositionGraph(graphPos);
             tablero.addPlayer(3, graphPos);
@@ -100,10 +85,19 @@ public class QuoriPoob implements Serializable {
     }
 
     /**
+     * inidica cual es la configuracion de los tipos de muro que desea el usuario
+     * @param newTypes los tipos de muros seleccionados
+     */
+    public void setTypeWalls(int[] newTypes) throws QuoriPoobException {
+        playerOne.setCantDifferentWalls(newTypes);
+        playerTwo.setCantDifferentWalls(newTypes);
+    }
+
+    /**
      * coloca los tipos de casillas diferentes en en zonas aleatorias del tablero
      * @param cantTypeBoxes, cuantos tipos diferentes de casillas quiere de cada tipo
      */
-    public void addRandomBox(int[] cantTypeBoxes){
+    public void setRandomBox(int[] cantTypeBoxes){
         tablero.addRandomBox(cantTypeBoxes);
     }
 
@@ -113,7 +107,7 @@ public class QuoriPoob implements Serializable {
      */
     public void addWall(String type, int[] positions) throws QuoriPoobException{
         //revisa que el tipo de muro sea el indicado previamente por el usuario
-        if (!Arrays.asList(typeWalls).contains(type)){
+        if (!Arrays.asList(Wall.typesWalls).contains(type)){
             throw new QuoriPoobException(QuoriPoobException.TYPE_WALL_NOT_IN_CONFIGURATIONS);
         }
         //indica el jugador actual del turno
@@ -142,7 +136,7 @@ public class QuoriPoob implements Serializable {
                 return ;
         }
         tablero.addWall(newWall, playerOne, playerTwo);
-        actPlayer.delCantWalls();
+        actPlayer.delCantWalls(type);
         changeTurn();
     }
 
@@ -170,11 +164,13 @@ public class QuoriPoob implements Serializable {
         if(turn == 1){
             playerOne.changePositions(comp);
             playerOne.setPositionGraph(graphPosition);
+            playerOne.addCantBoxes(tablero.getCasillas()[positionsP[0]][positionsP[1]]);
             changeTurn();
             return comp;
         }else {
             playerTwo.changePositions(comp);
             playerTwo.setPositionGraph(graphPosition);
+            playerTwo.addCantBoxes(tablero.getCasillas()[positionsP[0]][positionsP[1]]);
             changeTurn();
             return comp;
         }
@@ -183,9 +179,24 @@ public class QuoriPoob implements Serializable {
     /**
      * ayuda a cambiar el turno de los jugadores
      */
-    private void changeTurn(){
+    private void changeTurn() throws QuoriPoobException {
         tablero.changeWallCount();
-        //TakeBox();
+        int[] positions;
+        if (turn == 1){
+            positions = playerOne.getPositions();
+            String typeBox = tablero.getCasillas()[positions[0]][positions[1]];
+            if (typeBox == "Doble") {
+                turn = 2;
+                tablero.changeBox(positions[0], positions[1]);
+            }
+        }else{
+            positions = playerTwo.getPositions();
+            String typeBox = tablero.getCasillas()[positions[0]][positions[1]];
+            if (typeBox == "Doble") {
+                turn = 1;
+                tablero.changeBox(positions[0], positions[1]);
+            }
+        }
         setTurn();
     }
 
@@ -193,7 +204,7 @@ public class QuoriPoob implements Serializable {
      * cambia el turno de la partida
      * @return el turno al cual se cambio
      */
-    public int setTurn(){
+    private int setTurn(){
         //genera un swap (cambio) en los turnos
         if (turn == 1){
             turn = 2;
@@ -256,11 +267,28 @@ public class QuoriPoob implements Serializable {
         }
     }
 
-    /**
-     * @return el tablero con las casillas actuales.
-     */
-    public Box[][] getBoard(){
-        return tablero.getCasillas();
+    public int[] getPlayerPositions(int mainTurn){
+        if (mainTurn == 1){
+            return playerOne.getPositions();
+        }else{
+            return playerTwo.getPositions();
+        }
+    }
+
+    public int[] getPlayerCountWalls(int mainTurn){
+        if (mainTurn == 1){
+            return playerOne.getCantDifferentWalls();
+        }else{
+            return playerTwo.getCantDifferentWalls();
+        }
+    }
+
+    public int[] getPlayerCountBoxes(int mainTurn){
+        if (mainTurn == 1){
+            return playerOne.getCantDifferentsBoxes();
+        }else{
+            return playerTwo.getCantDifferentsBoxes();
+        }
     }
 
     /**
@@ -268,6 +296,14 @@ public class QuoriPoob implements Serializable {
      */
     public int getSizeTable(){
         return sizeTable;
+    }
+
+    /**
+     * @return el tablero con las casillas actuales.
+     */
+    public String[][] getBoard(){
+        String[][] casillero = tablero.getCasillas();
+        return casillero;
     }
 
     /**
