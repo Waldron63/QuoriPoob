@@ -21,7 +21,6 @@ public class QuoriPoobException extends Exception{
     public static final String WALL_NOT_FOUND = "El muro seleccionado no se encuentra disponible";
     //MOVIMIENTOS
     public static final String GRAPH_EXCEED_SIZE_TABLE = "La casilla seleccionada esta fuera del tablero";
-    //public static final String GRAPH_WITHOUT_RELATION = "No puedes moverte a esta casilla";
     public static final String MOVEMENT_NOT_POSSIBLE = "El movimiento del jugador no es posible";
     //CASILLAS
     public static final String BOX_NOT_FOUND = "Esta casilla no esta disponible";

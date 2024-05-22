@@ -20,7 +20,6 @@ public class GameScreen extends JFrame{
     private Dimension preferredDimention; //dimensiones de la interfaz
     private QuoriPoob quorindorDom; //Instancia de la clase Quorindior
     private JPanel mainPanel; //Panel principal
-    private JPanel tableroPanel; //Panel del tablero
     private JPanel[][] casillas; //Matriz de botones para las casillas del tablero
     private JComboBox<String> tipoMuro; //ComboBox para seleccionar el tipo de muro
     private JFileChooser fileChooser;  //Selector de archivos para guardar y cargar partidas
@@ -28,7 +27,8 @@ public class GameScreen extends JFrame{
     private int[] posPlayer2; //Posición del Jugador 2
     private long countdownTime = 300000; //Tiempo de cuenta regresiva en milisegundos (5 minutos)
     private Timer timer; //Temporizador para la cuenta regresiva
-    private ArrayList<Integer> posicionesTablero;
+    private ArrayList<Integer> posicionesWallTable; //posiciones de las casillas donde se pondran los muros
+    private ArrayList<JButton> buttonWalls; //arreglo con todos los botones que se van a generar muros
 
 
     /**
@@ -53,7 +53,8 @@ public class GameScreen extends JFrame{
         }
         prepareElements();
         prepareActions();
-        posicionesTablero= new ArrayList<>();
+        posicionesWallTable = new ArrayList<>();
+        buttonWalls = new ArrayList<>();
     }
 
     /**
@@ -116,7 +117,7 @@ public class GameScreen extends JFrame{
      */
     private void prepareElementsBoard() {
         mainPanel = new JPanel(new BorderLayout());
-        tableroPanel = createTableroPanel();
+        JPanel tableroPanel = createTableroPanel();
         mainPanel.add(tableroPanel,BorderLayout.CENTER);
     }
 
@@ -599,14 +600,15 @@ public class GameScreen extends JFrame{
             case "Muro Temporal":
                 return Color.WHITE;
             default:
-                return Color.BLACK;
+                return new Color(210, 180, 140);
         }
     }
 
     private void actualMuro( JButton button,int i, int j) {
         String tipoMuroSeleccionado = (String) tipoMuro.getSelectedItem();
         button.setBackground(colorWall(tipoMuroSeleccionado));
-        JPanel positions = casillas[i][j];
+        JPanel casilla = casillas[i][j];
+        JPanel positions = (JPanel) casilla.getComponent(0);
         int posX=-1;
         int posY=-1;
         for(int k = 0; k < 4; k++){
@@ -632,25 +634,48 @@ public class GameScreen extends JFrame{
                 }
             }
         }
-        posicionesTablero.add(i);
-        posicionesTablero.add(j);
-        posicionesTablero.add(posX);
-        posicionesTablero.add(posY);
-        if(tipoMuroSeleccionado != "Muro Largo" && posicionesTablero.size()== 8){
-            //quorindorDom.addWall(tipoMuroSeleccionado,posicionesTablero);
-            int turn = quorindorDom.getTurn();
-            if (turn == 1){
-                refresh(posPlayer1);
-            }else{
-                refresh(posPlayer2);
+        posicionesWallTable.add(i);
+        posicionesWallTable.add(j);
+        posicionesWallTable.add(posX);
+        posicionesWallTable.add(posY);
+        buttonWalls.add(button);
+        if(!tipoMuroSeleccionado.equals("Muro Largo") && posicionesWallTable.size()== 8){
+            try {
+                quorindorDom.addWall(tipoMuroSeleccionado, posicionesWallTable);
+                buttonWalls.clear();
+                int turn = quorindorDom.getTurn();
+                if (turn == 1) {
+                    refresh(posPlayer1);
+                } else {
+                    refresh(posPlayer2);
+                }
+            }catch (QuoriPoobException e0){
+                JOptionPane.showMessageDialog(this, e0.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+                Log.record(e0);
+                for(JButton boton : buttonWalls) {
+                    boton.setBackground(colorWall(""));
+                }
+                posicionesWallTable.clear();
+                buttonWalls.clear();
             }
-        } else if (tipoMuroSeleccionado == "Muro Largo" && posicionesTablero.size()== 12 ) {
-            //quorindorDom.addWall(tipoMuroSeleccionado,posicionesTablero);
-            int turn = quorindorDom.getTurn();
-            if (turn == 1){
-                refresh(posPlayer1);
-            }else{
-                refresh(posPlayer2);
+        } else if (tipoMuroSeleccionado.equals("Muro Largo") && posicionesWallTable.size()== 12 ) {
+            try {
+                quorindorDom.addWall(tipoMuroSeleccionado, posicionesWallTable);
+                buttonWalls.clear();
+                int turn = quorindorDom.getTurn();
+                if (turn == 1) {
+                    refresh(posPlayer1);
+                } else {
+                    refresh(posPlayer2);
+                }
+            }catch (QuoriPoobException e0){
+                JOptionPane.showMessageDialog(this, e0.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+                Log.record(e0);
+                for(JButton boton : buttonWalls) {
+                    boton.setBackground(colorWall(""));
+                }
+                posicionesWallTable.clear();
+                buttonWalls.clear();
             }
         }
     }
@@ -728,14 +753,15 @@ public class GameScreen extends JFrame{
         }
     }
 
-
-
     /**
      * Refresca el tablero con las posiciones de los jugadores actualizadas.
      * @param positions Posiciones de los jugadores
      */
     private void refresh(int[] positions){
-        posicionesTablero = new ArrayList<>();
+        posicionesWallTable.clear();
+        for (JButton boton : buttonWalls){
+            boton.setBackground(colorWall(""));
+        }
         int turn = quorindorDom.getTurn();
         // Obtener los circulos
         Circle player1 = (Circle) ((JPanel) ((JPanel) mainPanel.getComponent(1)).getComponent(1)).getComponent(0);
@@ -784,7 +810,8 @@ public class GameScreen extends JFrame{
     private void refresh(){
         prepareElements();
         prepareActions();
-        posicionesTablero= new ArrayList<>();
+        posicionesWallTable = new ArrayList<>();
+        buttonWalls = new ArrayList<>();
         int turn = quorindorDom.getTurn();
         // Obtener los circulos
         Circle player1 = (Circle) ((JPanel) ((JPanel) mainPanel.getComponent(1)).getComponent(1)).getComponent(0);
@@ -947,7 +974,6 @@ public class GameScreen extends JFrame{
      */
     private void resetBoard() {
         getContentPane().remove(mainPanel);
-        //turned = 0;
         Color color1 = quorindorDom.getPlayerColor(1);
         Color color2 = quorindorDom.getPlayerColor(2);
         String nombreJugador1 = quorindorDom.getPlayerName(1);

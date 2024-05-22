@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -56,7 +57,7 @@ public class TableAdyacence implements Serializable {
      * @return true si el muro si se puede colocar, false en caso contrario
      */
     public void addWall(Wall newWall, Player fPlayer, Player sPlayer) throws QuoriPoobException {
-        int[] selectGraph = newWall.getPositions();
+        ArrayList<Integer> selectGraph = newWall.getPositions();
 
         int turn1 = fPlayer.getMainTurn();
         int posGraph1 = fPlayer.getPositionGraph();
@@ -66,16 +67,16 @@ public class TableAdyacence implements Serializable {
 
         boolean isWallPosible1 = true;
         boolean isWallPosible2 = true;
-        int k = selectGraph.length;
+        int k = selectGraph.size();
         //revisa que se puedan colocar todos los elementos del muro sin cerrar todos los caminos
-        for (int i = 0; i < selectGraph.length; i = i +2){
-            if (matrix[selectGraph[i]][selectGraph[i + 1]] == -1){
+        for (int i = 0; i < selectGraph.size(); i = i +2){
+            if (matrix[selectGraph.get(i)][selectGraph.get(i + 1)] == -1){
                 k = i;
                 isWallPosible1 = false;
                 isWallPosible2 = false;
                 break;
             }else {
-                changeRelationMatrix(selectGraph[i], selectGraph[i + 1], -1);
+                changeRelationMatrix(selectGraph.get(i), selectGraph.get(i + 1), -1);
                 isWallPosible1 = bfs(posGraph1, turn1);
                 isWallPosible2 = bfs(posGraph2, turn2);
                 //si se cierra todos los caminos, rompe el ciclo
@@ -87,14 +88,14 @@ public class TableAdyacence implements Serializable {
         }
         //si no se cerraron todos los caminos, anade el puente a la lista
         if (isWallPosible1 && isWallPosible2){
-            for (int j = 0; j < selectGraph.length; j = j + 2){
-                arrayAdyacence[selectGraph[j]].put(selectGraph[j +1], newWall);
-                arrayAdyacence[selectGraph[j + 1]].put(selectGraph[j], newWall);
+            for (int j = 0; j < selectGraph.size(); j = j + 2){
+                arrayAdyacence[selectGraph.get(j)].put(selectGraph.get(j + 1), newWall);
+                arrayAdyacence[selectGraph.get(j + 1)].put(selectGraph.get(j), newWall);
             }
             //return true;
         }else{ //en cuyo caso si halla cerrado todos los caminos, devuelve la matriz a como estaba inicialmente
             for (int j = 0; j < k; j = j + 2) {
-                changeRelationMatrix(selectGraph[j], selectGraph[j + 1], 1);
+                changeRelationMatrix(selectGraph.get(j), selectGraph.get(j + 1), 1);
             }
             throw new QuoriPoobException(QuoriPoobException.WRONG_SIDE_WALL);
             //return false;
@@ -106,12 +107,12 @@ public class TableAdyacence implements Serializable {
      * @param oldWall muro que va a ser eliminado
      */
     public void delWall(Wall oldWall){
-        int[] selectGraph = oldWall.getPositions();
+        ArrayList<Integer> selectGraph = oldWall.getPositions();
         //elimina todas las relaciones de el grafo que tengan este muro
-        for (int i = 0; i < selectGraph.length; i = i +2){
-            changeRelationMatrix(selectGraph[i], selectGraph[i + 1], 1);
-            arrayAdyacence[selectGraph[i]].remove(selectGraph[i +1]);
-            arrayAdyacence[selectGraph[i + 1]].remove(selectGraph[i]);
+        for (int i = 0; i < selectGraph.size(); i = i +2){
+            changeRelationMatrix(selectGraph.get(i), selectGraph.get(i + 1), 1);
+            arrayAdyacence[selectGraph.get(i)].remove(selectGraph.get(i + 1));
+            arrayAdyacence[selectGraph.get(i + 1)].remove(selectGraph.get(i));
         }
     }
 
@@ -184,7 +185,12 @@ public class TableAdyacence implements Serializable {
      * @return true si existe algun camino para llegar al final, false en caso contrario
      */
     public boolean bfs(int initialPos, int nPlayer){
-        int[][] matrizTemp = matrix;
+        int[][] matrizTemp = new int[matrix.length][matrix.length];
+        for (int m = 0; m < matrix.length; m++){
+            for(int n = 0; n < matrix.length; n++){
+                matrizTemp[m][n] = matrix[m][n];
+            }
+        }
         matrizTemp[initialPos][initialPos] = -1;
         Queue<Integer> q = new LinkedList<>();
         q.add(initialPos);

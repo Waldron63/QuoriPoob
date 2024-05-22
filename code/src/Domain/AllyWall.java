@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * Clase abstracta del muro, donde mostrara los comportamientos basicos de
@@ -16,15 +17,25 @@ public class AllyWall extends Wall{
      * @param newPositions, posiciones en las celdas que va a ocupar el muro
      * @param newPlayer indica ue jugador coloco el muro
      */
-    public AllyWall(Color newColor, int[] newPositions, Player newPlayer) throws QuoriPoobException {
-        super(newColor, newPositions, newPlayer);
+    public AllyWall(Color newColor, ArrayList<Integer> newPositions, Player newPlayer, int longTable) throws QuoriPoobException {
+        super(newColor, newPositions, newPlayer, longTable);
     }
 
-    boolean confirmPositions(int[] newPositions){
-        if (newPositions.length == 2){
+    boolean confirmLenghtPositions(ArrayList<Integer> newPositions){
+        if (newPositions.size() == 4){
             return true;
         }else{
             return false;
+        }
+    }
+
+    @Override
+    boolean confirmSequentialPositions(ArrayList<Integer> newPositions){
+        if (Math.abs(newPositions.get(0) - newPositions.get(2)) != 1 &&
+                Math.abs(newPositions.get(0) - newPositions.get(2)) != sizeTable){
+            return false;
+        }else{
+            return true;
         }
     }
 }

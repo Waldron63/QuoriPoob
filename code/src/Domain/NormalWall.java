@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Clase heredada de muro, la cual indica el muro comun que se usa para el juego
@@ -14,15 +15,25 @@ public class NormalWall extends Wall{
      * @param newPositions, lista de las posiciones que va a ocupar el muro
      * @param newPlayer indica que jugador puso este muro
      */
-    public NormalWall(Color newColor, int[] newPositions, Player newPlayer) throws QuoriPoobException {
-        super(newColor, newPositions, newPlayer);
+    public NormalWall(Color newColor, ArrayList<Integer> newPositions, Player newPlayer, int longTable) throws QuoriPoobException {
+        super(newColor, newPositions, newPlayer, longTable);
     }
 
-    boolean confirmPositions(int[] newPositions){
-        if (newPositions.length == 2){
+    boolean confirmLenghtPositions(ArrayList<Integer> newPositions){
+        if (newPositions.size() == 4){
             return true;
         }else{
             return false;
+        }
+    }
+
+    @Override
+    boolean confirmSequentialPositions(ArrayList<Integer> newPositions){
+        if (Math.abs(newPositions.get(0) - newPositions.get(2)) != 1 &&
+                Math.abs(newPositions.get(0) - newPositions.get(2)) != sizeTable){
+            return false;
+        }else{
+            return true;
         }
     }
 }

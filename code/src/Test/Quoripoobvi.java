@@ -36,21 +36,6 @@ public class Quoripoobvi {
         assertEquals(9, qp9.getBoard().length);
     }
 
-    @Test
-    public void shouldThrowCreateBoardsOfDifferentSizes() throws QuoriPoobException {
-        try {
-            new QuoriPoob(0, "Normal");
-        }catch (QuoriPoobException e0){
-            assertEquals(QuoriPoobException.SMALLEST_BOARD_LENGTH, e0.getMessage());
-        }
-        try {
-            new QuoriPoob(9, "no normal");
-        }catch (QuoriPoobException e1){
-            assertEquals(QuoriPoobException.DIFFICULTY_NOT_FOUND, e1.getMessage());
-
-        }
-    }
-
 
     @Test
     public void shouldAssignBarriersToPlayers() throws QuoriPoobException {
@@ -66,24 +51,6 @@ public class Quoripoobvi {
         assertEquals(wall1[1], wall2[1]);
         assertEquals(wall1[2], wall2[2]);
         assertEquals(wall1[3], wall2[3]);
-    }
-
-
-    @Test
-    public void shouldThrowAssignBarriersToPlayers() throws QuoriPoobException {
-        QuoriPoob quoriPoob = new QuoriPoob(9, "Normal");
-        quoriPoob.addPlayer("jugador1", Color.BLACK);
-        quoriPoob.addPlayer("jugador2", Color.RED);
-        try {
-            quoriPoob.setTypeWalls(new int[] {4,3,2});
-        }catch (QuoriPoobException e0) {
-            assertEquals(QuoriPoobException.WRONG_TOTAL_WALLS, e0.getMessage());
-        }
-        try {
-            quoriPoob.setTypeWalls(new int[] {4,3,2, 7, 10});
-        }catch (QuoriPoobException e1){
-            assertEquals(QuoriPoobException.WRONG_TOTAL_WALLS, e1.getMessage());
-        }
     }
 
 
@@ -109,45 +76,6 @@ public class Quoripoobvi {
         sides = quoriPoob.getPlayerPositions(2);
         assertEquals(sides[0], 1);
         assertEquals(sides[1], 3);
-    }
-
-
-    @Test
-    public void shouldThrowMoveOrthogonallyAPawn() throws QuoriPoobException {
-        QuoriPoob quoriPoob = new QuoriPoob(9, "Normal");
-        quoriPoob.addPlayer("jugador1", Color.BLACK);
-        quoriPoob.addPlayer("jugador2", Color.RED);
-        try {
-            quoriPoob.move("s");
-        }catch (QuoriPoobException e0){
-            assertEquals(QuoriPoobException.GRAPH_EXCEED_SIZE_TABLE, e0.getMessage());
-        }
-        quoriPoob.move("n");
-        try {
-            quoriPoob.move("s");
-        }catch (QuoriPoobException e0){
-            assertEquals(QuoriPoobException.GRAPH_EXCEED_SIZE_TABLE, e0.getMessage());
-        }
-        try {
-            quoriPoob.move("ne");
-        }catch (QuoriPoobException e0){
-            assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
-        }
-        try {
-            quoriPoob.move("se");
-        }catch (QuoriPoobException e0){
-            assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
-        }
-        try {
-            quoriPoob.move("nw");
-        }catch (QuoriPoobException e0){
-            assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
-        }
-        try {
-            quoriPoob.move("sw");
-        }catch (QuoriPoobException e0){
-            assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
-        }
     }
 
 

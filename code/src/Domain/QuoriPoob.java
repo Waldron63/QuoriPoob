@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -105,38 +106,52 @@ public class QuoriPoob implements Serializable {
      * ayuda a anadir nuevos muros al tablero, mientras no se cierren todos
      * los caminos de un lado a otro.
      */
-    public void addWall(String type, int[] positions) throws QuoriPoobException{
+    public void addWall(String type, ArrayList<Integer> iniPositions) throws QuoriPoobException{
         //revisa que el tipo de muro sea el indicado previamente por el usuario
         if (!Arrays.asList(Wall.typesWalls).contains(type)){
             throw new QuoriPoobException(QuoriPoobException.TYPE_WALL_NOT_IN_CONFIGURATIONS);
         }
+        ArrayList<Integer> positions = new ArrayList<>();
+        for (int k = 0; k < iniPositions.size(); k = k + 2){
+            positions.add(tablero.getGraphPosition(iniPositions.get(k), iniPositions.get(k + 1)));
+        }
+
         //indica el jugador actual del turno
         Player actPlayer = (turn == 1) ? playerOne : playerTwo;
         Wall newWall;
+        int arrayPosition;
         //revisa que tipo de muro es
         switch (type){
             //si el muro es aliado
-            case "Aliada":
-                newWall = new AllyWall(actPlayer.getColor(),positions,actPlayer);
+            case "Muro Aliado":
+                newWall = new AllyWall(actPlayer.getColor(),positions,actPlayer, sizeTable);
+                arrayPosition = 3;
                 break;
             //si el muro es largo
-            case "Larga":
-                newWall = new LongWall(Color.BLACK, positions, actPlayer);
+            case "Muro Largo":
+                newWall = new LongWall(Color.BLACK, positions, actPlayer, sizeTable);
+                arrayPosition = 2;
                 break;
             //si el muro es normal
-            case "Normal":
-                newWall = new NormalWall(Color.black, positions, actPlayer);
+            case "Muro Normal":
+                newWall = new NormalWall(Color.black, positions, actPlayer, sizeTable);
+                arrayPosition = 0;
                 break;
             //si el muro es temporal
-            case "Temporal":
-                newWall = new TemporalWall(Color.black, positions, actPlayer);
+            case "Muro Temporal":
+                newWall = new TemporalWall(Color.black, positions, actPlayer, sizeTable);
+                arrayPosition = 1;
                 break;
             //cualquier otro caso
             default:
                 return ;
         }
-        tablero.addWall(newWall, playerOne, playerTwo);
-        actPlayer.delCantWalls(type);
+        if (actPlayer.getCantDifferentWalls()[arrayPosition] > 0) {
+            tablero.addWall(newWall, playerOne, playerTwo);
+            actPlayer.delCantWalls(type);
+        }else{
+            actPlayer.delCantWalls(type);
+        }
         changeTurn();
     }
 

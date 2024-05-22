@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Clase heredada de muro, la cual indica el muro mas largo (3 casillas) que tiene el juego
@@ -13,16 +14,26 @@ public class TemporalWall extends Wall{
      * @param newColor, color que va a obtener el muro
      * @param newPositions, posiciones de las celdas que va a ocupar el muro.
      */
-    public TemporalWall(Color newColor, int[] newPositions, Player newPlayer) throws QuoriPoobException {
-        super(newColor, newPositions, newPlayer);
+    public TemporalWall(Color newColor, ArrayList<Integer> newPositions, Player newPlayer, int longTable) throws QuoriPoobException {
+        super(newColor, newPositions, newPlayer, longTable);
         times = 4;
     }
 
-    boolean confirmPositions(int[] newPositions){
-        if (newPositions.length == 2){
+    boolean confirmLenghtPositions(ArrayList<Integer> newPositions){
+        if (newPositions.size() == 4){
             return true;
         }else{
             return false;
+        }
+    }
+
+    @Override
+    boolean confirmSequentialPositions(ArrayList<Integer> newPositions){
+        if (Math.abs(newPositions.get(0) - newPositions.get(2)) != 1 &&
+                Math.abs(newPositions.get(0) - newPositions.get(2)) != sizeTable){
+            return false;
+        }else{
+            return true;
         }
     }
 

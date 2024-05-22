@@ -411,9 +411,13 @@ public class Table implements Serializable {
      * @param yPosition posicion en y de el grafo a buscar en la matriz
      * @return el grafo que tiene esas 2 posiciones
      */
-    public int getGraphPosition(int xPosition, int yPosition){
+    public int getGraphPosition(int xPosition, int yPosition) throws QuoriPoobException {
         String pos = xPosition + "," + yPosition;
-        return graphs.get(pos);
+        if (graphs.containsKey(pos)) {
+            return graphs.get(pos);
+        }else{
+            throw new QuoriPoobException(QuoriPoobException.GRAPH_EXCEED_SIZE_TABLE);
+        }
     }
 
     /**
