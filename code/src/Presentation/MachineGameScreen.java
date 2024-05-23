@@ -38,8 +38,8 @@ public class MachineGameScreen extends JFrame {
     private void prepareElements() {
         ventana = new JFrame("Configuracion de Juego");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = screenSize.width / 2;
-        int height = screenSize.height / 2;
+        int width = (int) (screenSize.width * 0.6);
+        int height = (int) (screenSize.height * 0.6);
         ventana.setSize(width, height);
         ventana.setLocationRelativeTo(null);
         prepareGameMode();
@@ -58,7 +58,7 @@ public class MachineGameScreen extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
        // Titulo de la configuracion del juego
         JLabel tituloLabel = new JLabel("Configuración de Juego");
-        tituloLabel.setFont(new Font("Times New Roman", Font.BOLD, 50));
+        tituloLabel.setFont(new Font("Times New Roman", Font.BOLD, 55));
         tituloLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -69,7 +69,7 @@ public class MachineGameScreen extends JFrame {
 
         // Nombre del jugador 1
         JLabel labelNombre1 = new JLabel("Nombre del Jugador:");
-        labelNombre1.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        labelNombre1.setFont(new Font("Times New Roman", Font.BOLD, 25));
         labelNombre1.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -84,7 +84,7 @@ public class MachineGameScreen extends JFrame {
 
         // Color del jugador 1
         JLabel labelColor1 = new JLabel("Color del Jugador :");
-        labelColor1.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        labelColor1.setFont(new Font("Times New Roman", Font.BOLD, 25));
         labelColor1.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -99,7 +99,7 @@ public class MachineGameScreen extends JFrame {
 
         // Tipo de Juego
         JLabel modoJuego = new JLabel("Tipo de Máquina:");
-        modoJuego.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        modoJuego.setFont(new Font("Times New Roman", Font.BOLD, 25));
         modoJuego.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 3;
