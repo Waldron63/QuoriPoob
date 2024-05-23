@@ -90,8 +90,12 @@ public class QuoriPoob implements Serializable {
      * @param newTypes los tipos de muros seleccionados
      */
     public void setTypeWalls(int[] newTypes) throws QuoriPoobException {
+        int[] newTypes2 = new int[newTypes.length];
+        for (int i = 0; i < newTypes.length; i++){
+            newTypes2[i] = newTypes[i];
+        }
         playerOne.setCantDifferentWalls(newTypes);
-        playerTwo.setCantDifferentWalls(newTypes);
+        playerTwo.setCantDifferentWalls(newTypes2);
     }
 
     /**
@@ -311,6 +315,13 @@ public class QuoriPoob implements Serializable {
      */
     public int getSizeTable(){
         return sizeTable;
+    }
+
+    /**
+     * @return las posiciones de cada muro que han puesto los usuarios
+     */
+    public ArrayList<Integer>[] getWallsPositions(){
+        return tablero.getWallsPositions();
     }
 
     /**

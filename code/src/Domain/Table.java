@@ -14,6 +14,7 @@ public class Table implements Serializable {
     public static final String[] basicMoves = new String[] {"n", "e", "w", "s"}; //posiciones basicas de movimiento
     public static final String[] diagonalMoves = new String[] {"ne", "nw", "se", "sw"}; //posiciones diagonales de movimiento
     private HashMap<String, Integer> graphs; //posiciones y el numero respectivo del "grafo" de la matriz
+    private HashMap<Integer, int[]> posGraphs; //numero del grafo y sus posiciones respectivas
     private int longitud; //longitud que va a tener el tablero
     private Box[][] casillas; //matriz con todas las casillas y jugadores
     private String[][] typeCasillas; //matriz con los tipos de casillas que tiene "casillas"
@@ -35,6 +36,7 @@ public class Table implements Serializable {
         casillas = new Box[newLong][newLong];
         typeCasillas = new String[newLong][newLong];
         graphs = new HashMap<>();
+        posGraphs = new HashMap<>();
         int contador = 0;
         previousBoxP1 = new int[2][2];
         previousBoxP1[0] = null;
@@ -49,6 +51,7 @@ public class Table implements Serializable {
                 typeCasillas[i][j] = "Normal";
                 String pos = i + "," + j;
                 graphs.put(pos, contador);
+                posGraphs.put(contador, new int[] {i, j});
                 contador += 1;
             }
         }
@@ -239,7 +242,7 @@ public class Table implements Serializable {
                     movePosible = false;
                 }
                 finalG = initialG - 1 + longitud;
-                secondPositions = new int[] {0,0};
+                secondPositions = new int[] {positionsP[0] + 1,positionsP[1] - 1};
                 break;
 
             //caso diferente
@@ -418,6 +421,23 @@ public class Table implements Serializable {
         }else{
             throw new QuoriPoobException(QuoriPoobException.GRAPH_EXCEED_SIZE_TABLE);
         }
+    }
+
+    public ArrayList<Integer>[] getWallsPositions(){
+        ArrayList<Integer>[] posicionesMuros = new ArrayList[muros.size()];
+        int cont = 0;
+        for (Wall wall : muros){
+            ArrayList<Integer> addPos = new ArrayList<>();
+            ArrayList<Integer> murosP = wall.getPositions();
+            for (int i = 0; i < murosP.size(); i++){
+                int[] posGraph = posGraphs.get(murosP.get(i));
+                addPos.add(posGraph[0]);
+                addPos.add(posGraph[1]);
+            }
+            posicionesMuros[cont] = addPos;
+            cont += 1;
+        }
+        return posicionesMuros;
     }
 
     /**

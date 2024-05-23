@@ -14,7 +14,7 @@ public abstract class Wall implements Serializable {
     public static final String[] typesWalls = new String[] {"Muro Normal", "Muro Temporal", "Muro Largo", "Muro Aliado"};
     protected int size; //tamano que va a tener el muro
     private Color color; //color que va a tener el muro
-    private ArrayList positions; //posiciones en las celdas en grafos que va a ocupar el muro
+    private ArrayList<Integer> positions; //posiciones en las celdas en grafos que va a ocupar el muro
     protected Player player; //jugador que coloco este muro
     protected int sizeTable; //longitud actual del tablero
 

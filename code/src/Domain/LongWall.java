@@ -29,14 +29,14 @@ public class LongWall extends Wall{
 
     @Override
     boolean confirmSequentialPositions(ArrayList<Integer> newPositions) {
-        if (Math.abs(newPositions.get(0) - newPositions.get(2)) != 1 &&
-                Math.abs(newPositions.get(2) - newPositions.get(4)) != 1){
-            return false;
-        }else if (Math.abs(newPositions.get(0) - newPositions.get(2)) != sizeTable &&
-                Math.abs(newPositions.get(2) - newPositions.get(4)) != sizeTable){
-            return false;
-        }else{
+        if (Math.abs(newPositions.get(0) - newPositions.get(2)) == 1 &&
+                Math.abs(newPositions.get(2) - newPositions.get(4)) == 1){
             return true;
+        }else if (Math.abs(newPositions.get(0) - newPositions.get(2)) == sizeTable &&
+                Math.abs(newPositions.get(2) - newPositions.get(4)) == sizeTable){
+            return true;
+        }else{
+            return false;
         }
     }
 }

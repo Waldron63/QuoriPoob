@@ -31,7 +31,6 @@ public class QuoriPoobPersonalTest {
             new QuoriPoob(9, "no normal");
         }catch (QuoriPoobException e1){
             assertEquals(QuoriPoobException.DIFFICULTY_NOT_FOUND, e1.getMessage());
-
         }
     }
 
@@ -82,6 +81,36 @@ public class QuoriPoobPersonalTest {
         }
         try {
             quoriPoob.move("nw");
+        }catch (QuoriPoobException e0){
+            assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
+        }
+        try {
+            quoriPoob.move("sw");
+        }catch (QuoriPoobException e0){
+            assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
+        }
+    }
+
+
+    @Test
+    public void shouldThrowMoveDiagonallyAPawn() throws QuoriPoobException {
+        QuoriPoob quoriPoob = new QuoriPoob(9, "Normal");
+        quoriPoob.addPlayer("jugador1", Color.BLACK);
+        quoriPoob.addPlayer("jugador2", Color.RED);
+        quoriPoob.move("n");
+        quoriPoob.move("s");
+        try {
+            quoriPoob.move("ne");
+        }catch (QuoriPoobException e0){
+            assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
+        }
+        try {
+            quoriPoob.move("nw");
+        }catch (QuoriPoobException e0){
+            assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
+        }
+        try {
+            quoriPoob.move("se");
         }catch (QuoriPoobException e0){
             assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
         }

@@ -94,16 +94,16 @@ public abstract class Player implements Serializable {
      */
     public void addCantWalls(String type) throws QuoriPoobException {
         switch (type){
-            case "Normal":
+            case "Muro Normal":
                 cantDifferentsWalls[0] += 1;
                 break;
-            case "Temporal":
+            case "Muro Temporal":
                 cantDifferentsWalls[1] += 1;
                 break;
-            case "Larga":
+            case "Muro Largo":
                 cantDifferentsWalls[2] += 1;
                 break;
-            case "Aliada":
+            case "Muro Aliado":
                 cantDifferentsWalls[3] += 1;
                 break;
             default:
@@ -117,28 +117,28 @@ public abstract class Player implements Serializable {
      */
     public void delCantWalls(String type) throws QuoriPoobException {
         switch (type){
-            case "Normal":
+            case "Muro Normal":
                 if (cantDifferentsWalls[0] == 0){
                     throw new QuoriPoobException(QuoriPoobException.WALL_NOT_FOUND);
                 }else{
                     cantDifferentsWalls[0] -= 1;
                 }
                 break;
-            case "Temporal":
+            case "Muro Temporal":
                 if (cantDifferentsWalls[1] == 0){
                     throw new QuoriPoobException(QuoriPoobException.WALL_NOT_FOUND);
                 }else{
                     cantDifferentsWalls[1] -= 1;
                 }
                 break;
-            case "Larga":
+            case "Muro Largo":
                 if (cantDifferentsWalls[2] == 0){
                     throw new QuoriPoobException(QuoriPoobException.WALL_NOT_FOUND);
                 }else{
                     cantDifferentsWalls[2] -= 1;
                 }
                 break;
-            case "Aliada":
+            case "Muro Aliado":
                 if (cantDifferentsWalls[3] == 0){
                     throw new QuoriPoobException(QuoriPoobException.WALL_NOT_FOUND);
                 }else{
