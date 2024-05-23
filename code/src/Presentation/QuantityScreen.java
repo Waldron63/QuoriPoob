@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 public class QuantityScreen extends JFrame {
     private JPanel mainPanel; // Panel principal de la ventana
     private JFrame ventana;// Marco de la ventana
-    private JComboBox<String> cantidadMuros; // ComboBox para seleccionar la cantidad de muros
+    private JComboBox<String> cantidadMurosLargo;
+    private JComboBox<String> cantidadMurosAliados;
+    private JComboBox<String> cantidadMurosTemporales;
     private JComboBox<String> casiTeleport; // ComboBox para seleccionar la cantidad de casillas Teleport
     private JComboBox<String> casiReturn; // ComboBox para seleccionar la cantidad de casillas Return
     private JComboBox<String> casiDouble; // ComboBox para seleccionar la cantidad de casillas Double
@@ -35,8 +37,8 @@ public class QuantityScreen extends JFrame {
     private void prepareElements(){
         ventana = new JFrame("QuantityScreen");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = screenSize.width/2;
-        int height = screenSize.height/2;
+        int width = (int) (screenSize.width * 0.6);
+        int height = (int) (screenSize.height * 0.6);
         ventana.setSize(width, height);
         ventana.setLocationRelativeTo(null);
         prepareQuantityScreen();
@@ -66,8 +68,8 @@ public class QuantityScreen extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(tituloLabel, gbc);
 
-        // Cantidad de Muros
-        JLabel modoJuego = new JLabel("Cantidad de Muros:");
+        // Cantidad de Muros largo
+        JLabel modoJuego = new JLabel("Cantidad de Muro Largo:");
         modoJuego.setFont(new Font("Times New Roman", Font.BOLD, 20));
         modoJuego.setForeground(Color.WHITE);
         gbc.gridx = 0;
@@ -77,26 +79,62 @@ public class QuantityScreen extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(modoJuego, gbc);
 
-        String[] muros = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
-        cantidadMuros = new JComboBox<>(muros);
+        String[] muros = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        cantidadMurosLargo = new JComboBox<>(muros);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.EAST;
-        mainPanel.add(cantidadMuros, gbc);
+        mainPanel.add(cantidadMurosLargo, gbc);
+
+        // Cantidad de Muros aliados
+        JLabel modoJuego1 = new JLabel("Cantidad de Muro Aliado:");
+        modoJuego1.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        modoJuego1.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.WEST;
+        mainPanel.add(modoJuego1, gbc);
+
+        String[] muros1 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        cantidadMurosAliados = new JComboBox<>(muros1);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        mainPanel.add(cantidadMurosAliados, gbc);
+
+        // Cantidad de Muros temporal
+        JLabel modoJuego2 = new JLabel("Cantidad de Muro Temporal:");
+        modoJuego2.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        modoJuego2.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.WEST;
+        mainPanel.add(modoJuego2, gbc);
+
+        String[] muros2 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        cantidadMurosTemporales = new JComboBox<>(muros2);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.EAST;
+        mainPanel.add(cantidadMurosTemporales, gbc);
 
         // Cantidad de casillas Teleport
         JLabel teleport = new JLabel("Cantidad de casillas Teleport:");
         teleport.setFont(new Font("Times New Roman", Font.BOLD, 20));
         teleport.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(teleport, gbc);
 
-        String[] casTeleport = {"1", "2", "3", "4", "5", "6"};
+        String[] casTeleport = {"1", "2", "3", "4", "5", "6","7", "8", "9"};
         casiTeleport = new JComboBox<>(casTeleport);
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.EAST;
         mainPanel.add(casiTeleport, gbc);
 
@@ -105,14 +143,14 @@ public class QuantityScreen extends JFrame {
         returnn.setFont(new Font("Times New Roman", Font.BOLD, 20));
         returnn.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(returnn, gbc);
 
-        String[] casReturn = {"1", "2", "3", "4", "5", "6"};
+        String[] casReturn = {"1", "2", "3", "4", "5", "6","7", "8", "9"};
         casiReturn = new JComboBox<>(casReturn);
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.EAST;
         mainPanel.add(casiReturn, gbc);
 
@@ -121,21 +159,21 @@ public class QuantityScreen extends JFrame {
         doublee.setFont(new Font("Times New Roman", Font.BOLD, 20));
         doublee.setForeground(Color.WHITE);
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(doublee, gbc);
 
-        String[] casDouble = {"1", "2", "3", "4", "5", "6"};
+        String[] casDouble = {"1", "2", "3", "4", "5", "6","7", "8", "9"};
         casiDouble = new JComboBox<>(casDouble);
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.EAST;
         mainPanel.add(casiDouble, gbc);
 
         // Boton para iniciar el juego
         JButton continuar = new JButton("Continuar");
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 7;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(continuar, gbc);
@@ -145,7 +183,7 @@ public class QuantityScreen extends JFrame {
      *  Metodo para preparar las acciones de los elementos
      */
     private void prepareQuantityScreenActions(){
-        JButton continuar = (JButton) mainPanel.getComponent(9);
+        JButton continuar = (JButton) mainPanel.getComponent(13);
         continuar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

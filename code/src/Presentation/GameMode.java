@@ -34,8 +34,8 @@ public class GameMode extends JFrame {
     private void prepareElements(){
         ventana = new JFrame("Modo de Juego");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = screenSize.width/2;
-        int height = screenSize.height/2;
+        int width = (int) (screenSize.width * 0.6);
+        int height = (int) (screenSize.height * 0.6);
         ventana.setSize(width, height);
         ventana.setLocationRelativeTo(null);
         prepareGameMode();
@@ -55,7 +55,7 @@ public class GameMode extends JFrame {
 
         // Título del modo de juego
         JLabel tituloLabel = new JLabel("Modo de Juego");
-        tituloLabel.setFont(new Font("Times New Roman", Font.BOLD, 50));
+        tituloLabel.setFont(new Font("Times New Roman", Font.BOLD, 55));
         tituloLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -66,7 +66,7 @@ public class GameMode extends JFrame {
 
         // Etiqueta y ComboBox para seleccionar el modo de juego
         JLabel modoJuego = new JLabel("Tipo de Juego:");
-        modoJuego.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        modoJuego.setFont(new Font("Times New Roman", Font.BOLD, 25));
         modoJuego.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -81,7 +81,7 @@ public class GameMode extends JFrame {
 
         // Etiqueta y ComboBox para seleccionar el tipo de juego
         JLabel modoJuego1 = new JLabel("Dificultad de Juego:");
-        modoJuego1.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        modoJuego1.setFont(new Font("Times New Roman", Font.BOLD, 25));
         modoJuego1.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 2;

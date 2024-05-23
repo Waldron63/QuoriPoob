@@ -37,8 +37,8 @@ public class MainScreen extends JFrame{
     private void prepareElements(){
         ventanaP = new JFrame("QuoriPoob");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = screenSize.width/2;
-        int height = screenSize.height/2;
+        int width = (int) (screenSize.width * 0.6);
+        int height = (int) (screenSize.height * 0.6);
         ventanaP.setSize(width, height);
         ventanaP.setLocationRelativeTo(null);
 

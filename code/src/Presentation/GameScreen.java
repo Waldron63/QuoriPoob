@@ -79,8 +79,8 @@ public class GameScreen extends JFrame{
     private void prepareElements(){
         setTitle("Quorindor"); // Establece el título de la ventana
         preferredDimention = Toolkit.getDefaultToolkit().getScreenSize();
-        width = preferredDimention.width / 2;
-        height = preferredDimention.height / 2;
+        width = preferredDimention.width ;
+        height = preferredDimention.height;
         // Establece el tamaño de la ventana y lo centra
         setSize(width, height);
         setLocationRelativeTo(null);
@@ -153,28 +153,44 @@ public class GameScreen extends JFrame{
         leftPanel.setBackground(new Color(115, 10, 25));
 
         //Panel para la info de los muros
-        JPanel wallsPanel1 = new JPanel(new GridLayout(2, 1));
-        JLabel walls = new JLabel("Numero de muros:");
-        walls.setForeground(Color.WHITE);
-        walls.setHorizontalAlignment(SwingConstants.CENTER);
-        walls.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        wallsPanel1.add(walls);
+        JPanel wallsPanel1 = new JPanel(new GridLayout(4, 1));
+        JLabel normales = new JLabel("Muro Normal:");
+        normales.setForeground(Color.WHITE);
+        normales.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel temporales = new JLabel("Muro Temporal:");
+        temporales.setForeground(Color.WHITE);
+        temporales.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel largos = new JLabel("Muro Largo:");
+        largos.setForeground(Color.WHITE);
+        largos.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel aliados = new JLabel("Muro Aliado:");
+        aliados.setForeground(Color.WHITE);
+        aliados.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        normales.setHorizontalAlignment(SwingConstants.CENTER);
+        temporales.setHorizontalAlignment(SwingConstants.CENTER);
+        largos.setHorizontalAlignment(SwingConstants.CENTER);
+        aliados.setHorizontalAlignment(SwingConstants.CENTER);
+
+        wallsPanel1.add(normales);
+        wallsPanel1.add(temporales);
+        wallsPanel1.add(largos);
+        wallsPanel1.add(aliados);
         wallsPanel1.setBackground(new Color(115, 10, 25));
         wallsPanel1.setForeground(Color.WHITE);
         leftPanel.add(wallsPanel1);
 
         //Panel para la informacion de las casillas
         JPanel casillas1 = new JPanel(new GridLayout(4, 1));
-        JLabel normal1 = new JLabel("Casilla normal:");
+        JLabel normal1 = new JLabel("Casilla Normal:");
         normal1.setForeground(Color.WHITE);
         normal1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel teleport1 = new JLabel("Casilla teleport:");
+        JLabel teleport1 = new JLabel("Casilla Teleport:");
         teleport1.setForeground(Color.WHITE);
         teleport1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel return1 = new JLabel("Casilla retorno:");
+        JLabel return1 = new JLabel("Casilla Retorno:");
         return1.setForeground(Color.WHITE);
         return1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel doubleTurn1 = new JLabel("Casilla doble turno:");
+        JLabel doubleTurn1 = new JLabel("Casilla Doble Turno:");
         doubleTurn1.setForeground(Color.WHITE);
         doubleTurn1.setFont(new Font("Times New Roman", Font.BOLD, 15));
         normal1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -215,12 +231,28 @@ public class GameScreen extends JFrame{
         rightPanel.setBackground(new Color(115, 10, 25));
 
         //Panel para la info de los muros
-        JPanel wallsPanel2 = new JPanel(new GridLayout(2, 1));
-        JLabel walls2 = new JLabel("Numero de muros:");
-        walls2.setForeground(Color.WHITE);
-        walls2.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        walls2.setHorizontalAlignment(SwingConstants.CENTER);
-        wallsPanel2.add(walls2);
+        JPanel wallsPanel2 = new JPanel(new GridLayout(4, 1));
+        JLabel normales = new JLabel("Muro Normal:");
+        normales.setForeground(Color.WHITE);
+        normales.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel temporales = new JLabel("Muro Temporal:");
+        temporales.setForeground(Color.WHITE);
+        temporales.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel largos = new JLabel("Muro Largo:");
+        largos.setForeground(Color.WHITE);
+        largos.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel aliados = new JLabel("Muro Aliado:");
+        aliados.setForeground(Color.WHITE);
+        aliados.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        normales.setHorizontalAlignment(SwingConstants.CENTER);
+        temporales.setHorizontalAlignment(SwingConstants.CENTER);
+        largos.setHorizontalAlignment(SwingConstants.CENTER);
+        aliados.setHorizontalAlignment(SwingConstants.CENTER);
+
+        wallsPanel2.add(normales);
+        wallsPanel2.add(temporales);
+        wallsPanel2.add(largos);
+        wallsPanel2.add(aliados);
         wallsPanel2.setBackground(new Color(115, 10, 25));
         wallsPanel2.setForeground(Color.WHITE);
         rightPanel.add(wallsPanel2);
@@ -502,7 +534,8 @@ public class GameScreen extends JFrame{
         for(int i = 0; i < longTable; i++){
             for(int j = 0; j < longTable; j++){
                 // Crea una casilla y la agrega al tablero
-                casillas[i][j] = createCasilla(i,j);
+                casillas[i][j] = createCasilla(i,j,tableroDom[i][j]);
+
                 tableroPanel.add(casillas[i][j]);
             }
         }
@@ -515,16 +548,31 @@ public class GameScreen extends JFrame{
     /**
      * Metodo para crear una casilla
      */
-    private JPanel createCasilla(int i,int j) {
+    private JPanel createCasilla(int i,int j,String tipoCasilla) {
         JPanel casilla = new JPanel(new BorderLayout());
         casilla.setOpaque(true);
-        casilla.setBackground(new Color(210, 180, 140));
+        switch (tipoCasilla) {
+            case "Normal":
+                casilla.setBackground(new Color(210, 180, 140));
+                break;
+            case "Teletransportador":
+                casilla.setBackground(new Color(217, 133, 59));
+                break;
+            case "Regresar":
+                casilla.setBackground(new Color(255, 239, 0));
+                break;
+            case "Doble":
+                casilla.setBackground(new Color(220, 20, 60));
+            default:
+                casilla.setBackground(new Color(210, 180, 140));
+                break;
+        }
         casilla.setBorder(new RoundBorder(new Color(115, 10, 25), 2, 15));
         casilla.setLayout(new BorderLayout());
         // Crea el panel central que representa el centro de la casilla
         JPanel centerButton = createButtonPanel(new Color(210, 180, 140),i,j);
-        casilla.add(centerButton, BorderLayout.CENTER);
 
+        casilla.add(centerButton, BorderLayout.CENTER);
         return casilla;
     }
 
@@ -592,9 +640,9 @@ public class GameScreen extends JFrame{
     private Color colorWall(String tipoMuro){
         switch (tipoMuro){
             case "Muro Normal":
-                return Color.BLUE;
+                return new Color(101, 67, 33);
             case "Muro Largo":
-                return Color.BLUE;
+                return new Color(101, 67, 33);
             case "Muro Aliado":
                 return quorindorDom.getPlayerColor(quorindorDom.getTurn());
             case "Muro Temporal":

@@ -38,8 +38,8 @@ public class UserGameScreen extends JFrame {
     private void prepareElements(){
         ventanaP = new JFrame("Configuracion del Jugador");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = screenSize.width/2;
-        int height = screenSize.height/2;
+        int width = (int) (screenSize.width * 0.6);
+        int height = (int) (screenSize.height * 0.6);
         ventanaP.setSize(width, height);
         ventanaP.setLocationRelativeTo(null);
 
@@ -58,7 +58,7 @@ public class UserGameScreen extends JFrame {
 
 
         JLabel tituloLabel = new JLabel("Configuración de Usuario");
-        tituloLabel.setFont(new Font("Times New Roman", Font.BOLD, 50));
+        tituloLabel.setFont(new Font("Times New Roman", Font.BOLD, 55));
         tituloLabel.setForeground(Color.WHITE);
         // Ajustes para centrar el título
         gbc.gridx = 0;
@@ -74,7 +74,7 @@ public class UserGameScreen extends JFrame {
 
         // Nombre del jugador 1
         JLabel labelNombre1 = new JLabel("Nombre Jugador 1:");
-        labelNombre1.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+        labelNombre1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         labelNombre1.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -88,7 +88,7 @@ public class UserGameScreen extends JFrame {
 
         // Color del jugador 1
         JLabel labelColor1 = new JLabel("Color Jugador 1:");
-        labelColor1.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+        labelColor1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         labelColor1.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -103,7 +103,7 @@ public class UserGameScreen extends JFrame {
 
         // Nombre del jugador 2
         JLabel labelNombre2 = new JLabel("Nombre Jugador 2:");
-        labelNombre2.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+        labelNombre2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         labelNombre2.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -117,7 +117,7 @@ public class UserGameScreen extends JFrame {
 
         // Color del jugador 2
         JLabel labelColor2 = new JLabel("Color Jugador 2:");
-        labelColor2.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+        labelColor2.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         labelColor2.setForeground(Color.WHITE);
         gbc.gridx = 0;
         gbc.gridy = 4;
