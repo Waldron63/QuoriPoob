@@ -148,7 +148,7 @@ public class QuoriPoob implements Serializable {
                 break;
             //cualquier otro caso
             default:
-                return ;
+                throw new QuoriPoobException(QuoriPoobException.TYPE_WALL_NOT_IN_CONFIGURATIONS);
         }
         if (actPlayer.getCantDifferentWalls()[arrayPosition] > 0) {
             tablero.addWall(newWall, playerOne, playerTwo);
@@ -195,11 +195,42 @@ public class QuoriPoob implements Serializable {
         }
     }
 
+    public ArrayList<Integer> changeWallCount() throws QuoriPoobException {
+        ArrayList<Integer> possibleDelWall = tablero.changeWallCount();
+        ArrayList<Integer> posiciones = new ArrayList<>();
+        if (possibleDelWall != null) {
+            for (int i = 0; i < possibleDelWall.size(); i++) {
+                int[] graph = tablero.getGraphPosition(possibleDelWall.get(i));
+                if (i % 2 == 0) {
+                    posiciones.add(graph[0]);
+                    posiciones.add(graph[1]);
+                } else {
+                    int dist = possibleDelWall.get(i - 1) - possibleDelWall.get(i);
+                    switch (dist) {
+                        case 1:
+                            posiciones.add(2);
+                            break;
+                        case -1:
+                            posiciones.add(3);
+                            break;
+                        case 9:
+                            posiciones.add(0);
+                            break;
+                        case -9:
+                            posiciones.add(1);
+                            break;
+                    }
+                }
+            }
+            return posiciones;
+        }
+        return null;
+    }
+
     /**
      * ayuda a cambiar el turno de los jugadores
      */
     private void changeTurn() throws QuoriPoobException {
-        tablero.changeWallCount();
         int[] positions;
         if (turn == 1){
             positions = playerOne.getPositions();

@@ -81,7 +81,7 @@ public class TableAdyacence implements Serializable {
                 isWallPosible2 = bfs(posGraph2, turn2);
                 //si se cierra todos los caminos, rompe el ciclo
                 if (!isWallPosible1 || !isWallPosible2) {
-                    k = i;
+                    k = i + 1;
                     break;
                 }
             }

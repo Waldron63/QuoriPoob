@@ -73,8 +73,8 @@ public class Table implements Serializable {
      */
     public void addRandomBox(int[] cantTypeBoxes){
         Random random = new Random();
-        int posX;
-        int posY;
+        int posX = random.nextInt(casillas.length);
+        int posY = random.nextInt(casillas.length);
         //recorre el array de los nuevos tipos de casillas a agregar
         for (int i = 0; i < cantTypeBoxes.length; i++){
             //recorre la cantidad de casilla especial que quere de este tipo
@@ -102,10 +102,10 @@ public class Table implements Serializable {
                         typeBox = "Normal";
                         break;
                 }
-                do {
+                while (!typeCasillas[posX][posY].equals("Normal")){
                     posX = random.nextInt(casillas.length);
                     posY = random.nextInt(casillas.length);
-                } while (!typeCasillas[posX][posY].equals("Normal"));
+                }
                 casillas[posX][posY] = box;
                 typeCasillas[posX][posY] = typeBox;
             }
@@ -440,10 +440,14 @@ public class Table implements Serializable {
         return posicionesMuros;
     }
 
+    public int[] getGraphPosition(int graph){
+        return  posGraphs.get(graph);
+    }
+
     /**
      * cambia el contador de los muros si es que tienen contador.
      */
-    public void changeWallCount() throws QuoriPoobException {
+    public ArrayList<Integer> changeWallCount() throws QuoriPoobException {
         Wall temporal = null;
         //itera en todos los muros que se han colocado en el tablero
         for (Wall walls : muros){
@@ -456,10 +460,12 @@ public class Table implements Serializable {
         //si hay algun muro que deba desaparecer, lo elimina
         if (temporal != null){
             Player player = temporal.getPlayer();
-            player.addCantWalls("Temporal");
+            player.addCantWalls("Muro Temporal");
             muros.remove(temporal);
             adyacence.delWall(temporal);
+            return temporal.getPositions();
         }
+        return null;
     }
 
     public void changeBox(int xPosition, int yPosition){

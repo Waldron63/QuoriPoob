@@ -13,23 +13,27 @@ public class UserGameScreen extends JFrame {
     private JTextField nombreJugador1; //nombre del jugador 1
     private JTextField nombreJugador2; //nombre del jugador 2
     private String difficultySelect; //dificultad que desea aplicar para el juego
+    private int[] typeCantWalls; //cantidad de muros especiales seleccionados por el usuario
+    private int[] typeCantBoxes; //cantidad de casillas especiales seleccionados por el usuario
 
     /**
      * Metodo principal para ejecutar esta ventana
      * @param args
      */
     public static void main(String[] args) {
-        UserGameScreen ventana = new UserGameScreen("Normal");
+        UserGameScreen ventana = new UserGameScreen("Normal", new int[] {10,0,0,0}, new int[] {27,0,0,0});
     }
 
     /**
      * Constructor for objects of class
      * @param difSelect, indica la dificultad del juego que selecciono el jugador anteriormente
      */
-    public UserGameScreen(String difSelect){
+    public UserGameScreen(String difSelect, int[] newTypeWalls, int[] newTypeBoxes){
         prepareElements();
         prepareUserGameActions();
         difficultySelect = difSelect;
+        typeCantBoxes = newTypeBoxes;
+        typeCantWalls = newTypeWalls;
     }
 
     /**
@@ -168,9 +172,10 @@ public class UserGameScreen extends JFrame {
                 Color colorJugador1 = color1;
                 Color colorJugador2 = color2;
                 if (!nombre1.isEmpty() && !nombre2.isEmpty() && colorJugador1 != null && colorJugador2 != null) {
-                    GameScreen gameScreen = new GameScreen(difficultySelect);
+                    GameScreen gameScreen = new GameScreen(difficultySelect, typeCantBoxes);
                     gameScreen.updatePlayer1(nombre1, colorJugador1);
                     gameScreen.updatePlayer2(nombre2, colorJugador2);
+                    gameScreen.setTypesSpecials(typeCantWalls);
                     gameScreen.setVisible(true);
                     ventanaP.dispose();
                 }
