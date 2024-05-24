@@ -383,18 +383,45 @@ public class Table implements Serializable {
         int initialG = graphs.get(pos);
         String pos2;
         int finalG;
+        boolean comproveReturn1;
         if (Objects.equals(typeBox, "Regresar")){
-            int[] newPositions;
+            int[] newPositions = new int[] {xPosition, yPosition};
             if (turn == 1){
-                newPositions = previousBoxP1[0];
-                pos2 = previousBoxP1[0] + "," + previousBoxP1[1];
-                finalG = graphs.get(pos2);
-                adyacence.movePlayer(initialG, finalG);
+                if (previousBoxP1[0] != null) {
+                    pos2 = previousBoxP1[0][0] + "," + previousBoxP1[0][1];
+                    finalG = graphs.get(pos2);
+                    comproveReturn1 = adyacence.bfs(finalG, turn);
+                    if (comproveReturn1) {
+                        newPositions = previousBoxP1[0];
+                        adyacence.movePlayer(initialG, finalG);
+                    }else if (previousBoxP1[1] != null){
+                        pos2 = previousBoxP1[1][0] + "," + previousBoxP1[1][1];
+                        finalG = graphs.get(pos2);
+                        comproveReturn1 = adyacence.bfs(finalG, turn);
+                        if (comproveReturn1){
+                            newPositions = previousBoxP1[1];
+                            adyacence.movePlayer(initialG, finalG);
+                        }
+                    }
+                }
             }else{
-                newPositions = previousBoxP2[0];
-                pos2 = previousBoxP2[0] + "," + previousBoxP2[1];
-                finalG = graphs.get(pos2);
-                adyacence.movePlayer(initialG, finalG);
+                if (previousBoxP2[0] != null) {
+                    pos2 = previousBoxP2[0][0] + "," + previousBoxP2[0][1];
+                    finalG = graphs.get(pos2);
+                    comproveReturn1 = adyacence.bfs(finalG, turn);
+                    if (comproveReturn1) {
+                        newPositions = previousBoxP2[0];
+                        adyacence.movePlayer(initialG, finalG);
+                    }else if (previousBoxP1[1] != null){
+                        pos2 = previousBoxP2[1][0] + "," + previousBoxP2[1][1];
+                        finalG = graphs.get(pos2);
+                        comproveReturn1 = adyacence.bfs(finalG, turn);
+                        if (comproveReturn1){
+                            newPositions = previousBoxP2[1];
+                            adyacence.movePlayer(initialG, finalG);
+                        }
+                    }
+                }
             }
             return newPositions;
         }else{

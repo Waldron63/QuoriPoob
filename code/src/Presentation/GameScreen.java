@@ -568,10 +568,10 @@ public class GameScreen extends JFrame{
                 centerButton = createButtonPanel(new Color(217, 133, 59),i,j);
                 break;
             case "Regresar":
-                centerButton = createButtonPanel(new Color(255, 239, 0),i,j);
+                centerButton = createButtonPanel(new Color(220, 20, 60),i,j);
                 break;
             case "Doble":
-                centerButton = createButtonPanel(new Color(220, 20, 60),i,j);
+                centerButton = createButtonPanel(new Color(9, 135, 26),i,j);
                 break;
             default:
                 centerButton = createButtonPanel(new Color(210, 180, 140),i,j);
@@ -886,21 +886,11 @@ public class GameScreen extends JFrame{
             boton.setBackground(colorWall(""));
         }
         int turn = quorindorDom.getTurn();
-        // Obtener los circulos
-        Circle player1 = (Circle) ((JPanel) leftPlayer.getComponent(1)).getComponent(0);
-        Circle player2 = (Circle) ((JPanel) rightPlayer.getComponent(1)).getComponent(0);
-        // turno jugador 1, cambia el color
-        if (turn == 1) {
-            player1.setColor(new Color(210, 180, 140));
-            player2.setColor(new Color(115, 10, 25));
-        } else { //turno del jugador 2
-            player1.setColor(new Color(115, 10, 25));
-            player2.setColor(new Color(210, 180, 140));
-        }
         // Obtener el JPanel centerButton de la casilla actual del jugador
         JPanel casilla = casillas[positions[0]][positions[1]];
         JPanel casillaButton = (JPanel) casilla.getComponent(0);
         JPanel center = (JPanel) casillaButton.getComponent(4);
+        Color colorCenter = center.getBackground();
         //si el turno es del jugador 1, indica que se acaba de mover el jugador 2
         if(turn==1) {
             rightPlayer.remove(2);
@@ -910,6 +900,9 @@ public class GameScreen extends JFrame{
             JPanel casilla2 = casillas[posPlayer2[0]][posPlayer2[1]];
             JPanel casillaButton2 = (JPanel) casilla2.getComponent(0);
             JPanel jugador = (JPanel) casillaButton2.getComponent(4);
+            Color colorJugador = jugador.getBackground();
+            jugador.setBackground(colorCenter);
+            center.setBackground(colorJugador);
             casillaButton.add(jugador, BorderLayout.CENTER);
             casillaButton2.add(center, BorderLayout.CENTER);
             posPlayer2 = positions;
@@ -921,9 +914,28 @@ public class GameScreen extends JFrame{
             JPanel casilla2 = casillas[posPlayer1[0]][posPlayer1[1]];
             JPanel casillaButton2 = (JPanel) casilla2.getComponent(0);
             JPanel jugador = (JPanel) casillaButton2.getComponent(4);
+            Color colorJugador = jugador.getBackground();
+            jugador.setBackground(colorCenter);
+            center.setBackground(colorJugador);
             casillaButton.add(jugador, BorderLayout.CENTER);
             casillaButton2.add(center, BorderLayout.CENTER);
             posPlayer1 = positions;
+        }
+        // Obtener los circulos
+        Circle player1 = (Circle) ((JPanel) leftPlayer.getComponent(1)).getComponent(0);
+        Circle player2 = (Circle) ((JPanel) rightPlayer.getComponent(1)).getComponent(0);
+        // turno jugador 1, cambia el color
+        boolean doble = quorindorDom.isDoubleTurn();
+        if (doble){
+            turn = quorindorDom.getTurn();
+            casillaButton.getComponent(4).setBackground(new Color(210, 180, 140));
+        }
+        if (turn == 1) {
+            player1.setColor(new Color(210, 180, 140));
+            player2.setColor(new Color(115, 10, 25));
+        } else { //turno del jugador 2
+            player1.setColor(new Color(115, 10, 25));
+            player2.setColor(new Color(210, 180, 140));
         }
         ArrayList<Integer> possibleWall= quorindorDom.changeWallCount();
         if (possibleWall != null){

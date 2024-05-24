@@ -25,6 +25,7 @@ public class QuoriPoob implements Serializable {
     private int sizeTable; //longitud total del tablero
     private String difficult; //tipo de dificultad escogido por los jugadores
     private int turn; //indica de quien es el turno actual en el juego
+    private boolean isDoubleTurn; //indica si el usuario cayo en una casilla doble
 
     /**
      * metodo principal para comenzar el dominio
@@ -49,6 +50,7 @@ public class QuoriPoob implements Serializable {
         sizeTable = n;
         difficult = newDifficult;
         turn = 1;
+        isDoubleTurn = false;
     }
 
     /**
@@ -227,6 +229,20 @@ public class QuoriPoob implements Serializable {
         return null;
     }
 
+    public boolean isDoubleTurn(){
+        if (isDoubleTurn){
+            isDoubleTurn = false;
+            turn = switch (turn) {
+                case 1 -> 2;
+                case 2 -> 1;
+                default -> turn;
+            };
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * ayuda a cambiar el turno de los jugadores
      */
@@ -236,15 +252,15 @@ public class QuoriPoob implements Serializable {
             positions = playerOne.getPositions();
             String typeBox = tablero.getCasillas()[positions[0]][positions[1]];
             if (typeBox == "Doble") {
-                turn = 2;
                 tablero.changeBox(positions[0], positions[1]);
+                isDoubleTurn = true;
             }
         }else{
             positions = playerTwo.getPositions();
             String typeBox = tablero.getCasillas()[positions[0]][positions[1]];
             if (typeBox == "Doble") {
-                turn = 1;
                 tablero.changeBox(positions[0], positions[1]);
+                isDoubleTurn = true;
             }
         }
         setTurn();
