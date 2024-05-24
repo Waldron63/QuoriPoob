@@ -25,10 +25,11 @@ public class GameScreen extends JFrame{
     private JFileChooser fileChooser;  //Selector de archivos para guardar y cargar partidas
     private int[] posPlayer1; //Posición del Jugador 1
     private int[] posPlayer2; //Posición del Jugador 2
-    private long countdownTime = 300000; //Tiempo de cuenta regresiva en milisegundos (5 minutos)
-    private Timer timer; //Temporizador para la cuenta regresiva
     private ArrayList<Integer> posicionesWallTable; //posiciones de las casillas donde se pondran los muros
     private ArrayList<JButton> buttonWalls; //arreglo con todos los botones que se van a generar muros
+    private int tiempoRestante;
+    private Timer actionTimer;
+    private int tiempoJugador1;
 
 
     /**
@@ -345,7 +346,7 @@ public class GameScreen extends JFrame{
         tipoMuro.setPreferredSize(new Dimension(180, 60));
         rellenoIzquierda.add(tipoMuro, BorderLayout.CENTER);
         //Cronometro
-        JLabel cronometro = new JLabel("05:00");
+        JLabel cronometro = new JLabel("00:00");
         cronometro.setForeground(Color.WHITE);
         cronometro.setFont(new Font("Times New Roman", Font.BOLD, 24));
         cronometro.setPreferredSize(new Dimension(180, 50));
@@ -366,26 +367,63 @@ public class GameScreen extends JFrame{
     }
 
     /**
-     * Inicia el temporizador del juego.
+     * Inicia el temporizador deperndiendo de la dificultad juego.
      */
     private void startTimer() {
-        //indica si el tiempo se acabo
-        if (timer == null) {
-            timer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    countdownTime -= 1000;
-                    if (countdownTime >= 0) {
-                        updateCronometro(countdownTime);
-                    } else {
-                        timer.stop();
+        String dificultad = quorindorDom.getDifficult();
+        switch (dificultad) {
+            case "Normal":
+                break;
+            case "Contrarreloj":
+                int tiempoLimiteTurno = 30;
+                tiempoJugador1 = tiempoLimiteTurno;
+                actionTimer = new Timer(1000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tiempoJugador1=tiempoJugador1 - 1;
+                        updateCronometro(tiempoJugador1 * 1000);
+                        if (tiempoJugador1 <= 0) {
+                            actionTimer.stop();
+                            try {
+                                quorindorDom.changeTurn();
+                                int mainTurn = quorindorDom.getTurn();
+                                if (mainTurn == 1){
+                                    refresh(quorindorDom.getPlayerPositions(2));
+                                }else{
+                                    refresh(quorindorDom.getPlayerPositions(1));
+                                }
+                            } catch (QuoriPoobException ex) {
+                                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+                                Log.record(ex);
+                            }
+                        }
                     }
-                }
-            });
-            timer.start();
+                });
+                actionTimer.setRepeats(true);
+                actionTimer.start();
+                break;
+            case "Cronometrado":
+                int tiempoLimite = 600;
+                tiempoRestante = tiempoLimite;
+                actionTimer = new Timer(1000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tiempoRestante--;
+                        updateCronometro(tiempoRestante * 1000);
+                        if (tiempoRestante <= 0) {
+                            actionTimer.stop();
+                            JOptionPane.showMessageDialog(GameScreen.this, "¡Tiempo agotado! El juego ha terminado.", "Tiempo Agotado", JOptionPane.INFORMATION_MESSAGE);
+                            playerWinner();
+                        }
+                    }
+                });
+                actionTimer.setRepeats(true);
+                actionTimer.start();
+                break;
+            default:
+                break;
         }
     }
-
     /**
      * Actualiza el cronómetro con el tiempo restante.
      * @param time Tiempo restante en milisegundos
@@ -535,7 +573,6 @@ public class GameScreen extends JFrame{
             for(int j = 0; j < longTable; j++){
                 // Crea una casilla y la agrega al tablero
                 casillas[i][j] = createCasilla(i,j,tableroDom[i][j]);
-
                 tableroPanel.add(casillas[i][j]);
             }
         }
@@ -842,6 +879,11 @@ public class GameScreen extends JFrame{
             casillaButton2.add(center, BorderLayout.CENTER);
             posPlayer1 = positions;
         }
+        if(quorindorDom.getDifficult().equals("Contrarreloj")){
+            actionTimer.stop();
+            startTimer();
+        }
+
         mainPanel.repaint();
         int winner = quorindorDom.playerWin();
         //revisa si el jugador 1 o el jugador 2 gano
@@ -902,8 +944,8 @@ public class GameScreen extends JFrame{
      * ventana emergente que le indica al usuario que desea hacer despues de haber ganado
      */
     private void playerWinner(){
-        Object[] options = {"reiniciar", "configurar", "salir"};
-        int resp = JOptionPane.showOptionDialog(this, "deseas volver a jugar?", "ganador",
+        Object[] options = {"Reiniciar", "Configurar", "Salir"};
+        int resp = JOptionPane.showOptionDialog(this, "¿Deseas volver a jugar?", "Final",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
         //si desea jugar la partida con la misma configuracion
         if (resp == 0){

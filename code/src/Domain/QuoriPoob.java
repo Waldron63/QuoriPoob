@@ -25,7 +25,6 @@ public class QuoriPoob implements Serializable {
     private int sizeTable; //longitud total del tablero
     private String difficult; //tipo de dificultad escogido por los jugadores
     private int turn; //indica de quien es el turno actual en el juego
-
     /**
      * metodo principal para comenzar el dominio
      * @param args
@@ -41,14 +40,15 @@ public class QuoriPoob implements Serializable {
      * @param n, la longitud nXn del tablero para jugar
      * @param newDifficult, la dificultad que va a tener el juego
      */
-    public QuoriPoob(int n, String newDifficult) throws QuoriPoobException{
-        if(newDifficult.isEmpty() || !Arrays.asList(typesDifficults).contains(newDifficult)){
+    public QuoriPoob(int n, String newDifficult) throws QuoriPoobException {
+        if (newDifficult.isEmpty() || !Arrays.asList(typesDifficults).contains(newDifficult)) {
             throw new QuoriPoobException(QuoriPoobException.DIFFICULTY_NOT_FOUND);
         }
         tablero = new Table(n);
         sizeTable = n;
         difficult = newDifficult;
         turn = 1;
+
     }
 
     /**
@@ -105,7 +105,6 @@ public class QuoriPoob implements Serializable {
     public void setRandomBox(int[] cantTypeBoxes){
         tablero.addRandomBox(cantTypeBoxes);
     }
-
     /**
      * ayuda a anadir nuevos muros al tablero, mientras no se cierren todos
      * los caminos de un lado a otro.
@@ -198,7 +197,7 @@ public class QuoriPoob implements Serializable {
     /**
      * ayuda a cambiar el turno de los jugadores
      */
-    private void changeTurn() throws QuoriPoobException {
+    public void changeTurn() throws QuoriPoobException {
         tablero.changeWallCount();
         int[] positions;
         if (turn == 1){
