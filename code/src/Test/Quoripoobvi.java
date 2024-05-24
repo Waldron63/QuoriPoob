@@ -1,6 +1,5 @@
 //package Test;
 
-
 import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
@@ -224,15 +223,28 @@ public class Quoripoobvi {
         quoriPoob.setTypeWalls(new int[] {3,2,2,3});
         ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(0, 0, 1, 0, 0, 1, 1, 1));
         quoriPoob.addWall("Muro Normal", posiciones);
-        ArrayList<Integer> posiciones2 = new ArrayList<>(Arrays.asList(0, 2, 1, 2, 0, 3, 1, 3, 0, 4, 1, 4));
-        quoriPoob.addWall("Muro Largo", posiciones2);
         ArrayList<Integer> posiciones3 = new ArrayList<>(Arrays.asList(8, 4, 7, 4, 8, 5, 7, 5));
         quoriPoob.addWall("Muro Normal", posiciones3);
+        ArrayList<Integer> posiciones2 = new ArrayList<>(Arrays.asList(0, 2, 1, 2, 0, 3, 1, 3, 0, 4, 1, 4));
+        quoriPoob.addWall("Muro Largo", posiciones2);
         ArrayList<Integer> posiciones4 = new ArrayList<>(Arrays.asList(5, 6, 6, 6, 5, 5, 6, 5));
         quoriPoob.addWall("Muro Aliado", posiciones4);
         ArrayList<Integer> posiciones5 = new ArrayList<>(Arrays.asList(4, 4, 3, 4, 4, 3, 3, 3));
         quoriPoob.addWall("Muro Normal", posiciones5);
-
+        int[] cantWalls1 = quoriPoob.getPlayerCountWalls(1);
+        int[] cantWalls2 = quoriPoob.getPlayerCountWalls(2);
+        assertEquals(1, cantWalls1[0]);
+        assertEquals(1, cantWalls1[2]);
+        assertEquals(2, cantWalls2[0]);
+        assertEquals(2, cantWalls2[3]);
+        int cont1 = 0;
+        int cont2 = 0;
+        for (int i = 0; i < 4; i++){
+            cont1 += cantWalls1[i];
+            cont2 += cantWalls2[i];
+        }
+        assertEquals(7, cont1);
+        assertEquals(8, cont2);
     }
 
     @Test

@@ -38,4 +38,13 @@ public class AllyWall extends Wall{
             return true;
         }
     }
+
+    /**
+     * @param mainTurn
+     * @return
+     */
+    @Override
+    boolean samePlayerPass(int mainTurn) {
+        return  mainTurn == player.getMainTurn();
+    }
 }

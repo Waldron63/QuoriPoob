@@ -15,21 +15,25 @@ public class MachineGameScreen extends JFrame {
     private Color color1; // Color seleccionado para el jugador
     private JTextField nombreJugador1; // Campo de texto para el nombre del jugador
     private String difficultySelect; //dificultad que desea aplicar para el juego
+    private int[] typeCantWalls; //cantidad de muros especiales seleccionados por el usuario
+    private int[] typeCantBoxes; //cantidad de casillas especiales seleccionados por el usuario
 
     /**
      * Metodo principal para ejecutar la aplicación
      * @param args
      */
     public static void main(String[] args) {
-        MachineGameScreen ventana = new MachineGameScreen("Normal");
+        MachineGameScreen ventana = new MachineGameScreen("Normal", new int[] {10,0,0,0}, new int[] {27,0,0,0});
     }
 
     /***
      *  Constructor de la clase que inicializa los elementos de la interfaz
      */
-    public MachineGameScreen(String difSelect) {
+    public MachineGameScreen(String difSelect, int[] newTypeWalls, int[] newTypeBoxes) {
         prepareElements();
         difficultySelect = difSelect;
+        typeCantBoxes = newTypeBoxes;
+        typeCantWalls = newTypeWalls;
     }
 
     /***
@@ -143,9 +147,10 @@ public class MachineGameScreen extends JFrame {
                 Color colorJugador1 = color1;
                 String typeMachine = (String) maquina.getSelectedItem();
                 if (!nombre1.isEmpty() && colorJugador1 != null) {
-                    GameScreen gameScreen = new GameScreen(difficultySelect);
+                    GameScreen gameScreen = new GameScreen(difficultySelect, typeCantBoxes);
                     gameScreen.updatePlayer1(nombre1, colorJugador1);
                     gameScreen.updateMachine(typeMachine);
+                    gameScreen.setTypesSpecials(typeCantWalls);
                     gameScreen.setVisible(true);
                     ventana.dispose();
                 }

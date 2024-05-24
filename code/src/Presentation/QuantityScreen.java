@@ -9,12 +9,12 @@ import java.awt.event.ActionListener;
 public class QuantityScreen extends JFrame {
     private JPanel mainPanel; // Panel principal de la ventana
     private JFrame ventana;// Marco de la ventana
-    private JComboBox<String> cantidadMurosLargo;
-    private JComboBox<String> cantidadMurosAliados;
-    private JComboBox<String> cantidadMurosTemporales;
-    private JComboBox<String> casiTeleport; // ComboBox para seleccionar la cantidad de casillas Teleport
-    private JComboBox<String> casiReturn; // ComboBox para seleccionar la cantidad de casillas Return
-    private JComboBox<String> casiDouble; // ComboBox para seleccionar la cantidad de casillas Double
+    private JComboBox<String> cantidadMurosLargo; //ComboBox para seleccionar la cantidad de muros largos
+    private JComboBox<String> cantidadMurosAliados; //ComboBox para seleccionar la cantidad de muros aliados
+    private JComboBox<String> cantidadMurosTemporales; //ComboBox para seleccionar la cantidad de muros temporales
+    private JComboBox<String> casiTeleport; //ComboBox para seleccionar la cantidad de casillas Teleport
+    private JComboBox<String> casiReturn; //ComboBox para seleccionar la cantidad de casillas Return
+    private JComboBox<String> casiDouble; //ComboBox para seleccionar la cantidad de casillas Double
 
     /***
      * Metodo principal para ejecutar la aplicación
@@ -79,7 +79,7 @@ public class QuantityScreen extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(modoJuego, gbc);
 
-        String[] muros = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        String[] muros = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
         cantidadMurosLargo = new JComboBox<>(muros);
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -97,7 +97,7 @@ public class QuantityScreen extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(modoJuego1, gbc);
 
-        String[] muros1 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        String[] muros1 = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
         cantidadMurosAliados = new JComboBox<>(muros1);
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -115,7 +115,7 @@ public class QuantityScreen extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(modoJuego2, gbc);
 
-        String[] muros2 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        String[] muros2 = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
         cantidadMurosTemporales = new JComboBox<>(muros2);
         gbc.gridx = 1;
         gbc.gridy = 3;
@@ -131,7 +131,7 @@ public class QuantityScreen extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(teleport, gbc);
 
-        String[] casTeleport = {"1", "2", "3", "4", "5", "6","7", "8", "9"};
+        String[] casTeleport = {"0", "0", "1", "2", "3", "4", "5", "6","7", "8", "9"};
         casiTeleport = new JComboBox<>(casTeleport);
         gbc.gridx = 1;
         gbc.gridy = 4;
@@ -147,7 +147,7 @@ public class QuantityScreen extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(returnn, gbc);
 
-        String[] casReturn = {"1", "2", "3", "4", "5", "6","7", "8", "9"};
+        String[] casReturn = {"0", "1", "2", "3", "4", "5", "6","7", "8", "9"};
         casiReturn = new JComboBox<>(casReturn);
         gbc.gridx = 1;
         gbc.gridy = 5;
@@ -163,7 +163,7 @@ public class QuantityScreen extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(doublee, gbc);
 
-        String[] casDouble = {"1", "2", "3", "4", "5", "6","7", "8", "9"};
+        String[] casDouble = {"0", "1", "2", "3", "4", "5", "6","7", "8", "9"};
         casiDouble = new JComboBox<>(casDouble);
         gbc.gridx = 1;
         gbc.gridy = 6;
@@ -187,8 +187,21 @@ public class QuantityScreen extends JFrame {
         continuar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ventana.dispose();
-                GameMode gm = new GameMode();
+                int mLargo = Integer.parseInt((String) cantidadMurosLargo.getSelectedItem());
+                int mAliado = Integer.parseInt((String) cantidadMurosAliados.getSelectedItem());
+                int mTemporal = Integer.parseInt((String) cantidadMurosTemporales.getSelectedItem());
+                int cDoble = Integer.parseInt((String) casiDouble.getSelectedItem());
+                int cRetorno = Integer.parseInt((String) casiReturn.getSelectedItem());
+                int cTeleport = Integer.parseInt((String) casiTeleport.getSelectedItem());
+                if (mLargo+mAliado+mTemporal <= 10 && cDoble+cRetorno+cTeleport <= 27){
+                    int[] cantTypeWalls = new int[] {10 - (mLargo+mAliado+mTemporal), mTemporal, mLargo, mAliado};
+                    int[] cantTypeBoxes = new int[] {cTeleport, cRetorno, cDoble};
+                    ventana.dispose();
+                    GameMode gm = new GameMode(cantTypeWalls, cantTypeBoxes);
+                }else{
+                    JOptionPane.showMessageDialog(null,"Debes colocar un maximo de 10 muros" +
+                            " especiales y 27 casillas especiales", "parametros", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
     }

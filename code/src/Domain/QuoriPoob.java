@@ -25,6 +25,8 @@ public class QuoriPoob implements Serializable {
     private int sizeTable; //longitud total del tablero
     private String difficult; //tipo de dificultad escogido por los jugadores
     private int turn; //indica de quien es el turno actual en el juego
+    private boolean isDoubleTurn; //indica si el usuario cayo en una casilla doble
+
     /**
      * metodo principal para comenzar el dominio
      * @param args
@@ -40,15 +42,15 @@ public class QuoriPoob implements Serializable {
      * @param n, la longitud nXn del tablero para jugar
      * @param newDifficult, la dificultad que va a tener el juego
      */
-    public QuoriPoob(int n, String newDifficult) throws QuoriPoobException {
-        if (newDifficult.isEmpty() || !Arrays.asList(typesDifficults).contains(newDifficult)) {
+    public QuoriPoob(int n, String newDifficult) throws QuoriPoobException{
+        if(newDifficult.isEmpty() || !Arrays.asList(typesDifficults).contains(newDifficult)){
             throw new QuoriPoobException(QuoriPoobException.DIFFICULTY_NOT_FOUND);
         }
         tablero = new Table(n);
         sizeTable = n;
         difficult = newDifficult;
         turn = 1;
-
+        isDoubleTurn = false;
     }
 
     /**
@@ -105,6 +107,7 @@ public class QuoriPoob implements Serializable {
     public void setRandomBox(int[] cantTypeBoxes){
         tablero.addRandomBox(cantTypeBoxes);
     }
+
     /**
      * ayuda a anadir nuevos muros al tablero, mientras no se cierren todos
      * los caminos de un lado a otro.
@@ -147,7 +150,7 @@ public class QuoriPoob implements Serializable {
                 break;
             //cualquier otro caso
             default:
-                return ;
+                throw new QuoriPoobException(QuoriPoobException.TYPE_WALL_NOT_IN_CONFIGURATIONS);
         }
         if (actPlayer.getCantDifferentWalls()[arrayPosition] > 0) {
             tablero.addWall(newWall, playerOne, playerTwo);
@@ -194,6 +197,52 @@ public class QuoriPoob implements Serializable {
         }
     }
 
+    public ArrayList<Integer> changeWallCount() throws QuoriPoobException {
+        ArrayList<Integer> possibleDelWall = tablero.changeWallCount();
+        ArrayList<Integer> posiciones = new ArrayList<>();
+        if (possibleDelWall != null) {
+            for (int i = 0; i < possibleDelWall.size(); i++) {
+                int[] graph = tablero.getGraphPosition(possibleDelWall.get(i));
+                if (i % 2 == 0) {
+                    posiciones.add(graph[0]);
+                    posiciones.add(graph[1]);
+                } else {
+                    int dist = possibleDelWall.get(i - 1) - possibleDelWall.get(i);
+                    switch (dist) {
+                        case 1:
+                            posiciones.add(2);
+                            break;
+                        case -1:
+                            posiciones.add(3);
+                            break;
+                        case 9:
+                            posiciones.add(0);
+                            break;
+                        case -9:
+                            posiciones.add(1);
+                            break;
+                    }
+                }
+            }
+            return posiciones;
+        }
+        return null;
+    }
+
+    public boolean isDoubleTurn(){
+        if (isDoubleTurn){
+            isDoubleTurn = false;
+            turn = switch (turn) {
+                case 1 -> 2;
+                case 2 -> 1;
+                default -> turn;
+            };
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * ayuda a cambiar el turno de los jugadores
      */
@@ -204,15 +253,15 @@ public class QuoriPoob implements Serializable {
             positions = playerOne.getPositions();
             String typeBox = tablero.getCasillas()[positions[0]][positions[1]];
             if (typeBox == "Doble") {
-                turn = 2;
                 tablero.changeBox(positions[0], positions[1]);
+                isDoubleTurn = true;
             }
         }else{
             positions = playerTwo.getPositions();
             String typeBox = tablero.getCasillas()[positions[0]][positions[1]];
             if (typeBox == "Doble") {
-                turn = 1;
                 tablero.changeBox(positions[0], positions[1]);
+                isDoubleTurn = true;
             }
         }
         setTurn();

@@ -7,25 +7,29 @@ import java.awt.event.ActionListener;
  * Clase GameMode para crear la ventana de modo de juego
  */
 public class GameMode extends JFrame {
-    private JPanel mainPanel;  // Panel principal de la ventana
-    private JFrame ventana;// Marco de la ventana
-    private JComboBox<String> modoJugador; // ComboBox para seleccionar el modo de juego
-    private JComboBox<String> tipoJuego; // ComboBox para seleccionar el tipo de juego
-    private JButton guardar; // Boton para guardar la configuración
+    private JPanel mainPanel;  //Panel principal de la ventana
+    private JFrame ventana; //Marco de la ventana
+    private JComboBox<String> modoJugador; //ComboBox para seleccionar el modo de juego
+    private JComboBox<String> tipoJuego; //ComboBox para seleccionar el tipo de juego
+    private JButton guardar; //Boton para guardar la configuración
+    private int[] typeCantWalls; //cantidad de muros especiales seleccionados por el usuario
+    private int[] typeCantBoxes; //cantidad de casillas especiales seleccionados por el usuario
 
     /***
      * Metodo principal para ejecutar la aplicación
      * @param args
      */
     public static void main(String[] args) {
-        GameMode ventana = new GameMode();
+        GameMode ventana = new GameMode(new int[] {10,0,0,0}, new int[] {27,0,0,0});
     }
 
     /***
      * Constructor de la clase que inicializa los elementos de la interfaz
      */
-    public GameMode(){
+    public GameMode(int[] newTypeWalls, int[] newTypeBoxes){
         prepareElements();
+        typeCantBoxes = newTypeBoxes;
+        typeCantWalls = newTypeWalls;
     }
 
     /***
@@ -112,9 +116,9 @@ public class GameMode extends JFrame {
                 String difSelect = (String) tipoJuego.getSelectedItem();
                 ventana.dispose();
                 if (modoSelect == "Jugador vs Jugador"){
-                    UserGameScreen ugs = new UserGameScreen(difSelect);
+                    UserGameScreen ugs = new UserGameScreen(difSelect, typeCantWalls, typeCantBoxes);
                 }else{
-                    MachineGameScreen mgs = new MachineGameScreen(difSelect);
+                    MachineGameScreen mgs = new MachineGameScreen(difSelect, typeCantWalls, typeCantBoxes);
                 }
             }
         });

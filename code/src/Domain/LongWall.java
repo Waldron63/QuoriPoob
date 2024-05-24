@@ -39,4 +39,13 @@ public class LongWall extends Wall{
             return false;
         }
     }
+
+    /**
+     * @param mainTurn
+     * @return
+     */
+    @Override
+    boolean samePlayerPass(int mainTurn) {
+        return false;
+    }
 }
