@@ -44,6 +44,8 @@ public abstract class Wall implements Serializable {
 
     abstract boolean confirmSequentialPositions(ArrayList<Integer> newPositions);
 
+    abstract boolean samePlayerPass(int mainTurn);
+
     /**
      * @return el jugador que coloco el muro
      */

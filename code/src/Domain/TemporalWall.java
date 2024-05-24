@@ -38,6 +38,15 @@ public class TemporalWall extends Wall{
     }
 
     /**
+     * @param mainTurn
+     * @return
+     */
+    @Override
+    boolean samePlayerPass(int mainTurn) {
+        return false;
+    }
+
+    /**
      * @return  la cantidad de tiempos que le quedan al muro antes de desaparecer
      */
     public int getTimes() {

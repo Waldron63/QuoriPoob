@@ -164,9 +164,9 @@ public class TableAdyacence implements Serializable {
             }
         }else if (matrix[initialG][finalG] == -1){ //si hay algun muro en esta relacion de grafos y es muro aliado al jugador actual
             Wall putWall = arrayAdyacence[initialG].get(finalG);
-            int turnWall = putWall.getPlayer().getMainTurn();
+            boolean confirmTurn = putWall.samePlayerPass(turn);
             //revisa que sea el mismo jugador y el muro sea aliado
-            if (turnWall == turn && putWall instanceof AllyWall){
+            if (confirmTurn){
                 if (matrix[finalG][finalG] == 0){
                     return true;
                 } else {

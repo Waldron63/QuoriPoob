@@ -36,4 +36,13 @@ public class NormalWall extends Wall{
             return true;
         }
     }
+
+    /**
+     * @param mainTurn
+     * @return
+     */
+    @Override
+    boolean samePlayerPass(int mainTurn) {
+        return false;
+    }
 }
