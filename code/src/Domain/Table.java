@@ -20,8 +20,8 @@ public class Table implements Serializable {
     private String[][] typeCasillas; //matriz con los tipos de casillas que tiene "casillas"
     private ArrayList<Wall> muros; //arreglo de todos los muros que se pueden llegar a colocar
     private TableAdyacence adyacence; //matriz de adyacencia para representar el grafo
-    private int[][] previousBoxP1;
-    private int[][] previousBoxP2;
+    private int[][] previousBoxP1; //2 posiciones previas que tuvo el jugador 1 al moverse
+    private int[][] previousBoxP2; //2 posiciones previas que tuvo el jugador 2 al moverse
 
     /**
      * Constructor for objects of class Table

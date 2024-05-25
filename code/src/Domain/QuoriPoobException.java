@@ -25,8 +25,6 @@ public class QuoriPoobException extends Exception{
     //CASILLAS
     public static final String BOX_NOT_FOUND = "Esta casilla no esta disponible";
     //public static final String  = "";
-    //public static final String  = "";
-    //public static final String  = "";
 
     /**
      * Constructor de QuoriPoobException
