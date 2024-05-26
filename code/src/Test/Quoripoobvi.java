@@ -266,23 +266,57 @@ public class Quoripoobvi {
     }
 
     @Test
-    public void shouldMeetNormalBarrierConditions(){
-        fail();
+    public void shouldMeetNormalBarrierConditions() throws QuoriPoobException {
+        Player p = new Human("a", Color.black, 10, 0, 4, 1);
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(1, 2, 10, 11, 1, 1));
+        ArrayList<Integer> posiciones1 = new ArrayList<>(Arrays.asList(1, 2, 10, 11));
+        NormalWall normalMuro = new NormalWall(Color.black,  posiciones, p, 9);
+        assertEquals(p, normalMuro.getPlayer());
+        assertEquals(2, normalMuro.getSize());
+        assertEquals(posiciones1, normalMuro.getPositions());
+        assertEquals(Color.black, normalMuro.getColor());
     }
 
     @Test
-    public void shouldMeetTemporalBarrierConditions(){
-        fail();
+    public void shouldMeetTemporalBarrierConditions() throws QuoriPoobException {
+        Player p = new Human("a", Color.black, 10, 0, 4, 1);
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(1, 2, 10, 11, 1, 1));
+        ArrayList<Integer> posiciones1 = new ArrayList<>(Arrays.asList(1, 2, 10, 11));
+        TemporalWall temporalMuro = new TemporalWall(Color.black,  posiciones, p, 9);
+        assertEquals(p, temporalMuro.getPlayer());
+        assertEquals(2, temporalMuro.getSize());
+        assertEquals(posiciones1, temporalMuro.getPositions());
+        assertEquals(Color.black, temporalMuro.getColor());
+        for (int i = 0; i < 4; i++){
+            assertEquals(4-i, temporalMuro.getTimes());
+            temporalMuro.changeTimes();
+        }
+        assertEquals(0, temporalMuro.getTimes());
     }
 
     @Test
-    public void shouldMeetLongBarrierConditions(){
-        fail();
+    public void shouldMeetLongBarrierConditions() throws QuoriPoobException {
+        Player p = new Human("a", Color.black, 10, 0, 4, 1);
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(1, 2, 10, 11, 19, 20, 1, 1, 1));
+        ArrayList<Integer> posiciones1 = new ArrayList<>(Arrays.asList(1, 2, 10, 11, 19, 20));
+        LongWall largoMuro = new LongWall(Color.black,  posiciones, p, 9);
+        assertEquals(p, largoMuro.getPlayer());
+        assertEquals(3, largoMuro.getSize());
+        assertEquals(posiciones1, largoMuro.getPositions());
+        assertEquals(Color.black, largoMuro.getColor());
     }
 
     @Test
-    public void shouldMeetAlliedBarrierConditions(){
-        fail();
+    public void shouldMeetAlliedBarrierConditions() throws QuoriPoobException {
+        Player p = new Human("a", Color.black, 10, 0, 4, 1);
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(1, 2, 10, 11, 1, 1));
+        ArrayList<Integer> posiciones1 = new ArrayList<>(Arrays.asList(1, 2, 10, 11));
+        AllyWall aliadoMuro = new AllyWall(Color.black,  posiciones, p, 9);
+        assertEquals(p, aliadoMuro.getPlayer());
+        assertEquals(2, aliadoMuro.getSize());
+        assertEquals(posiciones1, aliadoMuro.getPositions());
+        assertEquals(Color.black, aliadoMuro.getColor());
+        assertEquals(true, aliadoMuro.samePlayerPass(p.getMainTurn()));
     }
 
 
@@ -381,14 +415,52 @@ public class Quoripoobvi {
     }
 
     @Test
-    public void shouldNotPlaceANormalBarrierIfItsNotPossible(){
-        fail();
+    public void shouldNotPlaceANormalBarrierIfItsNotPossible() throws QuoriPoobException {
+        QuoriPoob quoriPoob = new QuoriPoob(9, "Normal");
+        quoriPoob.addPlayer("jugador1", Color.BLACK);
+        quoriPoob.addPlayer("jugador2", Color.RED);
+        quoriPoob.setTypeWalls(new int[] {10,0,0,0});
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(0, 0, 1, 0, 1, 0, 0, 0, 1, 1));
+        try{
+            quoriPoob.addWall("Muro Normal", posiciones);
+        }catch (QuoriPoobException e0){
+            assertEquals(QuoriPoobException.WRONG_SIDE_WALL, e0.getMessage());
+        }
+        posiciones = new ArrayList<>(Arrays.asList(0, 0, 1, 0, 1, 1, 0, 0, 0, 1));
+        try{
+            quoriPoob.addWall("Muro Normal", posiciones);
+        }catch (QuoriPoobException e0){
+            assertEquals(QuoriPoobException.WRONG_SIDE_WALL, e0.getMessage());
+        }
+        posiciones = new ArrayList<>(Arrays.asList(0, 0, 1, 0, 1, 0, 2, 1, 2, 1));
+        try{
+            quoriPoob.addWall("Muro Normal", posiciones);
+        }catch (QuoriPoobException e0){
+            assertEquals(QuoriPoobException.WRONG_SIDE_WALL, e0.getMessage());
+        }
     }
 
 
     @Test
-    public void shouldNotMoveAPawnOverAPawnIfItsNotPossible(){
-        fail();
+    public void shouldNotMoveAPawnOverAPawnIfItsNotPossible() throws QuoriPoobException {
+        QuoriPoob quoriPoob = new QuoriPoob(9, "Normal");
+        quoriPoob.addPlayer("jugador1", Color.BLACK);
+        quoriPoob.addPlayer("jugador2", Color.RED);
+        quoriPoob.move("n");
+        quoriPoob.move("s");
+        quoriPoob.move("n");
+        quoriPoob.move("s");
+        quoriPoob.move("n");
+        quoriPoob.move("s");
+        quoriPoob.move("n");
+        quoriPoob.setTypeWalls(new int[] {10,0,0,0});
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(4, 4, 5, 4, 1, 4, 5, 5, 5, 1));
+        quoriPoob.addWall("Muro Normal", posiciones);
+        try {
+            quoriPoob.move("s");
+        }catch (QuoriPoobException e0){
+            assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
+        }
     }
 
 

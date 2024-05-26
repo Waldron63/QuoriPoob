@@ -72,4 +72,12 @@ public abstract class Wall implements Serializable {
     public boolean changeTimes(){
         return true;
     }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public int getSize() {
+        return size;
+    }
 }

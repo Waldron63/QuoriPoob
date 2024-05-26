@@ -157,17 +157,17 @@ public class QuoriPoob implements Serializable {
                 break;
             //si el muro es largo
             case "Muro Largo":
-                newWall = new LongWall(Color.BLACK, positions, actPlayer, sizeTable);
+                newWall = new LongWall(new Color(101, 67, 33), positions, actPlayer, sizeTable);
                 arrayPosition = 2;
                 break;
             //si el muro es normal
             case "Muro Normal":
-                newWall = new NormalWall(Color.black, positions, actPlayer, sizeTable);
+                newWall = new NormalWall(new Color(101, 67, 33), positions, actPlayer, sizeTable);
                 arrayPosition = 0;
                 break;
             //si el muro es temporal
             case "Muro Temporal":
-                newWall = new TemporalWall(Color.black, positions, actPlayer, sizeTable);
+                newWall = new TemporalWall(Color.WHITE, positions, actPlayer, sizeTable);
                 arrayPosition = 1;
                 break;
             //cualquier otro caso
