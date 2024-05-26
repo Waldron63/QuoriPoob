@@ -32,6 +32,14 @@ public class Machine extends Player{
         difficulty = newDifficulty;
     }
 
+    @Override
+    public void setCantDifferentWalls(int[] newCantWalls) throws QuoriPoobException {
+        if (newCantWalls.length < 4){
+            throw new QuoriPoobException(QuoriPoobException.WRONG_TOTAL_WALLS);
+        }
+        cantDifferentsWalls = new int[] {100, 0,0,0};
+    }
+
     public void setSelection() throws QuoriPoobException{
         switch (difficulty){
             case "Principiante":

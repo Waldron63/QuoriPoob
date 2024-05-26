@@ -158,16 +158,16 @@ public class GameScreen extends JFrame{
 
         //Panel para la info de los muros
         JPanel wallsPanel1 = new JPanel(new GridLayout(4, 1));
-        JLabel normales = new JLabel("Muro Normal:");
+        JLabel normales = new JLabel("Muro Normal:  ");
         normales.setForeground(Color.WHITE);
         normales.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel temporales = new JLabel("Muro Temporal:");
+        JLabel temporales = new JLabel("Muro Temporal:  ");
         temporales.setForeground(Color.WHITE);
         temporales.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel largos = new JLabel("Muro Largo:");
+        JLabel largos = new JLabel("Muro Largo:  ");
         largos.setForeground(Color.WHITE);
         largos.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel aliados = new JLabel("Muro Aliado:");
+        JLabel aliados = new JLabel("Muro Aliado:  ");
         aliados.setForeground(Color.WHITE);
         aliados.setFont(new Font("Times New Roman", Font.BOLD, 15));
         normales.setHorizontalAlignment(SwingConstants.CENTER);
@@ -184,28 +184,34 @@ public class GameScreen extends JFrame{
         leftPanel.add(wallsPanel1);
 
         //Panel para la informacion de las casillas
-        JPanel casillas1 = new JPanel(new GridLayout(4, 1));
-        JLabel normal1 = new JLabel("Casilla Normal:");
+        JPanel casillas1 = new JPanel(new GridLayout(5, 1));
+        JLabel normal1 = new JLabel("Casilla Normal:  ");
         normal1.setForeground(Color.WHITE);
         normal1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel teleport1 = new JLabel("Casilla Teleport:");
+        JLabel teleport1 = new JLabel("Casilla Teleport:  ");
         teleport1.setForeground(Color.WHITE);
         teleport1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel return1 = new JLabel("Casilla Retorno:");
+
+        JLabel return1 = new JLabel("Casilla Retorno:  ");
         return1.setForeground(Color.WHITE);
         return1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel doubleTurn1 = new JLabel("Casilla Doble Turno:");
+        JLabel doubleTurn1 = new JLabel("Casilla Doble Turno:  ");
         doubleTurn1.setForeground(Color.WHITE);
         doubleTurn1.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel estrella1 = new JLabel("Casilla Estrella:  ");
+        estrella1.setForeground(Color.WHITE);
+        estrella1.setFont(new Font("Times New Roman", Font.BOLD, 15));
         normal1.setHorizontalAlignment(SwingConstants.CENTER);
         teleport1.setHorizontalAlignment(SwingConstants.CENTER);
         return1.setHorizontalAlignment(SwingConstants.CENTER);
         doubleTurn1.setHorizontalAlignment(SwingConstants.CENTER);
+        estrella1.setHorizontalAlignment(SwingConstants.CENTER);
 
         casillas1.add(normal1);
         casillas1.add(teleport1);
         casillas1.add(return1);
         casillas1.add(doubleTurn1);
+        casillas1.add(estrella1);
         casillas1.setBackground(new Color(115, 10, 25));
         casillas1.setForeground(Color.WHITE);
         leftPanel.add(casillas1);
@@ -237,16 +243,16 @@ public class GameScreen extends JFrame{
 
         //Panel para la info de los muros
         JPanel wallsPanel2 = new JPanel(new GridLayout(4, 1));
-        JLabel normales = new JLabel("Muro Normal:");
+        JLabel normales = new JLabel("Muro Normal:  ");
         normales.setForeground(Color.WHITE);
         normales.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel temporales = new JLabel("Muro Temporal:");
+        JLabel temporales = new JLabel("Muro Temporal:  ");
         temporales.setForeground(Color.WHITE);
         temporales.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel largos = new JLabel("Muro Largo:");
+        JLabel largos = new JLabel("Muro Largo:  ");
         largos.setForeground(Color.WHITE);
         largos.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel aliados = new JLabel("Muro Aliado:");
+        JLabel aliados = new JLabel("Muro Aliado:  ");
         aliados.setForeground(Color.WHITE);
         aliados.setFont(new Font("Times New Roman", Font.BOLD, 15));
         normales.setHorizontalAlignment(SwingConstants.CENTER);
@@ -263,28 +269,33 @@ public class GameScreen extends JFrame{
         rightPanel.add(wallsPanel2);
 
         //Panel para la informacion de las casillas
-        JPanel casillas2 = new JPanel(new GridLayout(4, 1));
-        JLabel normal2 = new JLabel("Casilla normal:");
+        JPanel casillas2 = new JPanel(new GridLayout(5, 1));
+        JLabel normal2 = new JLabel("Casilla normal:  ");
         normal2.setForeground(Color.WHITE);
         normal2.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel teleport2 = new JLabel("Casilla teleport:");
+        JLabel teleport2 = new JLabel("Casilla teleport:  ");
         teleport2.setForeground(Color.WHITE);
         teleport2.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel return2 = new JLabel("Casilla retorno:");
+        JLabel return2 = new JLabel("Casilla retorno:  ");
         return2.setForeground(Color.WHITE);
         return2.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel doubleTurn2 = new JLabel("Casilla doble turno:");
+        JLabel doubleTurn2 = new JLabel("Casilla doble turno: ");
         doubleTurn2.setForeground(Color.WHITE);
         doubleTurn2.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        JLabel estrella2 = new JLabel("Casilla Estrella:  ");
+        estrella2.setForeground(Color.WHITE);
+        estrella2.setFont(new Font("Times New Roman", Font.BOLD, 15));
         normal2.setHorizontalAlignment(SwingConstants.CENTER);
         teleport2.setHorizontalAlignment(SwingConstants.CENTER);
         return2.setHorizontalAlignment(SwingConstants.CENTER);
         doubleTurn2.setHorizontalAlignment(SwingConstants.CENTER);
+        estrella2.setHorizontalAlignment(SwingConstants.CENTER);
 
         casillas2.add(normal2);
         casillas2.add(teleport2);
         casillas2.add(return2);
-        casillas2.add(doubleTurn2);
+        casillas2.add(doubleTurn2);;
+        casillas2.add(estrella2);
         casillas2.setBackground(new Color(115, 10, 25));
         casillas2.setForeground(Color.WHITE);
         rightPanel.add(casillas2);
@@ -417,8 +428,15 @@ public class GameScreen extends JFrame{
                         updateCronometro(tiempoRestante * 1000);
                         if (tiempoRestante <= 0) {
                             actionTimer.stop();
-                            JOptionPane.showMessageDialog(GameScreen.this, "¡Tiempo agotado! El juego ha terminado.", "Tiempo Agotado", JOptionPane.INFORMATION_MESSAGE);
-                            playerWinner();
+                            JOptionPane.showMessageDialog(GameScreen.this, "¡Tiempo agotado!" +
+                                    " El juego ha terminado.", "Tiempo Agotado", JOptionPane.INFORMATION_MESSAGE);
+                            try {
+                                playerWinner();
+                            } catch (QuoriPoobException e0) {
+                                JOptionPane.showMessageDialog(null, e0.getMessage(),
+                                        "Error",JOptionPane.ERROR_MESSAGE);
+                                Log.record(e0);
+                            }
                         }
                     }
                 });
@@ -610,6 +628,9 @@ public class GameScreen extends JFrame{
             case "Doble":
                 centerButton = createButtonPanel(new Color(9, 135, 26),i,j);
                 break;
+            case "Estrella":
+                centerButton = createButtonPanel(new Color(14, 40, 222),i,j);
+                break;
             default:
                 centerButton = createButtonPanel(new Color(210, 180, 140),i,j);
                 break;
@@ -703,6 +724,7 @@ public class GameScreen extends JFrame{
         JPanel positions = (JPanel) casilla.getComponent(0);
         int posX=-1;
         int posY=-1;
+        int posButton = 0;
         for(int k = 0; k < 4; k++){
             JButton boton = (JButton) positions.getComponent(k);
             if(boton == button){
@@ -710,18 +732,22 @@ public class GameScreen extends JFrame{
                     case 0://arriba
                         posX = i - 1;
                         posY = j;
+                        posButton = k;
                         break;
                     case 1://abajo
                         posX = i + 1;
                         posY = j;
+                        posButton = k;
                         break;
                     case 2://izquierda
                         posX = i;
                         posY = j - 1;
+                        posButton = k;
                         break;
                     case 3://derecha
                         posX = i;
                         posY = j + 1;
+                        posButton = k;
                         break;
                 }
             }
@@ -730,8 +756,9 @@ public class GameScreen extends JFrame{
         posicionesWallTable.add(j);
         posicionesWallTable.add(posX);
         posicionesWallTable.add(posY);
+        posicionesWallTable.add(posButton);
         buttonWalls.add(button);
-        if(!tipoMuroSeleccionado.equals("Muro Largo") && posicionesWallTable.size()== 8){
+        if(!tipoMuroSeleccionado.equals("Muro Largo") && posicionesWallTable.size()== 10){
             try {
                 quorindorDom.addWall(tipoMuroSeleccionado, posicionesWallTable);
                 buttonWalls.clear();
@@ -750,7 +777,7 @@ public class GameScreen extends JFrame{
                 posicionesWallTable.clear();
                 buttonWalls.clear();
             }
-        } else if (tipoMuroSeleccionado.equals("Muro Largo") && posicionesWallTable.size()== 12 ) {
+        } else if (tipoMuroSeleccionado.equals("Muro Largo") && posicionesWallTable.size()== 15 ) {
             try {
                 quorindorDom.addWall(tipoMuroSeleccionado, posicionesWallTable);
                 buttonWalls.clear();
@@ -855,62 +882,36 @@ public class GameScreen extends JFrame{
 
     }
 
-    private JPanel wallsPanels(int mainTurn){
-        //Panel para la info de los muros
-        JPanel wallsPanel = new JPanel(new GridLayout(4, 1));
-        JLabel normales = new JLabel("Muro Normal: " + quorindorDom.getPlayerCountWalls(1)[0]);
-        normales.setForeground(Color.WHITE);
-        normales.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel temporales = new JLabel("Muro Temporal: " + quorindorDom.getPlayerCountWalls(1)[1]);
-        temporales.setForeground(Color.WHITE);
-        temporales.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel largos = new JLabel("Muro Largo: " + quorindorDom.getPlayerCountWalls(1)[2]);
-        largos.setForeground(Color.WHITE);
-        largos.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel aliados = new JLabel("Muro Aliado: " + quorindorDom.getPlayerCountWalls(1)[3]);
-        aliados.setForeground(Color.WHITE);
-        aliados.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        normales.setHorizontalAlignment(SwingConstants.CENTER);
-        temporales.setHorizontalAlignment(SwingConstants.CENTER);
-        largos.setHorizontalAlignment(SwingConstants.CENTER);
-        aliados.setHorizontalAlignment(SwingConstants.CENTER);
-
-        wallsPanel.add(normales);
-        wallsPanel.add(temporales);
-        wallsPanel.add(largos);
-        wallsPanel.add(aliados);
-        wallsPanel.setBackground(new Color(115, 10, 25));
-        wallsPanel.setForeground(Color.WHITE);
-        return wallsPanel;
-    }
-
-    private JPanel BoxPanel(int mainTurn){
-        //Panel para la informacion de las casillas
-        JPanel casillas = new JPanel(new GridLayout(4, 1));
-        JLabel normal1 = new JLabel("Casilla Normal: " + quorindorDom.getPlayerCountBoxes(1)[0]);
-        normal1.setForeground(Color.WHITE);
-        normal1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel teleport1 = new JLabel("Casilla Teleport: " + quorindorDom.getPlayerCountBoxes(1)[1]);
-        teleport1.setForeground(Color.WHITE);
-        teleport1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel return1 = new JLabel("Casilla Retorno: " + quorindorDom.getPlayerCountBoxes(1)[2]);
-        return1.setForeground(Color.WHITE);
-        return1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        JLabel doubleTurn1 = new JLabel("Casilla Doble Turno: " + quorindorDom.getPlayerCountBoxes(1)[3]);
-        doubleTurn1.setForeground(Color.WHITE);
-        doubleTurn1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        normal1.setHorizontalAlignment(SwingConstants.CENTER);
-        teleport1.setHorizontalAlignment(SwingConstants.CENTER);
-        return1.setHorizontalAlignment(SwingConstants.CENTER);
-        doubleTurn1.setHorizontalAlignment(SwingConstants.CENTER);
-
-        casillas.add(normal1);
-        casillas.add(teleport1);
-        casillas.add(return1);
-        casillas.add(doubleTurn1);
-        casillas.setBackground(new Color(115, 10, 25));
-        casillas.setForeground(Color.WHITE);
-        return casillas;
+        private void wallsPanels(int mainTurn){
+        int[] nuevosValoresMuros =  quorindorDom.getPlayerCountWalls(mainTurn);
+        int[] nuevosValoresCasillas =  quorindorDom.getPlayerCountBoxes(mainTurn);
+        if(mainTurn == 1){
+            for (int i = 0; i < nuevosValoresMuros.length; i++){
+                JLabel muros = (JLabel)((JPanel)leftPlayer.getComponent(2)).getComponent(i);
+                String textoMuros = muros.getText();
+                muros.setText(textoMuros.substring(0, textoMuros.length() -
+                        Integer.toString(Math.abs(nuevosValoresMuros[i] - 1)).length()) + nuevosValoresMuros[i]);
+            }
+            for(int i = 0; i < nuevosValoresCasillas.length; i++){
+                JLabel casilla = (JLabel)((JPanel)leftPlayer.getComponent(3)).getComponent(i);
+                String textoCasilla = casilla.getText();
+                casilla.setText(textoCasilla.substring(0, textoCasilla.length() -
+                        Integer.toString(Math.abs(nuevosValoresCasillas[i] - 1)).length()) + nuevosValoresCasillas[i]);
+            }
+        }else{
+            for (int i = 0; i < nuevosValoresMuros.length; i++){
+                JLabel muros = (JLabel)((JPanel)rightPlayer.getComponent(2)).getComponent(i);
+                String textoMuros = muros.getText();
+                muros.setText(textoMuros.substring(0, textoMuros.length() -
+                        Integer.toString(Math.abs(nuevosValoresMuros[i] - 1)).length()) + nuevosValoresMuros[i]);
+            }
+            for(int i = 0; i < nuevosValoresCasillas.length; i++){
+                JLabel casilla = (JLabel)((JPanel)rightPlayer.getComponent(3)).getComponent(i);
+                String textoCasilla = casilla.getText();
+                casilla.setText(textoCasilla.substring(0, textoCasilla.length() -
+                        Integer.toString(Math.abs(nuevosValoresCasillas[i] - 1)).length()) + nuevosValoresCasillas[i]);
+            }
+        }
     }
 
     /**
@@ -930,10 +931,7 @@ public class GameScreen extends JFrame{
         Color colorCenter = center.getBackground();
         //si el turno es del jugador 1, indica que se acaba de mover el jugador 2
         if(turn==1) {
-            rightPlayer.remove(2);
-            rightPlayer.add(wallsPanels(2), 2);
-            rightPlayer.remove(3);
-            rightPlayer.add(BoxPanel(2), 3);
+            wallsPanels(2);
             JPanel casilla2 = casillas[posPlayer2[0]][posPlayer2[1]];
             JPanel casillaButton2 = (JPanel) casilla2.getComponent(0);
             JPanel jugador = (JPanel) casillaButton2.getComponent(4);
@@ -944,10 +942,7 @@ public class GameScreen extends JFrame{
             casillaButton2.add(center, BorderLayout.CENTER);
             posPlayer2 = positions;
         }else{//si el turno es del jugador 2, indica que se acaba de mover el jugador 1
-            leftPlayer.remove(2);
-            leftPlayer.add(wallsPanels(1), 2);
-            leftPlayer.remove(3);
-            leftPlayer.add(BoxPanel(1), 3);
+            wallsPanels(1);
             JPanel casilla2 = casillas[posPlayer1[0]][posPlayer1[1]];
             JPanel casillaButton2 = (JPanel) casilla2.getComponent(0);
             JPanel jugador = (JPanel) casillaButton2.getComponent(4);
@@ -965,7 +960,7 @@ public class GameScreen extends JFrame{
         boolean doble = quorindorDom.isDoubleTurn();
         if (doble){
             turn = quorindorDom.getTurn();
-            casillaButton.getComponent(4).setBackground(new Color(210, 180, 140));
+            //casillaButton.getComponent(4).setBackground(new Color(210, 180, 140));
         }
         if (turn == 1) {
             player1.setColor(new Color(210, 180, 140));
@@ -1029,6 +1024,7 @@ public class GameScreen extends JFrame{
         jugador1.setText(namePlayer1);
         Circle movePlayer1 = new Circle(colorPlayer1);
         addPlayer(movePlayer1, positions1[0], positions1[1]);
+        wallsPanels(1);
 
         //jugador 2
         String namePlayer2 = quorindorDom.getPlayerName(2);
@@ -1036,11 +1032,26 @@ public class GameScreen extends JFrame{
         int[] positions2 = quorindorDom.getPlayerPositions(2);
         posPlayer2 = positions2;
         JPanel leftPanel = (JPanel) mainPanel.getComponent(2);
-        JLabel jugador2 = (JLabel) rightPanel.getComponent(0);
-        jugador1.setText(namePlayer2);
+        JLabel jugador2 = (JLabel) leftPanel.getComponent(0);
+        jugador2.setText(namePlayer2);
         Circle movePlayer2 = new Circle(colorPlayer2);
         addPlayer(movePlayer2, positions2[0], positions2[1]);
+        wallsPanels(2);
         //muros
+        ArrayList<Integer>[] walls = quorindorDom.getWallsPositions();
+        String[] tipos = quorindorDom.getWallsTypes();
+        int cont = 0;
+        for (ArrayList<Integer> possibleWall : walls){
+            for (int k = 0; k < possibleWall.size(); k += 3){
+                int xPos = possibleWall.get(k);
+                int yPos = possibleWall.get(k + 1);
+                int bPos = possibleWall.get(k + 2);
+                JPanel casillaN = (JPanel) casillas[xPos][yPos].getComponent(0);
+                Color colorMuro = colorWall(tipos[cont]);
+                casillaN.getComponent(bPos).setBackground(colorMuro);
+            }
+            cont += 1;
+        }
         mainPanel.repaint();
     }
 
@@ -1048,7 +1059,7 @@ public class GameScreen extends JFrame{
     /**
      * ventana emergente que le indica al usuario que desea hacer despues de haber ganado
      */
-    private void playerWinner(){
+    private void playerWinner() throws QuoriPoobException {
         Object[] options = {"Reiniciar", "Configurar", "Salir"};
         int resp = JOptionPane.showOptionDialog(this, "¿Deseas volver a jugar?", "Final",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
@@ -1107,7 +1118,12 @@ public class GameScreen extends JFrame{
         restartItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                resetBoard();
+                try {
+                    resetBoard();
+                } catch (QuoriPoobException e0) {
+                    JOptionPane.showMessageDialog(null, e0.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+                    Log.record(e0);
+                }
             }
         });
 
@@ -1154,6 +1170,11 @@ public class GameScreen extends JFrame{
             File selectFile = fileChooser.getSelectedFile();
             if(selectFile != null){
                 try{
+                    posicionesWallTable.clear();
+                    for (JButton boton : buttonWalls){
+                        boton.setBackground(colorWall(""));
+                    }
+                    buttonWalls.clear();
                     quorindorDom.saveArchivo(selectFile);
                 }catch (Exception e){
                     JOptionPane.showMessageDialog(this, "Error: "+e.getMessage(),
@@ -1167,15 +1188,18 @@ public class GameScreen extends JFrame{
     /**
      * Reinicia el tablero del juego y muestra un mensaje indicando que la operación fue exitosa.
      */
-    private void resetBoard() {
+    private void resetBoard() throws QuoriPoobException {
         getContentPane().remove(mainPanel);
         Color color1 = quorindorDom.getPlayerColor(1);
         Color color2 = quorindorDom.getPlayerColor(2);
         String nombreJugador1 = quorindorDom.getPlayerName(1);
         String nombreJugador2 = quorindorDom.getPlayerName(2);
         String difficulty = quorindorDom.getDifficult();
+        int[] cantWalls = quorindorDom.totalCantWalls;
+        int[] cantBoxes = quorindorDom.totalCantBoxes;
         try{
             quorindorDom = new QuoriPoob(9, difficulty);
+            quorindorDom.setRandomBox(cantBoxes);
         } catch(Exception e0){
             System.out.println(e0.getMessage());
             Log.record(e0);
@@ -1184,6 +1208,7 @@ public class GameScreen extends JFrame{
         prepareActions();
         updatePlayer1(nombreJugador1,color1);
         updatePlayer2(nombreJugador2,color2);
+        quorindorDom.setTypeWalls(cantWalls);
         // Validar y repintar
         validate();
         repaint();

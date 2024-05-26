@@ -92,10 +92,15 @@ public class Table implements Serializable {
                         box = new ReturnBox();
                         typeBox = "Regresar";
                         break;
-                    case 2:
                     //si es tipo Doble
+                    case 2:
                         box = new DoubleBox();
                         typeBox = "Doble";
+                        break;
+                    //si es tipo estrella
+                    case 3:
+                        box = new EstrellaBox();
+                        typeBox = "Estrella";
                         break;
                     default:
                         box = new NormalBox();
@@ -138,6 +143,11 @@ public class Table implements Serializable {
         if (positionsTp != null){
             addPreviousSide(positionsP, turn);
             return positionsTp;
+        }
+        int[] positionsEstrella = isEstrellaBox(positionsP[0], positionsP[1], side);
+        if (positionsEstrella != null){
+            addPreviousSide(positionsP, turn);
+            return positionsEstrella;
         }
         String pos = positionsP[0] + "," + positionsP[1];
         int initialG = graphs.get(pos);
@@ -290,6 +300,25 @@ public class Table implements Serializable {
                 previousBoxP2[0] = previousBoxP2[1];
                 previousBoxP2[1] = positionsP;
             }
+        }
+    }
+
+    /**
+     * revisa que el usuario este en una casilla estrella
+     * @param xPosition posicion x de la casilla
+     * @param yPosition posicion y de la casilla
+     * @param side sitio hacia donde se quiere mover el jugador
+     * @return arreglo con las nuevas posiciones del usuario, nulo si no es casilla teleport
+     */
+    private int[] isEstrellaBox(int xPosition, int yPosition, String side) throws QuoriPoobException{
+        String typeBox = typeCasillas[xPosition][yPosition];
+        if (Arrays.asList(diagonalMoves).contains(side) || !Objects.equals(typeBox, "Estrella")){
+            return null;
+        }else {
+            typeCasillas[xPosition][yPosition] = "Teletransportador";
+            int[] posiciones = isTeleportBox(xPosition, yPosition, side);
+            typeCasillas[xPosition][yPosition] = "Estrella";
+            return posiciones;
         }
     }
 
@@ -450,6 +479,29 @@ public class Table implements Serializable {
         }
     }
 
+    public String[] getWallsTypes(){
+        String[] tipos = new String[muros.size()];
+        int cont = 0;
+        for (Wall wall : muros){
+            switch (wall.getClass().getSimpleName()){
+                case "AllyWall":
+                    tipos[cont] = "Muro Aliado";
+                    break;
+                case "LongWall":
+                    tipos[cont] = "Muro Largo";
+                    break;
+                case "NormalWall":
+                    tipos[cont] = "Muro Normal";
+                    break;
+                case "TemporalWall":
+                    tipos[cont] = "Muro Temporal";
+                    break;
+            }
+            cont += 1;
+        }
+        return tipos;
+    }
+
     public ArrayList<Integer>[] getWallsPositions(){
         ArrayList<Integer>[] posicionesMuros = new ArrayList[muros.size()];
         int cont = 0;
@@ -458,8 +510,26 @@ public class Table implements Serializable {
             ArrayList<Integer> murosP = wall.getPositions();
             for (int i = 0; i < murosP.size(); i++){
                 int[] posGraph = posGraphs.get(murosP.get(i));
-                addPos.add(posGraph[0]);
-                addPos.add(posGraph[1]);
+                if (i % 2 == 0) {
+                    addPos.add(posGraph[0]);
+                    addPos.add(posGraph[1]);
+                } else {
+                    int dist = murosP.get(i - 1) - murosP.get(i);
+                    switch (dist) {
+                        case 1:
+                            addPos.add(2);
+                            break;
+                        case -1:
+                            addPos.add(3);
+                            break;
+                        case 9:
+                            addPos.add(0);
+                            break;
+                        case -9:
+                            addPos.add(1);
+                            break;
+                    }
+                }
             }
             posicionesMuros[cont] = addPos;
             cont += 1;
@@ -495,7 +565,33 @@ public class Table implements Serializable {
         return null;
     }
 
-    public void changeBox(int xPosition, int yPosition){
+    public void changeBox(int xPosition, int yPosition, String type){
+        switch (type){
+            case "Normal":
+                casillas[xPosition][yPosition] = new NormalBox();
+                typeCasillas[xPosition][yPosition] = "Normal";
+                break;
+            case "Teletransportador":
+                casillas[xPosition][yPosition] = new TeleportBox();
+                typeCasillas[xPosition][yPosition] = "Teletransportador";
+                break;
+            case "Regresar":
+                casillas[xPosition][yPosition] = new ReturnBox();
+                typeCasillas[xPosition][yPosition] = "Regresar";
+                break;
+            case "Doble":
+                casillas[xPosition][yPosition] = new DoubleBox();
+                typeCasillas[xPosition][yPosition] = "Doble";
+                break;
+            case "Estrella":
+                casillas[xPosition][yPosition] = new EstrellaBox();
+                typeCasillas[xPosition][yPosition] = "Estrella";
+                break;
+            default:
+                casillas[xPosition][yPosition] = new NormalBox();
+                typeCasillas[xPosition][yPosition] = "Normal";
+                break;
+        }
         casillas[xPosition][yPosition] = new NormalBox();
         typeCasillas[xPosition][yPosition] = "Normal";
     }

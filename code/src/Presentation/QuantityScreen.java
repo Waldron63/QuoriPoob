@@ -15,6 +15,7 @@ public class QuantityScreen extends JFrame {
     private JComboBox<String> casiTeleport; //ComboBox para seleccionar la cantidad de casillas Teleport
     private JComboBox<String> casiReturn; //ComboBox para seleccionar la cantidad de casillas Return
     private JComboBox<String> casiDouble; //ComboBox para seleccionar la cantidad de casillas Double
+    private JComboBox<String> casiEstrella; //ComboBox para seleccionar la cantidad de casillas estrellas
 
     /***
      * Metodo principal para ejecutar la aplicación
@@ -170,10 +171,26 @@ public class QuantityScreen extends JFrame {
         gbc.anchor = GridBagConstraints.EAST;
         mainPanel.add(casiDouble, gbc);
 
+        // Cantidad de casillas Estrellas
+        JLabel estrella = new JLabel("Cantidad de casillas Estrellas:");
+        estrella.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        estrella.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        mainPanel.add(estrella, gbc);
+
+        String[] casEstrella = {"0", "1", "2", "3", "4", "5", "6","7", "8", "9"};
+        casiEstrella = new JComboBox<>(casEstrella);
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.EAST;
+        mainPanel.add(casiEstrella, gbc);
+
         // Boton para iniciar el juego
         JButton continuar = new JButton("Continuar");
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(continuar, gbc);
@@ -183,7 +200,7 @@ public class QuantityScreen extends JFrame {
      *  Metodo para preparar las acciones de los elementos
      */
     private void prepareQuantityScreenActions(){
-        JButton continuar = (JButton) mainPanel.getComponent(13);
+        JButton continuar = (JButton) mainPanel.getComponent(15);
         continuar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -193,9 +210,10 @@ public class QuantityScreen extends JFrame {
                 int cDoble = Integer.parseInt((String) casiDouble.getSelectedItem());
                 int cRetorno = Integer.parseInt((String) casiReturn.getSelectedItem());
                 int cTeleport = Integer.parseInt((String) casiTeleport.getSelectedItem());
-                if (mLargo+mAliado+mTemporal <= 10 && cDoble+cRetorno+cTeleport <= 27){
+                int cEstrella = Integer.parseInt((String) casiEstrella.getSelectedItem());
+                if (mLargo+mAliado+mTemporal <= 10 && cDoble+cRetorno+cTeleport+ cEstrella <= 27 && cEstrella < 16){
                     int[] cantTypeWalls = new int[] {10 - (mLargo+mAliado+mTemporal), mTemporal, mLargo, mAliado};
-                    int[] cantTypeBoxes = new int[] {cTeleport, cRetorno, cDoble};
+                    int[] cantTypeBoxes = new int[] {cTeleport, cRetorno, cDoble, cEstrella};
                     ventana.dispose();
                     GameMode gm = new GameMode(cantTypeWalls, cantTypeBoxes);
                 }else{

@@ -19,10 +19,13 @@ public class AllyWall extends Wall{
      */
     public AllyWall(Color newColor, ArrayList<Integer> newPositions, Player newPlayer, int longTable) throws QuoriPoobException {
         super(newColor, newPositions, newPlayer, longTable);
+        for (int i = 0; i < 4; i++){
+            positions.add(newPositions.get(i));
+        }
     }
 
     boolean confirmLenghtPositions(ArrayList<Integer> newPositions){
-        if (newPositions.size() == 4){
+        if (newPositions.size() == 6){
             return true;
         }else{
             return false;
@@ -33,6 +36,15 @@ public class AllyWall extends Wall{
     boolean confirmSequentialPositions(ArrayList<Integer> newPositions){
         if (Math.abs(newPositions.get(0) - newPositions.get(2)) != 1 &&
                 Math.abs(newPositions.get(0) - newPositions.get(2)) != sizeTable){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    @Override
+    boolean confirmSequentialButton(ArrayList<Integer> newPositions) {
+        if (Math.abs(newPositions.get(4) - newPositions.get(5)) != 0){
             return false;
         }else{
             return true;

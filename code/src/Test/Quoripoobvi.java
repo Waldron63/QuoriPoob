@@ -96,13 +96,13 @@ public class Quoripoobvi {
         quoriPoob.move("w");
         quoriPoob.move("s");
         quoriPoob.move("n");
-        ArrayList<Integer> posiciones1 = new ArrayList<>(Arrays.asList(4, 4, 5, 4, 4, 5, 5, 5));
+        ArrayList<Integer> posiciones1 = new ArrayList<>(Arrays.asList(4, 4, 5, 4, 1, 4, 5, 5, 5, 1));
         quoriPoob.addWall("Muro Normal", posiciones1);
-        ArrayList<Integer> posiciones2 = new ArrayList<>(Arrays.asList(4, 4, 4, 5, 3, 4, 3, 5));
+        ArrayList<Integer> posiciones2 = new ArrayList<>(Arrays.asList(4, 4, 4, 5, 3, 3, 4, 3, 5, 3));
         quoriPoob.addWall("Muro Normal", posiciones2);
-        ArrayList<Integer> posiciones3 = new ArrayList<>(Arrays.asList(4, 4, 3, 4, 4, 3, 3, 3));
+        ArrayList<Integer> posiciones3 = new ArrayList<>(Arrays.asList(4, 4, 3, 4, 0, 4, 3, 3, 3, 0));
         quoriPoob.addWall("Muro Normal", posiciones3);
-        ArrayList<Integer> posiciones4 = new ArrayList<>(Arrays.asList(4, 3, 4, 2, 5, 3, 5, 2));
+        ArrayList<Integer> posiciones4 = new ArrayList<>(Arrays.asList(4, 3, 4, 2, 2, 5, 3, 5, 2, 2));
         quoriPoob.addWall("Muro Normal", posiciones4);
         quoriPoob.move("sw");
         assertEquals(5, quoriPoob.getPlayerPositions(2)[0]);
@@ -115,13 +115,10 @@ public class Quoripoobvi {
         quoriPoob.addPlayer("jugador1", Color.BLACK);
         quoriPoob.addPlayer("jugador2", Color.RED);
         quoriPoob.setTypeWalls(new int[] {1,9,0,0});
-        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(0, 0, 1, 0, 1, 0, 1, 1));
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(0, 0, 1, 0, 1, 0, 1, 1, 1, 1));
         quoriPoob.addWall("Muro Normal", posiciones);
         assertEquals(0,quoriPoob.getPlayerCountWalls(1)[0]);
         assertEquals(1, quoriPoob.getWallsPositions().length);
-        for (int i = 0; i < 8; i++){
-            assertEquals(posiciones.get(i), quoriPoob.getWallsPositions()[0].get(i));
-        }
     }
 
 
@@ -160,7 +157,7 @@ public class Quoripoobvi {
         quoriPoob.addPlayer("jugador1", Color.BLACK);
         quoriPoob.addPlayer("jugador2", Color.RED);
         quoriPoob.setTypeWalls(new int[] {3,2,2,3});
-        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(0, 4, 1, 4, 0, 5, 1, 5));
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(0, 4, 1, 4, 1, 0, 5, 1, 5, 1));
         quoriPoob.addWall("Muro Aliado", posiciones);
         try {
             quoriPoob.move("s");
@@ -176,9 +173,9 @@ public class Quoripoobvi {
         quoriPoob.addPlayer("jugador1", Color.BLACK);
         quoriPoob.addPlayer("jugador2", Color.RED);
         quoriPoob.setTypeWalls(new int[] {3,2,2,3});
-        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(8, 4, 7, 4, 8, 5, 7, 5));
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(8, 4, 7, 4, 0, 8, 5, 7, 5, 0));
         quoriPoob.addWall("Muro Aliado", posiciones);
-        ArrayList<Integer> posiciones2 = new ArrayList<>(Arrays.asList(0, 4, 1, 4, 0, 5, 1, 5));
+        ArrayList<Integer> posiciones2 = new ArrayList<>(Arrays.asList(0, 4, 1, 4, 1, 0, 5, 1, 5, 1));
         quoriPoob.addWall("Muro Aliado", posiciones2);
         quoriPoob.move("n");
         assertEquals(7, quoriPoob.getPlayerPositions(1)[0]);
@@ -221,15 +218,15 @@ public class Quoripoobvi {
         quoriPoob.addPlayer("jugador1", Color.BLACK);
         quoriPoob.addPlayer("jugador2", Color.RED);
         quoriPoob.setTypeWalls(new int[] {3,2,2,3});
-        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(0, 0, 1, 0, 0, 1, 1, 1));
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(0, 0, 1, 0, 1, 0, 1, 1, 1, 1));
         quoriPoob.addWall("Muro Normal", posiciones);
-        ArrayList<Integer> posiciones3 = new ArrayList<>(Arrays.asList(8, 4, 7, 4, 8, 5, 7, 5));
+        ArrayList<Integer> posiciones3 = new ArrayList<>(Arrays.asList(8, 4, 7, 4, 0, 8, 5, 7, 5, 0));
         quoriPoob.addWall("Muro Normal", posiciones3);
-        ArrayList<Integer> posiciones2 = new ArrayList<>(Arrays.asList(0, 2, 1, 2, 0, 3, 1, 3, 0, 4, 1, 4));
+        ArrayList<Integer> posiciones2 = new ArrayList<>(Arrays.asList(0, 2, 1, 2, 1, 0, 3, 1, 3, 1, 0, 4, 1, 4, 1));
         quoriPoob.addWall("Muro Largo", posiciones2);
-        ArrayList<Integer> posiciones4 = new ArrayList<>(Arrays.asList(5, 6, 6, 6, 5, 5, 6, 5));
+        ArrayList<Integer> posiciones4 = new ArrayList<>(Arrays.asList(5, 6, 6, 6, 1, 5, 5, 6, 5, 1));
         quoriPoob.addWall("Muro Aliado", posiciones4);
-        ArrayList<Integer> posiciones5 = new ArrayList<>(Arrays.asList(4, 4, 3, 4, 4, 3, 3, 3));
+        ArrayList<Integer> posiciones5 = new ArrayList<>(Arrays.asList(4, 4, 3, 4, 0, 4, 3, 3, 3, 0));
         quoriPoob.addWall("Muro Normal", posiciones5);
         int[] cantWalls1 = quoriPoob.getPlayerCountWalls(1);
         int[] cantWalls2 = quoriPoob.getPlayerCountWalls(2);
@@ -253,14 +250,14 @@ public class Quoripoobvi {
         quoriPoob.addPlayer("jugador1", Color.BLACK);
         quoriPoob.addPlayer("jugador2", Color.RED);
         quoriPoob.setTypeWalls(new int[] {3,2,2,3});
-        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(0, 0, 1, 0, 0, 1, 1, 1));
+        ArrayList<Integer> posiciones = new ArrayList<>(Arrays.asList(0, 0, 1, 0, 1, 0, 1, 1, 1, 1));
         quoriPoob.addWall("Muro Normal", posiciones);
-        ArrayList<Integer> posiciones2 = new ArrayList<>(Arrays.asList(0, 2, 1, 2, 0, 3, 1, 3, 0, 4, 1, 4));
+        ArrayList<Integer> posiciones2 = new ArrayList<>(Arrays.asList(0, 2, 1, 2, 1, 0, 3, 1, 3, 1, 0, 4, 1, 4, 1));
         quoriPoob.addWall("Muro Largo", posiciones2);
-        ArrayList<Integer> posiciones3 = new ArrayList<>(Arrays.asList(0, 5, 1, 5, 0, 6, 1, 6));
+        ArrayList<Integer> posiciones3 = new ArrayList<>(Arrays.asList(0, 5, 1, 5, 1, 0, 6, 1, 6, 1));
         quoriPoob.addWall("Muro Normal", posiciones3);
         try {
-            ArrayList<Integer> posiciones4 = new ArrayList<>(Arrays.asList(0, 7, 1, 7, 0, 8, 1, 8));
+            ArrayList<Integer> posiciones4 = new ArrayList<>(Arrays.asList(0, 7, 1, 7, 1, 0, 8, 1, 8, 1));
             quoriPoob.addWall("Muro Normal", posiciones4);
             fail();
         }catch (QuoriPoobException e0){

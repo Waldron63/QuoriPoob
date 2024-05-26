@@ -17,10 +17,13 @@ public class LongWall extends Wall{
     public LongWall(Color newColor, ArrayList<Integer> newPositions, Player newPlayer, int longTable) throws QuoriPoobException {
         super(newColor, newPositions, newPlayer, longTable);
         size = 3;
+        for (int i = 0; i < 6; i++){
+            positions.add(newPositions.get(i));
+        }
     }
 
     boolean confirmLenghtPositions(ArrayList<Integer> newPositions){
-        if (newPositions.size() == 6){
+        if (newPositions.size() == 9){
             return true;
         }else{
             return false;
@@ -37,6 +40,17 @@ public class LongWall extends Wall{
             return true;
         }else{
             return false;
+        }
+    }
+
+    @Override
+    boolean confirmSequentialButton(ArrayList<Integer> newPositions) {
+        if (Math.abs(newPositions.get(6) - newPositions.get(7)) != 0){
+            return false;
+        }else if (Math.abs(newPositions.get(7) - newPositions.get(8)) != 0){
+            return false;
+        }else {
+            return true;
         }
     }
 

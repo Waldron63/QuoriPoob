@@ -14,7 +14,7 @@ public abstract class Wall implements Serializable {
     public static final String[] typesWalls = new String[] {"Muro Normal", "Muro Temporal", "Muro Largo", "Muro Aliado"};
     protected int size; //tamano que va a tener el muro
     private Color color; //color que va a tener el muro
-    private ArrayList<Integer> positions; //posiciones en las celdas en grafos que va a ocupar el muro
+    protected ArrayList<Integer> positions; //posiciones en las celdas en grafos que va a ocupar el muro
     protected Player player; //jugador que coloco este muro
     protected int sizeTable; //longitud actual del tablero
 
@@ -26,16 +26,17 @@ public abstract class Wall implements Serializable {
      */
     public Wall(Color newColor, ArrayList<Integer> newPositions, Player newPlayer, int longTable) throws QuoriPoobException{
         sizeTable = longTable;
+        positions = new ArrayList<>();
         boolean confirmSize = confirmLenghtPositions(newPositions);
         if (!confirmSize){
             throw new QuoriPoobException(QuoriPoobException.WRONG_WALL_LENGHT);
         }
         boolean confirmSquential = confirmSequentialPositions(newPositions);
-        if (!confirmSquential){
+        boolean confirmButton = confirmSequentialButton(newPositions);
+        if (!confirmSquential || !confirmButton){
             throw new QuoriPoobException(QuoriPoobException.WRONG_SIDE_WALL);
         }
         size = 2;
-        positions= newPositions;
         color = newColor;
         player = newPlayer;
     }
@@ -43,6 +44,8 @@ public abstract class Wall implements Serializable {
     abstract boolean confirmLenghtPositions(ArrayList<Integer> newPositions);
 
     abstract boolean confirmSequentialPositions(ArrayList<Integer> newPositions);
+
+    abstract boolean confirmSequentialButton(ArrayList<Integer> newPositions);
 
     abstract boolean samePlayerPass(int mainTurn);
 

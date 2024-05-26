@@ -14,7 +14,7 @@ public abstract class Player implements Serializable {
     protected int yPosition; //posicion en Y dentro del tablero
     protected final int mainTurn; //dicta cual es el turno de este jugador
     protected  int positionGraph; //grafo en el que esta posicionado el jugador
-    private int[] cantDifferentsWalls; //contador de cada muro que le quedan al jugador
+    protected int[] cantDifferentsWalls; //contador de cada muro que le quedan al jugador
     private int[] cantDifferentsBoxes; //contador de las casillas que ha pisado el jugador
 
     /**
@@ -39,7 +39,7 @@ public abstract class Player implements Serializable {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         mainTurn = newTurn;
-        cantDifferentsBoxes = new int[] {0, 0, 0, 0};
+        cantDifferentsBoxes = new int[] {0, 0, 0, 0, 0};
     }
 
     public void setCantDifferentWalls(int[] newCantWalls) throws QuoriPoobException {
@@ -82,6 +82,9 @@ public abstract class Player implements Serializable {
                 break;
             case "Doble":
                 cantDifferentsBoxes[3] += 1;
+                break;
+            case "Estrella":
+                cantDifferentsBoxes[4] += 1;
                 break;
             default:
                 throw new QuoriPoobException(QuoriPoobException.BOX_NOT_FOUND);

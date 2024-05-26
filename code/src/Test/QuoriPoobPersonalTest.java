@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The test class Quopripoobv1.
@@ -118,6 +120,38 @@ public class QuoriPoobPersonalTest {
             quoriPoob.move("sw");
         }catch (QuoriPoobException e0){
             assertEquals(QuoriPoobException.MOVEMENT_NOT_POSSIBLE, e0.getMessage());
+        }
+    }
+
+
+    @Test
+    public void shouldNotAddWall() throws QuoriPoobException {
+        QuoriPoob quoriPoob = new QuoriPoob(9, "Normal");
+        quoriPoob.addPlayer("jugador1", Color.BLACK);
+        quoriPoob.addPlayer("jugador2", Color.RED);
+        quoriPoob.setTypeWalls(new int[]{2, 8, 0, 0});
+        ArrayList<Integer> posiciones1 = new ArrayList<>(Arrays.asList(4, 4, 5, 4, 0, 5, 4, 5, 5, 3));
+        try {
+            quoriPoob.addWall("Muro Normal", posiciones1);
+        }catch(QuoriPoobException e0){
+            System.out.println(e0.getMessage());
+            fail();
+        }
+    }
+
+
+    @Test
+    public void shouldAddWall() throws QuoriPoobException {
+        QuoriPoob quoriPoob = new QuoriPoob(9, "Normal");
+        quoriPoob.addPlayer("jugador1", Color.BLACK);
+        quoriPoob.addPlayer("jugador2", Color.RED);
+        quoriPoob.setTypeWalls(new int[]{2, 8, 0, 0});
+        ArrayList<Integer> posiciones1 = new ArrayList<>(Arrays.asList(4, 4, 5, 4, 0, 4, 5, 5, 5, 0));
+        try {
+            quoriPoob.addWall("Muro Normal", posiciones1);
+        }catch(QuoriPoobException e0){
+            System.out.println(e0.getMessage());
+            fail();
         }
     }
 

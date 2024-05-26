@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @version 1.0
  */
 public abstract class Box implements Serializable {
-    public static final String[] typesBoxes = new String[] {"Normal", "Teletransportador", "Regresar", "Doble"};
+    public static final String[] typesBoxes = new String[] {"Normal", "Teletransportador", "Regresar", "Doble", "Estrella"};
 
     /**
      * Constructor for objects of class Box
