@@ -1,1 +1,2 @@
 # quorindor
+Quorindior es un juego de mesa estratégico que combina elementos de lógica, tácticas de juego y toma de decisiones. Los jugadores deben competir para conquistar territorios, controlar recursos y lograr el objetivo del juego, que puede variar según las reglas específicas. Se juega sobre un tablero dividido en casillas, donde cada jugador mueve sus piezas con base en las decisiones que tome, buscando maximizar su poder mientras minimiza las acciones de los oponentes.
